@@ -1,0 +1,2 @@
+dotnet ef migration add [NAME] --project ..\Spoonbill
+dotnet ef database update --project ..\Spoonbill --connection "Data Source=test_db.sqlite"
