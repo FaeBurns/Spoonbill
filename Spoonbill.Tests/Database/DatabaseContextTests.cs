@@ -24,7 +24,7 @@ public class DatabaseContextTests
                     AddressContent = "address content",
                 },
             },
-            PhoneNumbers =
+            PhoneNumbers = 
             {
                 new PhoneNumber()
                 {

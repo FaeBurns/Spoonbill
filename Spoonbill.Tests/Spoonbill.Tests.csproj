@@ -11,6 +11,7 @@
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
+        <PackageReference Include="Docker.DotNet" Version="3.125.15" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
         <PackageReference Include="NUnit" Version="3.14.0"/>
         <PackageReference Include="NUnit.Analyzers" Version="3.9.0"/>
@@ -23,6 +24,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Spoonbill\Spoonbill.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="dbsetup\**">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
