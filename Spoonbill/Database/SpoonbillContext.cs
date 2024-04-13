@@ -41,13 +41,13 @@ internal partial class SpoonbillContext : DbContext
     public virtual DbSet<Stretch> Stretches { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(m_connectionString);
+        => optionsBuilder.UseSqlServer(m_connectionString).EnableSensitiveDataLogging();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Address>(entity =>
         {
-            entity.HasKey(e => new { e.PersonId, Address1 = e.AddressContent });
+            entity.HasKey(e => new { e.PersonId, e.AddressContent });
 
             entity.ToTable("ADDRESSES");
 
@@ -215,8 +215,12 @@ internal partial class SpoonbillContext : DbContext
         {
             entity.ToTable("PERSON");
 
+            entity.HasKey(e => e.PersonId)
+                .HasName("person_id");
+
             entity.Property(e => e.PersonId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
+                .UseIdentityColumn()
                 .HasColumnType("INT")
                 .HasColumnName("person_id");
             entity.Property(e => e.DateOfBirth)
@@ -232,11 +236,12 @@ internal partial class SpoonbillContext : DbContext
 
         modelBuilder.Entity<PhoneNumber>(entity =>
         {
-            entity.HasKey(e => new { e.PersonId, PhoneNumber1 = e.Content });
+            entity.HasKey(e => new { e.PersonId, e.Content });
 
             entity.ToTable("PHONENUMBERS");
 
             entity.Property(e => e.PersonId)
+                .UseIdentityColumn()
                 .HasColumnType("INT")
                 .HasColumnName("person_id");
             entity.Property(e => e.Content)

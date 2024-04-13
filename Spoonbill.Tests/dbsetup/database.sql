@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS PERSON;
 
 /* Defines a person - has an id, name, surname, and DoB */
 CREATE TABLE PERSON(
-                       person_id		int NOT NULL,
+                       person_id		int IDENTITY NOT NULL,
                        name			varchar(50) NOT NULL,
                        surname			varchar(50) NOT NULL,
                        date_of_birth   datetime NOT NULL,

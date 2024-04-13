@@ -1,7 +1,13 @@
-﻿namespace Spoonbill.Database.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
+namespace Spoonbill.Database.Entities;
+
+[PrimaryKey(nameof(PersonId))]
 internal partial class Person
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int PersonId { get; set; }
 
     public string Name { get; set; } = null!;
