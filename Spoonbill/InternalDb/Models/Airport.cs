@@ -1,4 +1,4 @@
-﻿namespace Spoonbill.Database.Entities;
+﻿namespace Spoonbill.InternalDb.Models;
 
 internal partial class Airport
 {

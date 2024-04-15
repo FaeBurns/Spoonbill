@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Spoonbill.Database;
-using Spoonbill.Database.Entities;
+using Spoonbill.InternalDb.Database;
 
 namespace Spoonbill.Tests.Database;
 

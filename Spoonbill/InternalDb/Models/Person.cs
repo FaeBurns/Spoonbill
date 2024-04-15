@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Spoonbill.Database.Entities;
+namespace Spoonbill.InternalDb.Models;
 
 [PrimaryKey(nameof(PersonId))]
 internal partial class Person

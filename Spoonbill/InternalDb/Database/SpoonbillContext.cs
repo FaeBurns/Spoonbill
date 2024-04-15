@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Spoonbill.Database.Entities;
+using Spoonbill.InternalDb.Models;
 
-namespace Spoonbill.Database;
+namespace Spoonbill.InternalDb.Database;
 
 internal partial class SpoonbillContext : DbContext
 {
