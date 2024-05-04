@@ -3,6 +3,8 @@ using System.Net.Sockets;
 using Docker.DotNet;
 using Docker.DotNet.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Spoonbill.Wpf.Data;
 
 namespace Spoonbill.Tests;
 
@@ -24,6 +26,12 @@ public class TestSetup
     }
 
     public static string ConnectionString { get; private set; } = null!;
+
+    public static DbContextOptions<SpoonbillContext> Options =>
+        new DbContextOptionsBuilder<SpoonbillContext>()
+            .UseSqlServer(ConnectionString)
+            .EnableSensitiveDataLogging()
+            .Options;
 }
 
 internal class TestDatabase
