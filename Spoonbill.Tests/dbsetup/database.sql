@@ -89,7 +89,7 @@ create table Pilots
 
 create table PlaneModels
 (
-    ModelNumber      int identity,
+    ModelNumber      int,
     ManufacturerName nvarchar(50) not null,
     TypeRating       nvarchar(20) not null,
     constraint PK_PlaneModels

@@ -3,7 +3,7 @@ using Spoonbill.Wpf.Data.Models;
 
 namespace Spoonbill.Tests.Database;
 
-public class PassengerTests
+public class PassengerTests : DbTest
 {
     [Test]
     public void AddPassenger_Valid()

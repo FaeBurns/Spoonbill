@@ -25,6 +25,23 @@ public class TestSetup
         await m_testDatabase.Teardown();
     }
 
+    public static void ClearDatabase()
+    {
+        using SpoonbillContext context = new SpoonbillContext(Options);
+        context.Passengers.RemoveRange(context.Passengers);
+        context.Pilots.RemoveRange(context.Pilots);
+        context.StaffWorkers.RemoveRange(context.StaffWorkers);
+        context.Flights.RemoveRange(context.Flights);
+        context.Planes.RemoveRange(context.Planes);
+        context.PlaneModels.RemoveRange(context.PlaneModels);
+        context.Manufacturers.RemoveRange(context.Manufacturers);
+        context.Airports.RemoveRange(context.Airports);
+        context.Cities.RemoveRange(context.Cities);
+        context.Counties.RemoveRange(context.Counties);
+        context.Stops.RemoveRange(context.Stops);
+        context.SaveChanges();
+    }
+
     public static string ConnectionString { get; private set; } = null!;
 
     public static DbContextOptions<SpoonbillContext> Options =>

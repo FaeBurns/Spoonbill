@@ -291,8 +291,6 @@ namespace Spoonbill.Wpf.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModelNumber"));
-
                     b.Property<string>("ManufacturerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");

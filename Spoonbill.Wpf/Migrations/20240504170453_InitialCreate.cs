@@ -133,8 +133,7 @@ namespace Spoonbill.Wpf.Migrations
                 name: "PlaneModels",
                 columns: table => new
                 {
-                    ModelNumber = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModelNumber = table.Column<int>(type: "int", nullable: false),
                     ManufacturerName = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     TypeRating = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
