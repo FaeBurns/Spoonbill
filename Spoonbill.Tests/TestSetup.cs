@@ -3,6 +3,8 @@ using System.Net.Sockets;
 using Docker.DotNet;
 using Docker.DotNet.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Spoonbill.Wpf.Data;
 
 namespace Spoonbill.Tests;
 
@@ -10,7 +12,7 @@ namespace Spoonbill.Tests;
 public class TestSetup
 {
     private readonly TestDatabase m_testDatabase = new TestDatabase();
-    
+
     [OneTimeSetUp]
     public async Task Setup()
     {
@@ -23,7 +25,30 @@ public class TestSetup
         await m_testDatabase.Teardown();
     }
 
+    public static void ClearDatabase()
+    {
+        using SpoonbillContext context = new SpoonbillContext(Options);
+        context.Passengers.RemoveRange(context.Passengers);
+        context.Pilots.RemoveRange(context.Pilots);
+        context.StaffWorkers.RemoveRange(context.StaffWorkers);
+        context.Flights.RemoveRange(context.Flights);
+        context.Planes.RemoveRange(context.Planes);
+        context.PlaneModels.RemoveRange(context.PlaneModels);
+        context.Manufacturers.RemoveRange(context.Manufacturers);
+        context.Airports.RemoveRange(context.Airports);
+        context.Cities.RemoveRange(context.Cities);
+        context.Counties.RemoveRange(context.Counties);
+        context.Stops.RemoveRange(context.Stops);
+        context.SaveChanges();
+    }
+
     public static string ConnectionString { get; private set; } = null!;
+
+    public static DbContextOptions<SpoonbillContext> Options =>
+        new DbContextOptionsBuilder<SpoonbillContext>()
+            .UseSqlServer(ConnectionString)
+            .EnableSensitiveDataLogging()
+            .Options;
 }
 
 internal class TestDatabase
@@ -37,10 +62,20 @@ internal class TestDatabase
     private const string DB_VOLUME_NAME = "SpoonbillTestingVolume";
 
     private IDockerClient m_dockerClient = null!;
-    
+
     public async Task<string> Setup()
     {
         m_dockerClient = GetDockerClient();
+
+        try
+        {
+            await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters() { All = true });
+        }
+        catch (TimeoutException)
+        {
+            throw new InconclusiveException("Docker must be started before tests can run.");
+        }
+
         (string _, string port) = await EnsureDockerStartedAndGetContainerIdAndPortAsync();
 
         return GetConnectionString(port);
@@ -50,11 +85,12 @@ internal class TestDatabase
     {
         IList<ContainerListResponse> containers = await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters() { All = true });
         ContainerListResponse? existingContainer = containers.FirstOrDefault(c => c.Names.Any(n => n.Contains(DB_CONTAINER_NAME)));
-        if (existingContainer != null)
-            await m_dockerClient.Containers.StopContainerAsync(existingContainer.ID, new ContainerStopParameters());
-        else
-            Console.WriteLine("No container was running to stop during teardown");
-        
+
+        // if (existingContainer != null)
+        //     await m_dockerClient.Containers.StopContainerAsync(existingContainer.ID, new ContainerStopParameters());
+        // else
+        //     Console.WriteLine("No container was running to stop during teardown");
+
         // no teardown required
         await Task.CompletedTask;
     }
@@ -71,7 +107,7 @@ internal class TestDatabase
         {
             FromImage = $"{DB_IMAGE}:{DB_IMAGE_TAG}",
         }, null, progress);
-        
+
         // create volume if it's missing
         VolumesListResponse volumes = await m_dockerClient.Volumes.ListAsync();
         int volumeCount = volumes.Volumes.Count(v => v.Name == DB_VOLUME_NAME);
@@ -96,7 +132,7 @@ internal class TestDatabase
                 {
                     "ACCEPT_EULA=Y",
                     $"SA_PASSWORD={DB_PASSWORD}",
-                    "MSSQL_PID=Enterprise"
+                    "MSSQL_PID=Enterprise",
                 },
                 HostConfig = new HostConfig()
                 {
@@ -124,15 +160,15 @@ internal class TestDatabase
             await WaitUntilDatabaseAvailableAsync(freePort);
             return (container.ID, freePort);
         }
-        
+
         await m_dockerClient.Containers.StartContainerAsync(existingContainer.ID, new ContainerStartParameters());
-        
+
         // re-get container
         // this one will have port information
         containers = await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters() { All = true });
         existingContainer = containers.First(c => c.Names.Any(n => n.Contains(DB_CONTAINER_NAME)));
         await WaitUntilDatabaseAvailableAsync(existingContainer.Ports.First().PublicPort.ToString());
-        
+
         return (existingContainer.ID, existingContainer.Ports.First().PublicPort.ToString());
     }
 
@@ -152,7 +188,7 @@ internal class TestDatabase
                 await connection.OpenAsync();
                 connectionEstablished = true;
             }
-            catch (Exception e)
+            catch
             {
                 TestContext.WriteLine("Failed to connect to database, waiting 500ms and trying again. Exception:");
                 await Task.Delay(500);
@@ -161,22 +197,30 @@ internal class TestDatabase
 
         if (!connectionEstablished)
             throw new Exception($"Connection to the SQL docker container could not be established within {maxWaitTimeSeconds} seconds.");
-        
+
         // set up the database
         try
         {
             string connectionString = GetConnectionString(dbPort);
             await using SqlConnection connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
-            
+
             // ReSharper disable once StringLiteralTypo
-            await using SqlCommand cmd = new SqlCommand(await File.ReadAllTextAsync("dbsetup\\database.sql"), connection);
-            await cmd.ExecuteNonQueryAsync();
+            string fileContents = await File.ReadAllTextAsync("dbsetup\\database.sql");
+            string[] statements = fileContents.Split(';');
+            foreach (string statement in statements)
+            {
+                // create the command from each individual statement
+                // the semicolon is removed from split so add it back
+                await using SqlCommand cmd = new SqlCommand(statement + ';', connection);
+                await cmd.ExecuteNonQueryAsync();
+            }
         }
         catch (Exception e)
         {
             TestContext.WriteLine("Exception occured while trying to setup database");
-            TestContext.WriteLine(e);
+            // TestContext.WriteLine(e);
+            throw;
         }
 
         TestContext.WriteLine("Connection established.");
@@ -254,11 +298,11 @@ internal class TestDatabase
     private string GetFreePort()
     {
         using TcpListener tcpListener = new TcpListener(IPAddress.Loopback, 0);
-        
+
         tcpListener.Start();
         int port = ((IPEndPoint)tcpListener.LocalEndpoint).Port;
         tcpListener.Stop();
-        
+
         return port.ToString();
     }
 }
