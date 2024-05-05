@@ -95,6 +95,30 @@ public class FlightTests : DbTest
                 },
             },
             Plane = context.Planes.Find("PlaneSerial:33")!,
+            Pilots =
+            {
+                new Pilot()
+                {
+                    Address = "3",
+                    Name = "Johnny",
+                    Surname = "Gunthorpe",
+                    Salary = 2.33m,
+                    PhoneNumber = "69",
+                    TypeRating = "12",
+                },
+            },
+            WorkerStaff =
+            {
+                new StaffWorker()
+                {
+                    Address = "2",
+                    Name = "Test",
+                    Surname = "Worker",
+                    Role = "Clown",
+                    Salary = 59930.12m,
+                    PhoneNumber = "UNKNOWN",
+                },
+            },
         };
 
         new FlightsModule(context).CreateFlight(flight);

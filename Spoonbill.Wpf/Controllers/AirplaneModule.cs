@@ -16,11 +16,7 @@ public class AirplaneModule
 
     public Plane? GetPlane(string serial)
     {
-        return m_context.Planes
-            .Include(p => p.Model)
-            .ThenInclude(planeModel => planeModel.Manufacturer)
-            .ThenInclude(manufacturer => manufacturer.City)
-            .ThenInclude(city => city.County).First(p => p.Serial == serial);
+        return m_context.Planes.Find(serial);
     }
 
     public IResult CreatePlane(Plane plane)
@@ -67,7 +63,6 @@ public class AirplaneModule
 
     public ICollection<Plane> ListPlanes()
     {
-        // var a = m_context.Planes.Include(p => p.Model).First()
-        throw new NotImplementedException();
+        return m_context.Planes.ToList();
     }
 }

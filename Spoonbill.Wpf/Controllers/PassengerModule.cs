@@ -18,7 +18,7 @@ public class PassengerModule
     [Pure]
     public Passenger? GetPassenger(int id)
     {
-        return m_context.Passengers.Include(p => p.Flights).First(p => p.Id == id);
+        return m_context.Passengers.Find(id);
     }
 
     public IResult CreatePassenger(Passenger passenger)
@@ -66,6 +66,6 @@ public class PassengerModule
     [Pure]
     public ICollection<Passenger> ListPassengers()
     {
-        return m_context.Passengers.Include(p => p.Flights).ToList();
+        return m_context.Passengers.ToList();
     }
 }

@@ -69,20 +69,20 @@ public class StaffModule
     [Pure]
     public StaffWorker? GetStaffWorker(int id)
     {
-        return m_context.StaffWorkers.Include(s => s.AssignedFlights).First(s => s.Id == id);
+        return m_context.StaffWorkers.Find(id);
     }
 
     [Pure]
     public Pilot? GetPilot(int id)
     {
-        return m_context.Pilots.Include(p => p.AssignedFlights).First(p => p.Id == id);
+        return m_context.Pilots.Find(id);
     }
 
     [Pure]
     public ICollection<Staff> ListStaff()
     {
-        List<Staff> result = new List<Staff>(m_context.StaffWorkers.Include(w => w.AssignedFlights));
-        result.AddRange(m_context.Pilots.Include(p => p.AssignedFlights));
+        List<Staff> result = new List<Staff>(m_context.StaffWorkers);
+        result.AddRange(m_context.Pilots);
         return result;
     }
 }
