@@ -1,31 +1,28 @@
-﻿using System.Diagnostics.Contracts;
-using Microsoft.EntityFrameworkCore;
-using Spoonbill.Wpf.Data;
+﻿using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Controllers;
 
-public class AirplaneModule
+public class LocationsModule
 {
     private readonly SpoonbillContext m_context;
 
-    public AirplaneModule(SpoonbillContext context)
+    public LocationsModule(SpoonbillContext context)
     {
         m_context = context;
     }
 
-    [Pure]
-    public Plane? GetPlane(string serial)
+    public County? GetCounty(string name)
     {
-        return m_context.Planes.Find(serial);
+        return m_context.Counties.Find(name);
     }
 
-    public IResult CreatePlane(Plane plane)
+    public IResult CreateCounty(County county)
     {
         try
         {
-            m_context.Planes.Add(plane);
+            m_context.Counties.Add(county);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -35,11 +32,11 @@ public class AirplaneModule
         }
     }
 
-    public IResult UpdatePlane(Plane plane)
+    public IResult UpdateCounty(County county)
     {
         try
         {
-            m_context.Planes.Update(plane);
+            m_context.Counties.Update(county);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -49,11 +46,11 @@ public class AirplaneModule
         }
     }
 
-    public IResult DeletePlane(Plane plane)
+    public IResult DeleteCounty(County county)
     {
         try
         {
-            m_context.Planes.Remove(plane);
+            m_context.Counties.Remove(county);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -63,23 +60,21 @@ public class AirplaneModule
         }
     }
 
-    [Pure]
-    public ICollection<Plane> ListPlanes()
+    public ICollection<County> ListCounties()
     {
-        return m_context.Planes.ToList();
+        return m_context.Counties.ToList();
     }
 
-    [Pure]
-    public PlaneModel? GetModel(int modelNumber)
+    public City? GetCity(string name)
     {
-        return m_context.PlaneModels.Find(modelNumber);
+        return m_context.Cities.Find(name);
     }
 
-    public IResult CreateModel(PlaneModel model)
+    public IResult CreateCity(City city)
     {
         try
         {
-            m_context.PlaneModels.Add(model);
+            m_context.Cities.Add(city);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -89,11 +84,11 @@ public class AirplaneModule
         }
     }
 
-    public IResult UpdateModel(PlaneModel model)
+    public IResult UpdateCity(City city)
     {
         try
         {
-            m_context.PlaneModels.Update(model);
+            m_context.Cities.Update(city);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -103,11 +98,11 @@ public class AirplaneModule
         }
     }
 
-    public IResult DeleteModel(PlaneModel model)
+    public IResult DeleteCity(City city)
     {
         try
         {
-            m_context.PlaneModels.Remove(model);
+            m_context.Cities.Remove(city);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -117,21 +112,21 @@ public class AirplaneModule
         }
     }
 
-    public ICollection<PlaneModel> ListModels()
+    public ICollection<City> ListCities()
     {
-        return m_context.PlaneModels.ToList();
+        return m_context.Cities.ToList();
     }
 
-    public Manufacturer? GetManufacturer(string name)
+    public Airport? GetAirport(string name)
     {
-        return m_context.Manufacturers.Find(name);
+        return m_context.Airports.Find(name);
     }
 
-    public IResult CreateManufacturer(Manufacturer manufacturer)
+    public IResult CreateAirport(Airport airport)
     {
         try
         {
-            m_context.Manufacturers.Add(manufacturer);
+            m_context.Airports.Add(airport);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -141,11 +136,11 @@ public class AirplaneModule
         }
     }
 
-    public IResult UpdateManufacturer(Manufacturer manufacturer)
+    public IResult UpdateAirport(Airport airport)
     {
         try
         {
-            m_context.Manufacturers.Update(manufacturer);
+            m_context.Airports.Update(airport);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -155,11 +150,11 @@ public class AirplaneModule
         }
     }
 
-    public IResult DeleteManufacturer(Manufacturer manufacturer)
+    public IResult DeleteAirport(Airport airport)
     {
         try
         {
-            m_context.Manufacturers.Remove(manufacturer);
+            m_context.Airports.Remove(airport);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -169,8 +164,8 @@ public class AirplaneModule
         }
     }
 
-    public ICollection<Manufacturer> ListManufacturers()
+    public ICollection<Airport> ListAirports()
     {
-        return m_context.Manufacturers.ToList();
+        return m_context.Airports.ToList();
     }
 }

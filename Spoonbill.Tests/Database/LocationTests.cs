@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Spoonbill.Wpf.Controllers;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 
@@ -15,14 +15,14 @@ public class LocationTests : DbTest
     public void AddCounty_Valid()
     {
         using SpoonbillContext context = new SpoonbillContext(TestSetup.Options);
-        context.Counties.Add(new County()
+        LocationsModule locations = new LocationsModule(context);
+        locations.CreateCounty(new County()
         {
             Name = ValidCountyName,
             Country = ValidCountryName,
         });
-        context.SaveChanges();
 
-        County? county = context.Counties.Find(ValidCountyName);
+        County? county = locations.GetCounty(ValidCountyName);
         Assert.That(county, Is.Not.Null);
         Assert.That(county.Name, Is.EqualTo(ValidCountyName));
         Assert.That(county.Country, Is.Not.Null);
@@ -35,14 +35,14 @@ public class LocationTests : DbTest
         AddCounty_Valid();
 
         using SpoonbillContext context = new SpoonbillContext(TestSetup.Options);
-        context.Cities.Add(new City()
+        LocationsModule locations = new LocationsModule(context);
+        locations.CreateCity(new City()
         {
             Name = ValidCityName,
-            County = context.Counties.Find(ValidCountyName)!,
+            County = locations.GetCounty(ValidCountyName)!
         });
-        context.SaveChanges();
 
-        City? city = context.Cities.Include(c => c.County).First(c => c.Name == ValidCityName);
+        City? city = locations.GetCity(ValidCityName);
         Assert.That(city, Is.Not.Null);
         Assert.That(city.Name, Is.EqualTo(ValidCityName));
         Assert.That(city.County, Is.Not.Null);
@@ -55,14 +55,14 @@ public class LocationTests : DbTest
         AddCity_Valid();
 
         using SpoonbillContext context = new SpoonbillContext(TestSetup.Options);
-        context.Airports.Add(new Airport()
+        LocationsModule locations = new LocationsModule(context);
+        locations.CreateAirport(new Airport()
         {
             Name = ValidAirportName,
-            City = context.Cities.Find(ValidCityName)!,
+            City = locations.GetCity(ValidCityName)!,
         });
-        context.SaveChanges();
 
-        Airport airport = context.Airports.Include(a => a.City).First(a => a.Name == ValidAirportName);
+        Airport? airport = locations.GetAirport(ValidAirportName);
         Assert.That(airport, Is.Not.Null);
         Assert.That(airport.Name, Is.EqualTo(ValidAirportName));
         Assert.That(airport.City, Is.Not.Null);
