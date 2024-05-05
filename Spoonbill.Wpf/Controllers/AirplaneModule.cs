@@ -1,31 +1,33 @@
-﻿using System.Diagnostics.Contracts;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Controllers;
 
-public class PassengerModule
+public class AirplaneModule
 {
     private readonly SpoonbillContext m_context;
 
-    public PassengerModule(SpoonbillContext context)
+    public AirplaneModule(SpoonbillContext context)
     {
         m_context = context;
     }
 
-    [Pure]
-    public Passenger? GetPassenger(int id)
+    public Plane? GetPlane(string serial)
     {
-        return m_context.Passengers.Include(p => p.Flights).First(p => p.Id == id);
+        return m_context.Planes
+            .Include(p => p.Model)
+            .ThenInclude(planeModel => planeModel.Manufacturer)
+            .ThenInclude(manufacturer => manufacturer.City)
+            .ThenInclude(city => city.County).First(p => p.Serial == serial);
     }
 
-    public IResult CreatePassenger(Passenger passenger)
+    public IResult CreatePlane(Plane plane)
     {
         try
         {
-            m_context.Passengers.Add(passenger);
+            m_context.Planes.Add(plane);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -35,11 +37,11 @@ public class PassengerModule
         }
     }
 
-    public IResult UpdatePassenger(Passenger passenger)
+    public IResult UpdatePlane(Plane plane)
     {
         try
         {
-            m_context.Passengers.Update(passenger);
+            m_context.Planes.Update(plane);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -49,11 +51,11 @@ public class PassengerModule
         }
     }
 
-    public IResult DeletePassenger(Passenger passenger)
+    public IResult DeletePlane(Plane plane)
     {
         try
         {
-            m_context.Passengers.Remove(passenger);
+            m_context.Planes.Remove(plane);
             m_context.SaveChanges();
             return new Ok();
         }
@@ -63,9 +65,9 @@ public class PassengerModule
         }
     }
 
-    [Pure]
-    public ICollection<Passenger> ListPassengers()
+    public ICollection<Plane> ListPlanes()
     {
-        return m_context.Passengers.Include(p => p.Flights).ToList();
+        // var a = m_context.Planes.Include(p => p.Model).First()
+        throw new NotImplementedException();
     }
 }

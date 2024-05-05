@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Spoonbill.Wpf.Controllers;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 
@@ -95,7 +96,7 @@ public class FlightTests : DbTest
             },
             Plane = context.Planes.Find("PlaneSerial:33")!,
         };
-        context.Flights.Add(flight);
-        context.SaveChanges();
+
+        new FlightsModule(context).CreateFlight(flight);
     }
 }
