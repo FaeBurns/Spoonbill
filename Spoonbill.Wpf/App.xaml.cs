@@ -18,12 +18,10 @@ public partial class App : Application
 {
     public App()
     {
-        Current = this;
     }
 
-    public new static App Current { get; private set; } = null!;
-
-    public IConfiguration Configuration { get; private set; } = null!;
+    public static IConfiguration Configuration { get; private set; } = null!;
+    public static IContainer Container { get; private set; } = null!;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -47,10 +45,10 @@ public partial class App : Application
             .InstancePerLifetimeScope();
 
         // set up viewmodel resolver
-        IContainer container = builder.Build();
+        Container = builder.Build();
         DISource.Resolver = (type) =>
         {
-            return container.Resolve(type);
+            return Container.Resolve(type);
         };
     }
 

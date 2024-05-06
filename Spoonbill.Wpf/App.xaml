@@ -4,8 +4,10 @@
              xmlns:local="clr-namespace:Spoonbill.Wpf"
              StartupUri="Frontend/View/Windows/MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="Frontend/Resources/Index.xaml"/>
-        </ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Frontend/Resources/Index.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
