@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Net.Sockets;
 using Docker.DotNet;
 using Docker.DotNet.Models;
@@ -9,6 +10,7 @@ using Spoonbill.Wpf.Data;
 namespace Spoonbill.Tests;
 
 [SetUpFixture]
+[ExcludeFromCodeCoverage]
 public class TestSetup
 {
     private readonly TestDatabase m_testDatabase = new TestDatabase();
@@ -51,6 +53,7 @@ public class TestSetup
             .Options;
 }
 
+[ExcludeFromCodeCoverage]
 internal class TestDatabase
 {
     // https://wrapt.dev/blog/integration-tests-using-sql-server-db-in-docker

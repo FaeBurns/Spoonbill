@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace Spoonbill.Wpf.Data;
 
+[ExcludeFromCodeCoverage]
 public class SpoonbillContextFactory : IDesignTimeDbContextFactory<SpoonbillContext>
 {
     public SpoonbillContext CreateDbContext(string[] args)

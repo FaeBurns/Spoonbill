@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics.Contracts;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Responses;
@@ -14,6 +16,7 @@ public class StaffModule
         m_context = context;
     }
 
+    [Pure]
     public Staff? GetStaff(int id)
     {
         Staff? result = GetStaffWorker(id);
@@ -63,13 +66,23 @@ public class StaffModule
         }
     }
 
+    [Pure]
     public StaffWorker? GetStaffWorker(int id)
     {
-        return m_context.StaffWorkers.Include(s => s.AssignedFlights).First(s => s.Id == id);
+        return m_context.StaffWorkers.Find(id);
     }
 
+    [Pure]
     public Pilot? GetPilot(int id)
     {
-        return m_context.Pilots.Include(p => p.AssignedFlights).First(p => p.Id == id);
+        return m_context.Pilots.Find(id);
+    }
+
+    [Pure]
+    public ICollection<Staff> ListStaff()
+    {
+        List<Staff> result = new List<Staff>(m_context.StaffWorkers);
+        result.AddRange(m_context.Pilots);
+        return result;
     }
 }
