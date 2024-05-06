@@ -17,6 +17,6 @@ public partial class SelectPageTree : UserControl
         PageTreeHostViewModel viewModel = DataContext as PageTreeHostViewModel ?? throw new InvalidCastException();
         PageTreeItemViewModel selectedItem = e.NewValue as PageTreeItemViewModel ?? throw new InvalidCastException();
 
-        viewModel.CurrentControl = selectedItem.DisplayControl;
+        viewModel.CurrentControl = selectedItem.ControlBuilder?.Invoke();
     }
 }

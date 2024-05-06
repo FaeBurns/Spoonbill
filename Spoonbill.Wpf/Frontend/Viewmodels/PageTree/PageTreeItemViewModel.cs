@@ -10,13 +10,13 @@ public class PageTreeItemViewModel : ViewModel
         Name = name;
     }
 
-    public PageTreeItemViewModel(string name, Control? displayControl)
+    public PageTreeItemViewModel(string name, Func<Control>? controlBuilder)
     {
         Name = name;
-        DisplayControl = displayControl;
+        ControlBuilder = controlBuilder;
     }
 
     public ObservableCollection<PageTreeItemViewModel> Children { get; init; } = new ObservableCollection<PageTreeItemViewModel>();
-    public Control? DisplayControl { get; }
+    public Func<Control>? ControlBuilder { get; init; }
     public string Name { get; }
 }

@@ -1,4 +1,5 @@
-﻿using Spoonbill.Wpf.Frontend.Viewmodels.PageTree;
+﻿using System.Windows.Controls;
+using Spoonbill.Wpf.Frontend.Viewmodels.PageTree;
 
 namespace Spoonbill.Wpf.Frontend.Viewmodels;
 
@@ -27,6 +28,7 @@ public class MainViewModel : ViewModel
                         new PageTreeItemViewModel("Cities"),
                         new PageTreeItemViewModel("Airports"),
                     },
+                    ControlBuilder = () => new Button() { Content = "hehe hoho" },
                 },
                 new PageTreeItemViewModel("Flights"),
                 new PageTreeItemViewModel("Planes")

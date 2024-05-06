@@ -25,5 +25,27 @@
         <userControls:SelectPageTree Grid.Column="0" HorizontalAlignment="Stretch" DataContext="{Binding PageTreeHost}">
 
         </userControls:SelectPageTree>
+        <ContentControl Grid.Column="1" Content="{Binding PageTreeHost.CurrentControl}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PageTreeHost.CurrentControl}" Value="{x:Null}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <TextBlock Text="Select a page"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type Control}">
+                    <ContentControl Content="{Binding}"/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </Window>
