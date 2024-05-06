@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Spoonbill.Wpf.Frontend.View;
+namespace Spoonbill.Wpf.Frontend.View.Windows;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

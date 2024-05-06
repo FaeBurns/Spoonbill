@@ -1,10 +1,11 @@
-﻿using Spoonbill.Wpf.Data;
+﻿using Spoonbill.Wpf.Controllers.Interfaces;
+using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Controllers;
 
-public class LocationsModule
+public class LocationsModule : ILocationsModule
 {
     private readonly SpoonbillContext m_context;
 

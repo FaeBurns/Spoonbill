@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Autofac" Version="8.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
         <PrivateAssets>all</PrivateAssets>
@@ -20,14 +21,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Frontend\Viewmodels\" />
+      <Folder Include="Frontend\View\UserControls\" />
+      <Folder Include="Services\" />
     </ItemGroup>
 
     <ItemGroup>
-      <Page Update="Frontend\View\MainWindow.xaml">
+      <Page Update="Frontend\View\Windows\MainWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Frontend\Resources\Index.xaml">
+        <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>
 

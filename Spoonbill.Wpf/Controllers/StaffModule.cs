@@ -1,13 +1,14 @@
 ﻿using System.Diagnostics.Contracts;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Controllers;
 
-public class StaffModule
+public class StaffModule : IStaffModule
 {
     private readonly SpoonbillContext m_context;
 
