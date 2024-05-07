@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Spoonbill.Wpf.Frontend.Viewmodels;
-using Spoonbill.Wpf.Frontend.Viewmodels.PageTree;
+using Spoonbill.Wpf.Frontend.ViewModels;
+using Spoonbill.Wpf.Frontend.ViewModels.PageTree;
 
 namespace Spoonbill.Wpf.Frontend.View.UserControls;
 

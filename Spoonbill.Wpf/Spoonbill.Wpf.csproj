@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <PackageReference Include="Autofac" Version="8.0.0" />
+      <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
         <PrivateAssets>all</PrivateAssets>
@@ -21,11 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Frontend\View\Pages\" />
-      <Folder Include="Services\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Page Update="Frontend\View\Windows\MainWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
@@ -33,6 +29,16 @@
       </Page>
       <Page Update="Frontend\Resources\Index.xaml">
         <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Frontend\View\UserControls\Crud\CrudHost.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Frontend\View\UserControls\LoadAwaitingControl.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
       </Page>
     </ItemGroup>
 

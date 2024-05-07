@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Spoonbill.Wpf"
         xmlns:ext="clr-namespace:Spoonbill.Wpf.Frontend.Extensions"
-        xmlns:viewmodels="clr-namespace:Spoonbill.Wpf.Frontend.Viewmodels"
+        xmlns:viewmodels="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels"
         xmlns:userControls="clr-namespace:Spoonbill.Wpf.Frontend.View.UserControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"

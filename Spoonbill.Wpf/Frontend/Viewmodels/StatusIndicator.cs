@@ -3,8 +3,21 @@ using System.Runtime.CompilerServices;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels;
 
-public class ViewModel : INotifyPropertyChanged
+public class StatusIndicator : IProgress<bool>, INotifyPropertyChanged
 {
+    private bool m_status;
+
+    public bool Status
+    {
+        get => m_status;
+        private set => SetField(ref m_status, value);
+    }
+
+    public void Report(bool value)
+    {
+        Status = value;
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

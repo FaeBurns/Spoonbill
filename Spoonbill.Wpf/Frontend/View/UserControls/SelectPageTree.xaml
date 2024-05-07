@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Spoonbill.Wpf.Frontend.View.UserControls"
-             xmlns:viewModels="clr-namespace:Spoonbill.Wpf.Frontend.Viewmodels"
-             xmlns:pageTree="clr-namespace:Spoonbill.Wpf.Frontend.Viewmodels.PageTree"
+             xmlns:viewModels="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels"
+             xmlns:pageTree="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels.PageTree"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance pageTree:PageTreeHostViewModel}">
     <Grid>

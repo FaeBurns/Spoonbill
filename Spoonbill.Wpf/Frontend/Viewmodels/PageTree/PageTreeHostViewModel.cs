@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
-namespace Spoonbill.Wpf.Frontend.Viewmodels.PageTree;
+namespace Spoonbill.Wpf.Frontend.ViewModels.PageTree;
 
 public class PageTreeHostViewModel : ViewModel
 {

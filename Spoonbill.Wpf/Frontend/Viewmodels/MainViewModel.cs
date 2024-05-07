@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
-using Spoonbill.Wpf.Frontend.Viewmodels.PageTree;
+using Spoonbill.Wpf.Frontend.ViewModels.PageTree;
 
-namespace Spoonbill.Wpf.Frontend.Viewmodels;
+namespace Spoonbill.Wpf.Frontend.ViewModels;
 
 public class MainViewModel : ViewModel
 {
