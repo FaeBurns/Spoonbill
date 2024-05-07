@@ -13,7 +13,9 @@
                     <DataTrigger Binding="{Binding StatusIndicator.Status, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LoadAwaitingControl}}" Value="False">
                         <Setter Property="Content">
                             <Setter.Value>
-                                <TextBlock Text="Loading..."/>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <TextBlock Text="Loading..."/>
+                                </Grid>
                             </Setter.Value>
                         </Setter>
                     </DataTrigger>

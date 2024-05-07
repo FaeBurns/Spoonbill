@@ -2,11 +2,11 @@
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud;
 
-public class CrudItemViewModel : ViewModel
+public class CrudListItemViewModel : ViewModel
 {
      private bool m_readOnly;
 
-     public CrudItemViewModel(object crudObject, ICommand editCommand, ICommand inspectCommand, ICommand deleteCommand)
+     public CrudListItemViewModel(object crudObject, ICommand editCommand, ICommand inspectCommand, ICommand deleteCommand)
      {
           CrudObject = crudObject;
           EditCommand = editCommand;

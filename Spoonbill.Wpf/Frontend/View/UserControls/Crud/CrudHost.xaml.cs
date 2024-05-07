@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using JetBrains.Annotations;
+using Spoonbill.Wpf.Frontend.Builders;
+using Spoonbill.Wpf.Frontend.ViewModels.Crud;
 
 namespace Spoonbill.Wpf.Frontend.View.UserControls.Crud;
 
@@ -13,11 +15,11 @@ public partial class CrudHost : UserControl
     [XamlOneWayBindingModeByDefault]
     public static readonly DependencyProperty EditTemplateProperty = DependencyProperty.Register(
         nameof(EditTemplate), typeof(DataTemplate), typeof(CrudHost), new PropertyMetadata(default(DataTemplate)));
-    
+
     [XamlOneWayBindingModeByDefault]
     public static readonly DependencyProperty ReadTemplateProperty = DependencyProperty.Register(
         nameof(ReadTemplate), typeof(DataTemplate), typeof(CrudHost), new PropertyMetadata(default(DataTemplate)));
-    
+
     public DataTemplate ListItemTemplate
     {
         get => (DataTemplate)GetValue(ListItemTemplateProperty);

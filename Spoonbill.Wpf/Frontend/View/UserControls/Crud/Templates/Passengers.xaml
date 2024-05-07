@@ -1,9 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:crud="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels.Crud"
-                    xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models">
-    <ControlTemplate x:Key="PassengersListItemTemplate" d:DataContext="{d:DesignInstance crud:CrudItemViewModel}">
+                    xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models"
+                    mc:Ignorable="d">
+    <ControlTemplate x:Key="PassengersListItemTemplate" d:DataContext="{d:DesignInstance crud:CrudListItemViewModel}">
         <Grid IsSharedSizeScope="True" ShowGridLines="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="Id"/>
@@ -15,7 +17,7 @@
                 <ColumnDefinition SharedSizeGroup="Inspect"/>
                 <ColumnDefinition SharedSizeGroup="Delete"/>
             </Grid.ColumnDefinitions>
-            
+
             <TextBlock Grid.Column="0" Text="{Binding ((models:Passenger)CrudObject).Id, Mode=OneWay}" IsEnabled="False"/>
             <TextBlock Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Name, Mode=OneWay}"/>
             <TextBlock Grid.Column="2" Text="{Binding ((models:Passenger)CrudObject).Surname, Mode=OneWay}"/>
@@ -26,9 +28,9 @@
             <Button    Grid.Column="7" Content="Delete"  Command="{Binding DeleteCommand}"/>
         </Grid>
     </ControlTemplate>
-    
-    <ControlTemplate x:Key="PassengersEditItemTemplate" d:DataContext="{d:DesignInstance crud:CrudItemViewModel}">
-        <StackPanel Orientation="Vertical">
+
+    <ControlTemplate x:Key="PassengersEditItemTemplate" d:DataContext="{d:DesignInstance crud:CrudIntrospectItemViewModel}">
+        <StackPanel Orientation="Vertical" IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBooleanConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -37,7 +39,7 @@
                 <Label Grid.Column="0" Content="Id"/>
                 <TextBlock Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Id}"/>
             </Grid>
-            
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -46,7 +48,7 @@
                 <Label Grid.Column="0" Content="Name"/>
                 <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Name}"/>
             </Grid>
-            
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -55,7 +57,7 @@
                 <Label Grid.Column="0" Content="Surname"/>
                 <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Surname}"/>
             </Grid>
-            
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -64,7 +66,7 @@
                 <Label Grid.Column="0" Content="Phone Number"/>
                 <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).PhoneNumber}"/>
             </Grid>
-            
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -75,8 +77,8 @@
             </Grid>
         </StackPanel>
     </ControlTemplate>
-    
+
     <ControlTemplate x:Key="PassengersReadItemTemplate">
-        
+
     </ControlTemplate>
 </ResourceDictionary>

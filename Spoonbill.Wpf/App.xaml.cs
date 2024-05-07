@@ -7,7 +7,11 @@ using Microsoft.Extensions.Configuration;
 using Spoonbill.Wpf.Controllers;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data;
+using Spoonbill.Wpf.Frontend.Builders;
+using Spoonbill.Wpf.Frontend.Builders.Impl;
 using Spoonbill.Wpf.Frontend.Extensions;
+using Spoonbill.Wpf.Frontend.ViewModels;
+using Spoonbill.Wpf.Frontend.ViewModels.PageTree;
 
 namespace Spoonbill.Wpf;
 
@@ -43,6 +47,9 @@ public partial class App : Application
 
         builder.RegisterType<SpoonbillContainer>().As<ISpoonbillContainer>()
             .InstancePerLifetimeScope();
+
+        // register viewmodel types
+        builder.RegisterType<PageTreeHostViewModelBuilder>().As<IBuilder<PageTreeHostViewModel>>();
 
         // set up viewmodel resolver
         Container = builder.Build();
