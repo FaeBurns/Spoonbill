@@ -9,14 +9,14 @@ public class CrudIntrospectItemViewModel
 {
     private readonly ICrudTemplate m_template;
 
-    public CrudIntrospectItemViewModel(object crudObject, ICrudTemplate template, IntrospectMode mode)
+    public CrudIntrospectItemViewModel(object crudObject, ICrudTemplate template, CrudHostViewModel hostViewModel, IntrospectMode mode)
     {
         m_template = template;
         CrudObject = crudObject;
         IntrospectMode = mode;
 
         if (mode != IntrospectMode.READ)
-            SaveCommand = new SaveCommand(crudObject, template, mode);
+            SaveCommand = new SaveCommand(crudObject, template, hostViewModel, mode);
         else
             SaveCommand = new DisabledCommand();
     }

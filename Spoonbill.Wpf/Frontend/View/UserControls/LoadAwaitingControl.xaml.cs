@@ -1,89 +1,55 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using Spoonbill.Wpf.Frontend.ViewModels;
 using JetBrains.Annotations;
+using Spoonbill.Wpf.Frontend.ViewModels;
 
 namespace Spoonbill.Wpf.Frontend.View.UserControls;
 
 public partial class LoadAwaitingControl : UserControl
 {
-    private bool m_loaded = false;
+    /// <inheritdoc cref="OnLoadedTemplate" />
+    [XamlOneWayBindingModeByDefault] public static readonly DependencyProperty OnLoadedTemplateProperty =
+        DependencyProperty.Register(
+            nameof(OnLoadedTemplate), typeof(DataTemplate), typeof(LoadAwaitingControl),
+            new PropertyMetadata(default(DataTemplate)));
 
-    [XamlOneWayBindingModeByDefault]
-    public static readonly DependencyProperty OnLoadedTemplateProperty = DependencyProperty.Register(
-        nameof(OnLoadedTemplate), typeof(ControlTemplate), typeof(LoadAwaitingControl), new PropertyMetadata(default(ControlTemplate)));
+    [XamlOneWayBindingModeByDefault] public static readonly DependencyProperty StatusIndicatorProperty =
+        DependencyProperty.Register(
+            nameof(ViewModels.StatusIndicator), typeof(StatusIndicator), typeof(LoadAwaitingControl),
+            new PropertyMetadata(default(StatusIndicator)));
 
-    [XamlOneWayBindingModeByDefault]
-    public static readonly DependencyProperty StatusIndicatorProperty = DependencyProperty.Register(
-        nameof(ViewModels.StatusIndicator), typeof(StatusIndicator), typeof(LoadAwaitingControl), new PropertyMetadata(default(StatusIndicator), propertyChangedCallback: StatusIndicatorChangedCallback));
-
-    public event EventHandler? AwaitingContentLoaded;
+    /// <inheritdoc cref="LoadingTemplate" />
+    [XamlOneWayBindingModeByDefault] public static readonly DependencyProperty LoadingTemplateProperty =
+        DependencyProperty.Register(
+            nameof(LoadingTemplate), typeof(DataTemplate), typeof(LoadAwaitingControl),
+            new PropertyMetadata(Application.Current.Resources["DefaultLoadAwaitingDataTemplate"]));
 
     public LoadAwaitingControl()
     {
         InitializeComponent();
     }
 
-    public ControlTemplate OnLoadedTemplate
+    /// <summary>
+    /// The template to use once the content has loaded.
+    /// </summary>
+    public DataTemplate OnLoadedTemplate
     {
-        get => (ControlTemplate)GetValue(OnLoadedTemplateProperty);
+        get => (DataTemplate)GetValue(OnLoadedTemplateProperty);
         set => SetValue(OnLoadedTemplateProperty, value);
+    }
+
+    /// <summary>
+    /// The template to use before the content has loaded.
+    /// </summary>
+    public DataTemplate LoadingTemplate
+    {
+        get => (DataTemplate)GetValue(LoadingTemplateProperty);
+        set => SetValue(LoadingTemplateProperty, value);
     }
 
     public StatusIndicator StatusIndicator
     {
         get => (StatusIndicator)GetValue(StatusIndicatorProperty);
         set => SetValue(StatusIndicatorProperty, value);
-    }
-
-    public void LoadWaitingContent()
-    {
-        // do nothing if content is already loaded
-        if (m_loaded)
-            return;
-
-        // load child control from template
-        LoadedContentHost.Template = OnLoadedTemplate;
-
-        // notify
-        m_loaded = true;
-        AwaitingContentLoaded?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void BindToStatusIndicator(StatusIndicator? oldIndicator, StatusIndicator? newIndicator)
-    {
-        if (oldIndicator == newIndicator)
-            return;
-
-        if (oldIndicator != null)
-            oldIndicator.PropertyChanged -= StatusIndicator_OnPropertyChange;
-
-        if (newIndicator != null)
-        {
-            newIndicator.PropertyChanged += StatusIndicator_OnPropertyChange;
-            HandleStatusUpdate(newIndicator);
-        }
-    }
-
-    private void StatusIndicator_OnPropertyChange(object? sender, PropertyChangedEventArgs e)
-    {
-        HandleStatusUpdate(StatusIndicator);
-    }
-
-    private void HandleStatusUpdate(StatusIndicator workReport)
-    {
-        if (workReport.Status)
-        {
-            LoadWaitingContent();
-        }
-    }
-
-    private static void StatusIndicatorChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        LoadAwaitingControl control = (d as LoadAwaitingControl)!;
-
-        control.BindToStatusIndicator(e.OldValue as StatusIndicator, e.NewValue as StatusIndicator);
-        control.HandleStatusUpdate((e.NewValue as StatusIndicator)!);
     }
 }

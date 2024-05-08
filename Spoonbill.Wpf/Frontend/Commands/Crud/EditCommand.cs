@@ -17,9 +17,9 @@ public class EditCommand : SimpleCommand
         m_template = template;
         m_hostViewModel = hostViewModel;
     }
-    
+
     public override void Execute(object? parameter)
     {
-        m_hostViewModel.SelectedItem = new CrudIntrospectItemViewModel(m_model, m_template, IntrospectMode.EDIT);
+        m_hostViewModel.SelectedItem = new CrudIntrospectItemViewModel(m_model, m_template, m_hostViewModel, IntrospectMode.EDIT);
     }
 }

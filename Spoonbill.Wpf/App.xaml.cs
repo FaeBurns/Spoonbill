@@ -54,21 +54,15 @@ public partial class App : Application
         builder.RegisterType<LocationsModule>().As<ILocationsModule>();
         builder.RegisterType<PassengerModule>().As<IPassengerModule>();
         builder.RegisterType<StaffModule>().As<IStaffModule>();
-        
+
         // register viewmodel types
         builder.RegisterType<PageTreeHostViewModelBuilder>().As<IBuilder<PageTreeHostViewModel>>();
+        builder.RegisterType<MainWindowViewModel>().SingleInstance();
+        builder.RegisterType<LoadingDatabaseViewModel>();
 
         // set up viewmodel resolver
         Container = builder.Build();
         DISource.Resolver = (type) => Container.Resolve(type);
-
-        Container.Resolve<IPassengerModule>().CreatePassenger(new Passenger()
-        {
-            Name = "Johnny",
-            Surname = "Test",
-            Address = "3",
-            PhoneNumber = "42069"
-        });
     }
 
     private DbContextOptions<SpoonbillContext> GetDatabaseOptions()

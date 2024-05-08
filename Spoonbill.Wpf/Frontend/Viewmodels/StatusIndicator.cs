@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels;
 
@@ -15,7 +16,10 @@ public class StatusIndicator : IProgress<bool>, INotifyPropertyChanged
 
     public void Report(bool value)
     {
-        Status = value;
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            Status = value;
+        });
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

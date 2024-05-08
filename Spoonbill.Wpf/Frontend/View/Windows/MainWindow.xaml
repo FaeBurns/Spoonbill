@@ -3,49 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Spoonbill.Wpf"
-        xmlns:ext="clr-namespace:Spoonbill.Wpf.Frontend.Extensions"
-        xmlns:viewmodels="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels"
         xmlns:userControls="clr-namespace:Spoonbill.Wpf.Frontend.View.UserControls"
+        xmlns:extensions="clr-namespace:Spoonbill.Wpf.Frontend.Extensions"
+        xmlns:viewModels="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        d:DataContext="{d:DesignInstance viewmodels:MainViewModel}"
-        DataContext="{ext:DISource Type=viewmodels:MainViewModel}">
-    <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Height" Value="20"/>
-            <Setter Property="Margin" Value="0, 2"/>
-        </Style>
-    </Window.Resources>
+        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
+        DataContext="{extensions:DISource Type=viewModels:MainWindowViewModel}">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <userControls:SelectPageTree Grid.Column="0" HorizontalAlignment="Stretch" DataContext="{Binding PageTreeHost}">
-
-        </userControls:SelectPageTree>
-        <ContentControl Grid.Column="1" Content="{Binding PageTreeHost.CurrentControl}">
-            <ContentControl.Style>
-                <Style TargetType="ContentControl">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding PageTreeHost.CurrentControl}" Value="{x:Null}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <TextBlock Text="Select a page"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentControl.Style>
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type Control}">
-                    <ContentControl Content="{Binding}"/>
+        <userControls:LoadAwaitingControl StatusIndicator="{Binding DatabaseConnectionIndicator}">
+            <userControls:LoadAwaitingControl.LoadingTemplate>
+                <DataTemplate>
+                    <userControls:LoadingDatabaseControl/>
                 </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
+            </userControls:LoadAwaitingControl.LoadingTemplate>
+            <userControls:LoadAwaitingControl.OnLoadedTemplate>
+                <DataTemplate>
+                    <userControls:MainPage/>
+                </DataTemplate>
+            </userControls:LoadAwaitingControl.OnLoadedTemplate>
+        </userControls:LoadAwaitingControl>
     </Grid>
 </Window>
