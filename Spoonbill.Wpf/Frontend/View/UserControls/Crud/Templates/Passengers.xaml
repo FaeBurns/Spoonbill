@@ -5,8 +5,8 @@
                     xmlns:crud="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels.Crud"
                     xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models"
                     mc:Ignorable="d">
-    <ControlTemplate x:Key="PassengersListItemTemplate" d:DataContext="{d:DesignInstance crud:CrudListItemViewModel}">
-        <Grid IsSharedSizeScope="True" ShowGridLines="True">
+    <DataTemplate x:Key="PassengersListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
+        <Grid IsSharedSizeScope="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="Id"/>
                 <ColumnDefinition SharedSizeGroup="Name"/>
@@ -17,20 +17,39 @@
                 <ColumnDefinition SharedSizeGroup="Inspect"/>
                 <ColumnDefinition SharedSizeGroup="Delete"/>
             </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="FrameworkElement">
+                    <Setter Property="Margin" Value="10, 0"/>
+                </Style>
+            </Grid.Resources>
 
-            <TextBlock Grid.Column="0" Text="{Binding ((models:Passenger)CrudObject).Id, Mode=OneWay}" IsEnabled="False"/>
-            <TextBlock Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Name, Mode=OneWay}"/>
-            <TextBlock Grid.Column="2" Text="{Binding ((models:Passenger)CrudObject).Surname, Mode=OneWay}"/>
-            <TextBlock Grid.Column="3" Text="{Binding ((models:Passenger)CrudObject).PhoneNumber, Mode=OneWay}"/>
-            <TextBlock Grid.Column="4" Text="{Binding ((models:Passenger)CrudObject).Address, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Text="{Binding Path=CrudObject.(models:Passenger.Id), Mode=OneWay}" IsEnabled="False"/>
+            <TextBlock Grid.Column="1" Text="{Binding Path=CrudObject.(models:Passenger.Name), Mode=OneWay}"/>
+            <TextBlock Grid.Column="2" Text="{Binding Path=CrudObject.(models:Passenger.Surname), Mode=OneWay}"/>
+            <TextBlock Grid.Column="3" Text="{Binding Path=CrudObject.(models:Passenger.PhoneNumber), Mode=OneWay}"/>
+            <TextBlock Grid.Column="4" Text="{Binding Path=CrudObject.(models:Passenger.Address), Mode=OneWay}"/>
             <Button    Grid.Column="5" Content="Edit"    Command="{Binding EditCommand}"/>
             <Button    Grid.Column="6" Content="Inspect" Command="{Binding InspectCommand}"/>
             <Button    Grid.Column="7" Content="Delete"  Command="{Binding DeleteCommand}"/>
         </Grid>
-    </ControlTemplate>
+    </DataTemplate>
 
-    <ControlTemplate x:Key="PassengersEditItemTemplate" d:DataContext="{d:DesignInstance crud:CrudIntrospectItemViewModel}">
-        <StackPanel Orientation="Vertical" IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBooleanConverter}}">
+    <DataTemplate x:Key="PassengersIntrospectItemTemplate" DataType="{x:Type crud:CrudIntrospectItemViewModel}">
+        <StackPanel Orientation="Vertical">
+            
+            <!-- Enabled state based on introspect mode -->
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="IsEnabled" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IntrospectMode}" Value="{x:Static crud:IntrospectMode.READ}">
+                            <DataTrigger.Setters>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -76,7 +95,7 @@
                 <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Address}"/>
             </Grid>
         </StackPanel>
-    </ControlTemplate>
+    </DataTemplate>
 
     <ControlTemplate x:Key="PassengersReadItemTemplate">
 

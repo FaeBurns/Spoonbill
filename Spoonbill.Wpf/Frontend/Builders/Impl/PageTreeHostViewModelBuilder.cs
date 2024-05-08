@@ -2,6 +2,7 @@
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Frontend.View.UserControls.Crud;
 using Spoonbill.Wpf.Frontend.ViewModels.Crud;
+using Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 using Spoonbill.Wpf.Frontend.ViewModels.PageTree;
 
 namespace Spoonbill.Wpf.Frontend.Builders.Impl;
@@ -25,7 +26,7 @@ public class PageTreeHostViewModelBuilder : IBuilder<PageTreeHostViewModel>
                 {
                     Children =
                     {
-                        new PageTreeItemViewModel("Passengers", () => new CrudHost(),
+                        new PageTreeItemViewModel("Passengers", () => new CrudHost(new PassengerCrudTemplate(m_passengerModule))),
                         new PageTreeItemViewModel("Staff"),
                         new PageTreeItemViewModel("Pilots"),
                     },

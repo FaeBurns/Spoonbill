@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data.Models;
@@ -16,20 +17,41 @@ public class PassengerCrudTemplate : ICrudTemplate
     }
 
     public DataTemplate ListTemplate => (DataTemplate)Application.Current.Resources["PassengersListItemTemplate"]!;
-    public DataTemplate IntrospectTemplate => (DataTemplate)Application.Current.Resources["PassengersEditItemTemplate"]!;
+    public DataTemplate IntrospectTemplate => (DataTemplate)Application.Current.Resources["PassengersIntrospectItemTemplate"]!;
 
-    public ICollection<CrudListItemViewModel> BuildList()
+    public ICollection<object> BuildList()
     {
-        List<CrudListItemViewModel> result = new List<CrudListItemViewModel>();
-        foreach (Passenger passenger in m_passengerModule.ListPassengers())
-        {
-            result.Add(new CrudListItemViewModel(passenger));
-        }
+        return m_passengerModule.ListPassengers().Select(p => (object)p).ToList();
     }
 
-    public CrudIntrospectItemViewModel ConvertIntrospect(CrudListItemViewModel item)
+    public IResult Save(object model, IntrospectMode mode)
     {
-        Passenger passenger = (Passenger)item.CrudObject;
-        return new CrudIntrospectItemViewModel(m_passengerModule.GetPassenger())
+        if (mode is not (IntrospectMode.EDIT or IntrospectMode.CREATE))
+            return new Invalid("Invalid introspect mode");
+
+        if (model is not Passenger passenger)
+        {
+            return new Invalid($"Invalid model type {model.GetType()}");
+        }
+        
+        switch (mode)
+        {
+            case IntrospectMode.EDIT:
+                return m_passengerModule.UpdatePassenger(passenger);
+            case IntrospectMode.CREATE:
+                return m_passengerModule.CreatePassenger(passenger);
+        }
+
+        throw new UnreachableException();
+    }
+
+    public IResult Delete(object model)
+    {
+        if (model is not Passenger passenger)
+        {
+            return new Invalid($"Invalid model type {model.GetType()}");
+        }
+
+        return m_passengerModule.DeletePassenger(passenger);
     }
 }

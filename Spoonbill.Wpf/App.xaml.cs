@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Spoonbill.Wpf.Controllers;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data;
+using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Frontend.Builders;
 using Spoonbill.Wpf.Frontend.Builders.Impl;
 using Spoonbill.Wpf.Frontend.Extensions;
@@ -48,15 +49,26 @@ public partial class App : Application
         builder.RegisterType<SpoonbillContainer>().As<ISpoonbillContainer>()
             .InstancePerLifetimeScope();
 
+        builder.RegisterType<AirplaneModule>().As<IAirplaneModule>();
+        builder.RegisterType<FlightsModule>().As<IFlightsModule>();
+        builder.RegisterType<LocationsModule>().As<ILocationsModule>();
+        builder.RegisterType<PassengerModule>().As<IPassengerModule>();
+        builder.RegisterType<StaffModule>().As<IStaffModule>();
+        
         // register viewmodel types
         builder.RegisterType<PageTreeHostViewModelBuilder>().As<IBuilder<PageTreeHostViewModel>>();
 
         // set up viewmodel resolver
         Container = builder.Build();
-        DISource.Resolver = (type) =>
+        DISource.Resolver = (type) => Container.Resolve(type);
+
+        Container.Resolve<IPassengerModule>().CreatePassenger(new Passenger()
         {
-            return Container.Resolve(type);
-        };
+            Name = "Johnny",
+            Surname = "Test",
+            Address = "3",
+            PhoneNumber = "42069"
+        });
     }
 
     private DbContextOptions<SpoonbillContext> GetDatabaseOptions()

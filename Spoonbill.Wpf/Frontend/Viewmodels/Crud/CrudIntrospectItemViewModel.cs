@@ -1,17 +1,27 @@
 ﻿using System.Windows.Input;
+using Spoonbill.Wpf.Frontend.Commands;
+using Spoonbill.Wpf.Frontend.Commands.Crud;
+using Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud;
 
 public class CrudIntrospectItemViewModel
 {
-    public CrudIntrospectItemViewModel(object crudObject, bool isReadOnly, ICommand saveCommand)
+    private readonly ICrudTemplate m_template;
+
+    public CrudIntrospectItemViewModel(object crudObject, ICrudTemplate template, IntrospectMode mode)
     {
+        m_template = template;
         CrudObject = crudObject;
-        IsReadOnly = isReadOnly;
-        SaveCommand = saveCommand;
+        IntrospectMode = mode;
+
+        if (mode != IntrospectMode.READ)
+            SaveCommand = new SaveCommand(crudObject, template, mode);
+        else
+            SaveCommand = new DisabledCommand();
     }
 
     public object CrudObject { get; }
-    public bool IsReadOnly { get; }
+    public IntrospectMode IntrospectMode { get; }
     public ICommand SaveCommand { get; }
 }
