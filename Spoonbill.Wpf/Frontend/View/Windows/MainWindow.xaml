@@ -11,17 +11,17 @@
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         DataContext="{extensions:DISource Type=viewModels:MainWindowViewModel}">
     <Grid>
-        <userControls:LoadAwaitingControl StatusIndicator="{Binding DatabaseConnectionIndicator}">
-            <userControls:LoadAwaitingControl.LoadingTemplate>
+        <userControls:StatusSwitchingControl Status="{Binding ReadMe}">
+            <userControls:StatusSwitchingControl.LoadingTemplate>
                 <DataTemplate>
                     <userControls:LoadingDatabaseControl/>
                 </DataTemplate>
-            </userControls:LoadAwaitingControl.LoadingTemplate>
-            <userControls:LoadAwaitingControl.OnLoadedTemplate>
+            </userControls:StatusSwitchingControl.LoadingTemplate>
+            <userControls:StatusSwitchingControl.OnLoadedTemplate>
                 <DataTemplate>
                     <userControls:MainPage/>
                 </DataTemplate>
-            </userControls:LoadAwaitingControl.OnLoadedTemplate>
-        </userControls:LoadAwaitingControl>
+            </userControls:StatusSwitchingControl.OnLoadedTemplate>
+        </userControls:StatusSwitchingControl>
     </Grid>
 </Window>

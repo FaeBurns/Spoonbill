@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using JetBrains.Annotations;
 using Spoonbill.Wpf.Frontend.ViewModels.Crud;
@@ -6,8 +8,10 @@ using Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
 namespace Spoonbill.Wpf.Frontend.View.UserControls.Crud;
 
-public partial class CrudHost : UserControl
+public partial class CrudHost : UserControl, INotifyPropertyChanged
 {
+    private CrudHostViewModel m_dataModel = null!;
+
     [XamlOneWayBindingModeByDefault]
     public static readonly DependencyProperty ListItemTemplateProperty = DependencyProperty.Register(
         nameof(ListItemTemplate), typeof(DataTemplate), typeof(CrudHost), new PropertyMetadata(default(DataTemplate)));
@@ -20,9 +24,8 @@ public partial class CrudHost : UserControl
     {
         ListItemTemplate = template.ListTemplate;
         IntrospectTemplate = template.IntrospectTemplate;
+        DataModel = new CrudHostViewModel(template);
         InitializeComponent();
-        CrudHostViewModel viewModel = new CrudHostViewModel(template);
-        DataContext = viewModel;
     }
 
     public DataTemplate ListItemTemplate
@@ -35,5 +38,25 @@ public partial class CrudHost : UserControl
     {
         get => (DataTemplate)GetValue(IntrospectTemplateProperty);
         init => SetValue(IntrospectTemplateProperty, value);
+    }
+
+    public CrudHostViewModel DataModel
+    {
+        get => m_dataModel;
+        set => SetField(ref m_dataModel, value);
+    }
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
     }
 }

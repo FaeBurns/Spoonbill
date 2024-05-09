@@ -5,26 +5,26 @@ using Spoonbill.Wpf.Frontend.ViewModels;
 
 namespace Spoonbill.Wpf.Frontend.View.UserControls;
 
-public partial class LoadAwaitingControl : UserControl
+public partial class StatusSwitchingControl : UserControl
 {
     /// <inheritdoc cref="OnLoadedTemplate" />
     [XamlOneWayBindingModeByDefault] public static readonly DependencyProperty OnLoadedTemplateProperty =
         DependencyProperty.Register(
-            nameof(OnLoadedTemplate), typeof(DataTemplate), typeof(LoadAwaitingControl),
+            nameof(OnLoadedTemplate), typeof(DataTemplate), typeof(StatusSwitchingControl),
             new PropertyMetadata(default(DataTemplate)));
 
-    [XamlOneWayBindingModeByDefault] public static readonly DependencyProperty StatusIndicatorProperty =
+    public static readonly DependencyProperty StatusProperty =
         DependencyProperty.Register(
-            nameof(StatusIndicator), typeof(StatusIndicator), typeof(LoadAwaitingControl),
-            new PropertyMetadata(default(StatusIndicator)));
+            nameof(Status), typeof(bool), typeof(StatusSwitchingControl),
+            new PropertyMetadata(default(bool)));
 
     /// <inheritdoc cref="LoadingTemplate" />
     [XamlOneWayBindingModeByDefault] public static readonly DependencyProperty LoadingTemplateProperty =
         DependencyProperty.Register(
-            nameof(LoadingTemplate), typeof(DataTemplate), typeof(LoadAwaitingControl),
+            nameof(LoadingTemplate), typeof(DataTemplate), typeof(StatusSwitchingControl),
             new PropertyMetadata(Application.Current.Resources["DefaultLoadAwaitingDataTemplate"]));
 
-    public LoadAwaitingControl()
+    public StatusSwitchingControl()
     {
         InitializeComponent();
     }
@@ -47,9 +47,9 @@ public partial class LoadAwaitingControl : UserControl
         set => SetValue(LoadingTemplateProperty, value);
     }
 
-    public StatusIndicator StatusIndicator
+    public bool Status
     {
-        get => (StatusIndicator)GetValue(StatusIndicatorProperty);
-        set => SetValue(StatusIndicatorProperty, value);
+        get => (bool)GetValue(StatusProperty);
+        set => SetValue(StatusProperty, value);
     }
 }

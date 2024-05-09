@@ -7,24 +7,23 @@
              xmlns:crud="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels.Crud"
              xmlns:userControls="clr-namespace:Spoonbill.Wpf.Frontend.View.UserControls"
              mc:Ignorable="d"
-             d:DesignWidth="800" d:DesignHeight="300"
-             d:DataContext="{d:DesignInstance crud:CrudHostViewModel}">
-    <Grid>
+             d:DesignWidth="800" d:DesignHeight="300">
+    <Grid DataContext="{Binding DataModel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CrudHost}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <userControls:LoadAwaitingControl Grid.Row="1" StatusIndicator="{Binding HasItemSelectedIndicator}">
-            <userControls:LoadAwaitingControl.LoadingTemplate>
+        <userControls:StatusSwitchingControl Grid.Row="1" Status="{Binding HasSelectedItem}">
+            <userControls:StatusSwitchingControl.LoadingTemplate>
                 <DataTemplate>
                     <local:CrudListHost/>
                 </DataTemplate>
-            </userControls:LoadAwaitingControl.LoadingTemplate>
-            <userControls:LoadAwaitingControl.OnLoadedTemplate>
+            </userControls:StatusSwitchingControl.LoadingTemplate>
+            <userControls:StatusSwitchingControl.OnLoadedTemplate>
                 <DataTemplate>
-                    <local:CrudIntrospectHost DataContext="{Binding SelectedItem}" />
+                    <local:CrudIntrospectHost DataContext="{Binding SelectedItem}"/>
                 </DataTemplate>
-            </userControls:LoadAwaitingControl.OnLoadedTemplate>
-        </userControls:LoadAwaitingControl>
+            </userControls:StatusSwitchingControl.OnLoadedTemplate>
+        </userControls:StatusSwitchingControl>
     </Grid>
 </UserControl>

@@ -10,18 +10,21 @@
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance crud:CrudHostViewModel}">
     <Grid IsSharedSizeScope="True">
-        <userControls:LoadAwaitingControl StatusIndicator="{Binding StatusIndicator}">
-            <userControls:LoadAwaitingControl.LoadingTemplate>
+        <userControls:StatusSwitchingControl Status="{Binding HasLoadedEntries}">
+            <userControls:StatusSwitchingControl.LoadingTemplate>
                 <DataTemplate>
-                    <TextBlock Text="Loading data from database..." VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Loading data from database..." VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                 </DataTemplate>
-            </userControls:LoadAwaitingControl.LoadingTemplate>
-            <userControls:LoadAwaitingControl.OnLoadedTemplate>
+            </userControls:StatusSwitchingControl.LoadingTemplate>
+            <userControls:StatusSwitchingControl.OnLoadedTemplate>
                 <DataTemplate>
-                    <ListBox ItemsSource="{Binding Entries}"
-                             ItemTemplate="{Binding ListItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}" />
+                    <Grid>
+                        <ListBox ItemsSource="{Binding Entries}"
+                                 ItemTemplate="{Binding ListItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}"
+                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    </Grid>
                 </DataTemplate>
-            </userControls:LoadAwaitingControl.OnLoadedTemplate>
-        </userControls:LoadAwaitingControl>
+            </userControls:StatusSwitchingControl.OnLoadedTemplate>
+        </userControls:StatusSwitchingControl>
     </Grid>
 </UserControl>

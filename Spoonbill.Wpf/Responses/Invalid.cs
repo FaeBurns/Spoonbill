@@ -1,11 +1,8 @@
 ﻿namespace Spoonbill.Wpf.Responses;
 
-public class Invalid : IMessageResult
+public class Invalid : Error
 {
-    public Invalid(string message)
+    public Invalid(string message) : base(message)
     {
-        Message = message;
     }
-
-    public string Message { get; init; }
 }

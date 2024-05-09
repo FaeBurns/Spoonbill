@@ -35,7 +35,7 @@
             <XamlRuntime>Wpf</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>
-        <Page Update="Frontend\View\UserControls\LoadAwaitingControl.xaml">
+        <Page Update="Frontend\View\UserControls\StatusSwitchingControl.xaml">
             <Generator>MSBuild:Compile</Generator>
             <XamlRuntime>Wpf</XamlRuntime>
             <SubType>Designer</SubType>
