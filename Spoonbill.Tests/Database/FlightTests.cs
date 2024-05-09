@@ -5,7 +5,8 @@ using Spoonbill.Wpf.Data.Models;
 
 namespace Spoonbill.Tests.Database;
 
-[TestFixture, Order(1)]
+[TestFixture]
+[Order(1)]
 public class FlightTests : DbTest
 {
     [Test]
@@ -13,10 +14,10 @@ public class FlightTests : DbTest
     {
         new LocationTests().AddAirport_Valid();
         using SpoonbillContext context = new SpoonbillContext(TestSetup.Options);
-        Manufacturer manufacturer = new Manufacturer()
+        Manufacturer manufacturer = new Manufacturer
         {
             Name = "Manufacturer",
-            City = context.Cities.First(),
+            City = context.Cities.First()
         };
         context.Manufacturers.Add(manufacturer);
         context.SaveChanges();
@@ -31,11 +32,11 @@ public class FlightTests : DbTest
     {
         AddManufacturer_Valid();
         using SpoonbillContext context = new SpoonbillContext(TestSetup.Options);
-        PlaneModel model = new PlaneModel()
+        PlaneModel model = new PlaneModel
         {
             Manufacturer = context.Manufacturers.Find("Manufacturer")!,
             ModelNumber = 3,
-            TypeRating = "clown",
+            TypeRating = "clown"
         };
 
         context.PlaneModels.Add(model);
@@ -51,10 +52,10 @@ public class FlightTests : DbTest
     {
         AddPlaneModel_Valid();
         using SpoonbillContext context = new SpoonbillContext(TestSetup.Options);
-        Plane plane = new Plane()
+        Plane plane = new Plane
         {
             Model = context.PlaneModels.First(),
-            Serial = "PlaneSerial:33",
+            Serial = "PlaneSerial:33"
         };
 
         context.Planes.Add(plane);
@@ -72,53 +73,53 @@ public class FlightTests : DbTest
         AddPlane_Valid();
 
         using SpoonbillContext context = new SpoonbillContext(TestSetup.Options);
-        Flight flight = new Flight()
+        Flight flight = new Flight
         {
             Name = "Flight Name",
             Passengers =
             {
-                context.Passengers.First(),
+                context.Passengers.First()
             },
             ArrivalTime = DateTime.UtcNow + TimeSpan.FromHours(5),
             DepartureTime = DateTime.UtcNow,
             Stops =
             {
-                new FlightStop()
+                new FlightStop
                 {
                     Airport = context.Airports.Find(LocationTests.ValidAirportName)!,
-                    Order = 0,
+                    Order = 0
                 },
-                new FlightStop()
+                new FlightStop
                 {
                     Airport = context.Airports.Find(LocationTests.ValidAirportName)!,
-                    Order = 1,
-                },
+                    Order = 1
+                }
             },
             Plane = context.Planes.Find("PlaneSerial:33")!,
             Pilots =
             {
-                new Pilot()
+                new Pilot
                 {
                     Address = "3",
                     Name = "Johnny",
                     Surname = "Gunthorpe",
                     Salary = 2.33m,
                     PhoneNumber = "69",
-                    TypeRating = "12",
-                },
+                    TypeRating = "12"
+                }
             },
             WorkerStaff =
             {
-                new StaffWorker()
+                new StaffWorker
                 {
                     Address = "2",
                     Name = "Test",
                     Surname = "Worker",
                     Role = "Clown",
                     Salary = 59930.12m,
-                    PhoneNumber = "UNKNOWN",
-                },
-            },
+                    PhoneNumber = "UNKNOWN"
+                }
+            }
         };
 
         new FlightsModule(context).CreateFlight(flight);

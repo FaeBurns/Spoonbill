@@ -10,11 +10,17 @@
         <ContentControl.Style>
             <Style TargetType="ContentControl">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding StatusIndicator.Status, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LoadAwaitingControl}}" Value="True">
-                        <Setter Property="ContentTemplate" Value="{Binding OnLoadedTemplate, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LoadAwaitingControl}}"/>
+                    <DataTrigger
+                        Binding="{Binding StatusIndicator.Status, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LoadAwaitingControl}}"
+                        Value="True">
+                        <Setter Property="ContentTemplate"
+                                Value="{Binding OnLoadedTemplate, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LoadAwaitingControl}}" />
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding StatusIndicator.Status, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LoadAwaitingControl}}" Value="False">
-                        <Setter Property="ContentTemplate" Value="{Binding LoadingTemplate, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LoadAwaitingControl}}"/>
+                    <DataTrigger
+                        Binding="{Binding StatusIndicator.Status, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LoadAwaitingControl}}"
+                        Value="False">
+                        <Setter Property="ContentTemplate"
+                                Value="{Binding LoadingTemplate, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LoadAwaitingControl}}" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

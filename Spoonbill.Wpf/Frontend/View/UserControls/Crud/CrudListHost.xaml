@@ -9,14 +9,19 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance crud:CrudHostViewModel}">
-    <Grid>
-        <ListBox ItemsSource="{Binding Entries}" ItemTemplate="{Binding ListItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}"/>
-        <!-- <userControls:LoadAwaitingControl StatusIndicator="{Binding StatusIndicator}"> -->
-        <!--     <userControls:LoadAwaitingControl.OnLoadedTemplate> -->
-        <!--         <ControlTemplate> -->
-        <!--             <ListBox ItemsSource="{Binding Entries}" ItemTemplate="{Binding ListItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}"/> -->
-        <!--         </ControlTemplate> -->
-        <!--     </userControls:LoadAwaitingControl.OnLoadedTemplate> -->
-        <!-- </userControls:LoadAwaitingControl> -->
+    <Grid IsSharedSizeScope="True">
+        <userControls:LoadAwaitingControl StatusIndicator="{Binding StatusIndicator}">
+            <userControls:LoadAwaitingControl.LoadingTemplate>
+                <DataTemplate>
+                    <TextBlock Text="Loading data from database..." VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </DataTemplate>
+            </userControls:LoadAwaitingControl.LoadingTemplate>
+            <userControls:LoadAwaitingControl.OnLoadedTemplate>
+                <DataTemplate>
+                    <ListBox ItemsSource="{Binding Entries}"
+                             ItemTemplate="{Binding ListItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}" />
+                </DataTemplate>
+            </userControls:LoadAwaitingControl.OnLoadedTemplate>
+        </userControls:LoadAwaitingControl>
     </Grid>
 </UserControl>

@@ -8,6 +8,7 @@ public class City
 {
     [StringLength(50)]
     public string Name { get; set; } = null!;
+
     [Required]
     public County County { get; set; } = null!;
 }

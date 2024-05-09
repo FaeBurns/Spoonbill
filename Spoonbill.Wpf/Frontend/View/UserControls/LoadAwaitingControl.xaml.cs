@@ -15,7 +15,7 @@ public partial class LoadAwaitingControl : UserControl
 
     [XamlOneWayBindingModeByDefault] public static readonly DependencyProperty StatusIndicatorProperty =
         DependencyProperty.Register(
-            nameof(ViewModels.StatusIndicator), typeof(StatusIndicator), typeof(LoadAwaitingControl),
+            nameof(StatusIndicator), typeof(StatusIndicator), typeof(LoadAwaitingControl),
             new PropertyMetadata(default(StatusIndicator)));
 
     /// <inheritdoc cref="LoadingTemplate" />

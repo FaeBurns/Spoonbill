@@ -8,10 +8,12 @@ namespace Spoonbill.Wpf.Data.Models;
 public class PlaneModel
 {
     // explicitly enable insert
-    [DatabaseGenerated((DatabaseGeneratedOption.None))]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int ModelNumber { get; set; }
+
     [Required]
     public Manufacturer Manufacturer { get; set; } = null!;
+
     [StringLength(20)]
     public string TypeRating { get; set; } = null!;
 }

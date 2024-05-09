@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using JetBrains.Annotations;
-using Spoonbill.Wpf.Frontend.Builders;
 using Spoonbill.Wpf.Frontend.ViewModels.Crud;
 using Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
@@ -17,6 +16,15 @@ public partial class CrudHost : UserControl
     public static readonly DependencyProperty IntrospectTemplateProperty = DependencyProperty.Register(
         nameof(IntrospectTemplate), typeof(DataTemplate), typeof(CrudHost), new PropertyMetadata(default(DataTemplate)));
 
+    public CrudHost(ICrudTemplate template)
+    {
+        ListItemTemplate = template.ListTemplate;
+        IntrospectTemplate = template.IntrospectTemplate;
+        InitializeComponent();
+        CrudHostViewModel viewModel = new CrudHostViewModel(template);
+        DataContext = viewModel;
+    }
+
     public DataTemplate ListItemTemplate
     {
         get => (DataTemplate)GetValue(ListItemTemplateProperty);
@@ -27,14 +35,5 @@ public partial class CrudHost : UserControl
     {
         get => (DataTemplate)GetValue(IntrospectTemplateProperty);
         init => SetValue(IntrospectTemplateProperty, value);
-    }
-
-    public CrudHost(ICrudTemplate template)
-    {
-        ListItemTemplate = template.ListTemplate;
-        IntrospectTemplate = template.IntrospectTemplate;
-        InitializeComponent();
-        CrudHostViewModel viewModel = new CrudHostViewModel(template);
-        DataContext = viewModel;
     }
 }

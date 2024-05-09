@@ -11,9 +11,20 @@
              d:DataContext="{d:DesignInstance crud:CrudHostViewModel}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <local:CrudListHost Grid.Row="1"/>
+        <userControls:LoadAwaitingControl Grid.Row="1" StatusIndicator="{Binding HasItemSelectedIndicator}">
+            <userControls:LoadAwaitingControl.LoadingTemplate>
+                <DataTemplate>
+                    <local:CrudListHost/>
+                </DataTemplate>
+            </userControls:LoadAwaitingControl.LoadingTemplate>
+            <userControls:LoadAwaitingControl.OnLoadedTemplate>
+                <DataTemplate>
+                    <local:CrudIntrospectHost DataContext="{Binding SelectedItem}" />
+                </DataTemplate>
+            </userControls:LoadAwaitingControl.OnLoadedTemplate>
+        </userControls:LoadAwaitingControl>
     </Grid>
 </UserControl>

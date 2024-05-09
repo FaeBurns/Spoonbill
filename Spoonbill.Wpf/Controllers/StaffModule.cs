@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics.Contracts;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;

@@ -6,51 +6,52 @@
                     xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models"
                     mc:Ignorable="d">
     <DataTemplate x:Key="PassengersListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
-        <Grid IsSharedSizeScope="True">
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="Id"/>
-                <ColumnDefinition SharedSizeGroup="Name"/>
-                <ColumnDefinition SharedSizeGroup="Surname"/>
-                <ColumnDefinition SharedSizeGroup="Phone Number"/>
-                <ColumnDefinition SharedSizeGroup="Address"/>
-                <ColumnDefinition SharedSizeGroup="Edit"/>
-                <ColumnDefinition SharedSizeGroup="Inspect"/>
-                <ColumnDefinition SharedSizeGroup="Delete"/>
+                <ColumnDefinition SharedSizeGroup="Id" />
+                <ColumnDefinition SharedSizeGroup="Name" />
+                <ColumnDefinition SharedSizeGroup="Surname" />
+                <ColumnDefinition SharedSizeGroup="Phone Number" />
+                <ColumnDefinition SharedSizeGroup="Address" />
+                <ColumnDefinition SharedSizeGroup="Edit" />
+                <ColumnDefinition SharedSizeGroup="Inspect" />
+                <ColumnDefinition SharedSizeGroup="Delete" />
             </Grid.ColumnDefinitions>
             <Grid.Resources>
                 <Style TargetType="TextBlock">
-                    <Setter Property="Margin" Value="10, 0"/>
+                    <Setter Property="Margin" Value="10, 0" />
                 </Style>
             </Grid.Resources>
 
-            <TextBlock Grid.Column="0" Text="{Binding Path=CrudObject.(models:Passenger.Id), Mode=OneWay}" IsEnabled="False"/>
-            <TextBlock Grid.Column="1" Text="{Binding Path=CrudObject.(models:Passenger.Name), Mode=OneWay}"/>
-            <TextBlock Grid.Column="2" Text="{Binding Path=CrudObject.(models:Passenger.Surname), Mode=OneWay}"/>
-            <TextBlock Grid.Column="3" Text="{Binding Path=CrudObject.(models:Passenger.PhoneNumber), Mode=OneWay}"/>
-            <TextBlock Grid.Column="4" Text="{Binding Path=CrudObject.(models:Passenger.Address), Mode=OneWay}"/>
-            <Button    Grid.Column="5" Content="Edit"    Command="{Binding EditCommand}"/>
-            <Button    Grid.Column="6" Content="Inspect" Command="{Binding InspectCommand}"/>
-            <Button    Grid.Column="7" Content="Delete"  Command="{Binding DeleteCommand}"/>
+            <TextBlock Grid.Column="0" Text="{Binding Path=CrudObject.(models:Passenger.Id), Mode=OneWay}"
+                       IsEnabled="False" />
+            <TextBlock Grid.Column="1" Text="{Binding Path=CrudObject.(models:Passenger.Name), Mode=OneWay}" />
+            <TextBlock Grid.Column="2" Text="{Binding Path=CrudObject.(models:Passenger.Surname), Mode=OneWay}" />
+            <TextBlock Grid.Column="3" Text="{Binding Path=CrudObject.(models:Passenger.PhoneNumber), Mode=OneWay}" />
+            <TextBlock Grid.Column="4" Text="{Binding Path=CrudObject.(models:Passenger.Address), Mode=OneWay}" />
+            <Button Grid.Column="5" Content="Edit" Command="{Binding EditCommand}" />
+            <Button Grid.Column="6" Content="Inspect" Command="{Binding InspectCommand}" />
+            <Button Grid.Column="7" Content="Delete" Command="{Binding DeleteCommand}" />
         </Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="PassengersIntrospectItemTemplate" DataType="{x:Type crud:CrudIntrospectItemViewModel}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="1" Orientation="Vertical">
                 <!-- Enabled state based on introspect mode -->
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
-                        <Setter Property="IsEnabled" Value="True"/>
+                        <Setter Property="IsEnabled" Value="True" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IntrospectMode}" Value="{x:Static crud:IntrospectMode.READ}">
                                 <DataTrigger.Setters>
-                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Setter Property="IsEnabled" Value="False" />
                                 </DataTrigger.Setters>
                             </DataTrigger>
                         </Style.Triggers>
@@ -59,53 +60,51 @@
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Id"/>
-                    <TextBlock Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Id}"/>
+                    <Label Grid.Column="0" Content="Id" />
+                    <TextBlock Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Id}" />
                 </Grid>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Name"/>
-                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Name}"/>
+                    <Label Grid.Column="0" Content="Name" />
+                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Name}" />
                 </Grid>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Surname"/>
-                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Surname}"/>
+                    <Label Grid.Column="0" Content="Surname" />
+                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Surname}" />
                 </Grid>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Phone Number"/>
-                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).PhoneNumber}"/>
+                    <Label Grid.Column="0" Content="Phone Number" />
+                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).PhoneNumber}" />
                 </Grid>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Address"/>
-                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Address}"/>
+                    <Label Grid.Column="0" Content="Address" />
+                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Address}" />
                 </Grid>
             </StackPanel>
         </Grid>
     </DataTemplate>
 
-    <ControlTemplate x:Key="PassengersReadItemTemplate">
-
-    </ControlTemplate>
+    <ControlTemplate x:Key="PassengersReadItemTemplate" />
 </ResourceDictionary>

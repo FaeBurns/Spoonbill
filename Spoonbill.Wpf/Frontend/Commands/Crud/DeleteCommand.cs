@@ -12,7 +12,7 @@ public class DeleteCommand : SimpleCommand
         m_model = model;
         m_template = template;
     }
-    
+
     public override void Execute(object? parameter)
     {
         m_template.Delete(m_model);

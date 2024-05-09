@@ -7,12 +7,16 @@ namespace Spoonbill.Wpf.Data.Models;
 public abstract class Person
 {
     public int Id { get; set; }
+
     [StringLength(20)]
     public string Name { get; set; } = null!;
+
     [StringLength(20)]
     public string Surname { get; set; } = null!;
+
     [StringLength(20)]
     public string PhoneNumber { get; set; } = null!;
+
     [StringLength(50)]
     public string Address { get; set; } = null!;
 }

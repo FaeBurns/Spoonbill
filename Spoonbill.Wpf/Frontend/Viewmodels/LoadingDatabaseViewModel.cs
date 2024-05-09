@@ -35,24 +35,30 @@ public class LoadingDatabaseViewModel : ViewModel
 
     private void Load_Internal()
     {
-        LoadingMessage.Report("Polling database...");
-        try
+        bool hasConnected = false;
+        while (!hasConnected)
         {
-            DbConnection dbConnection = m_dbContext.Database.GetDbConnection();
-            if (dbConnection.State == ConnectionState.Closed)
+            LoadingMessage.Report("Polling database...");
+            try
             {
-                dbConnection.Open();
-                dbConnection.Close();
-            }
+                DbConnection dbConnection = m_dbContext.Database.GetDbConnection();
+                if (dbConnection.State == ConnectionState.Closed)
+                {
+                    dbConnection.Open();
+                    dbConnection.Close();
+                }
 
-            // report final message and give user time to read it before reporting success
-            LoadingMessage.Report("Connected Successfully!");
-            Thread.Sleep(1);
-            m_finishedProgress.Report(true);
-        }
-        catch (Exception e)
-        {
-            LoadingMessage.Report($"Error: {e.Message}");
+                // report final message and give user time to read it before reporting success
+                LoadingMessage.Report("Connected Successfully!");
+                Thread.Sleep(1000);
+                m_finishedProgress.Report(true);
+                hasConnected = true;
+            }
+            catch (Exception)
+            {
+                LoadingMessage.Report($"Error connecting to database.\nWaiting 5 seconds then retrying...");
+                Thread.Sleep(5000);
+            }
         }
     }
 }

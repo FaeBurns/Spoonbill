@@ -1,7 +1,5 @@
-﻿using System.Windows;
-using Spoonbill.Wpf.Controllers.Interfaces;
+﻿using Autofac;
 using Spoonbill.Wpf.Frontend.View.UserControls.Crud;
-using Spoonbill.Wpf.Frontend.ViewModels.Crud;
 using Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 using Spoonbill.Wpf.Frontend.ViewModels.PageTree;
 
@@ -9,11 +7,11 @@ namespace Spoonbill.Wpf.Frontend.Builders.Impl;
 
 public class PageTreeHostViewModelBuilder : IBuilder<PageTreeHostViewModel>
 {
-    private readonly IPassengerModule m_passengerModule;
+    private readonly ILifetimeScope m_scope;
 
-    public PageTreeHostViewModelBuilder(IPassengerModule passengerModule)
+    public PageTreeHostViewModelBuilder(ILifetimeScope scope)
     {
-        m_passengerModule = passengerModule;
+        m_scope = scope;
     }
 
     public PageTreeHostViewModel Build()
@@ -26,7 +24,7 @@ public class PageTreeHostViewModelBuilder : IBuilder<PageTreeHostViewModel>
                 {
                     Children =
                     {
-                        new PageTreeItemViewModel("Passengers", () => new CrudHost(new PassengerCrudTemplate(m_passengerModule))),
+                        new PageTreeItemViewModel("Passengers", Resolve<PassengerCrudTemplate>()),
                         new PageTreeItemViewModel("Staff"),
                         new PageTreeItemViewModel("Pilots"),
                     },
@@ -52,5 +50,10 @@ public class PageTreeHostViewModelBuilder : IBuilder<PageTreeHostViewModel>
                 },
             },
         };
+    }
+
+    private Func<CrudHost> Resolve<T>() where T : ICrudTemplate
+    {
+        return () => new CrudHost(m_scope.Resolve<T>());
     }
 }

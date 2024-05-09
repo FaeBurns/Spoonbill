@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using Spoonbill.Wpf.Frontend.Commands.Crud;
 using Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
@@ -7,16 +8,27 @@ namespace Spoonbill.Wpf.Frontend.ViewModels.Crud;
 public class CrudHostViewModel : ViewModel
 {
     private readonly ICrudTemplate m_template;
-    private CrudIntrospectItemViewModel? m_selectedItem = null;
     private ObservableCollection<CrudListItemViewModel> m_entries = new ObservableCollection<CrudListItemViewModel>();
+    private CrudIntrospectItemViewModel? m_selectedItem;
 
     public CrudHostViewModel(ICrudTemplate template)
     {
         m_template = template;
-        Entries = new ObservableCollection<CrudListItemViewModel>(template.BuildList().Select(BuildListItem));
+        new Thread(PopulateList).Start();
+    }
+
+    private void PopulateList()
+    {
+        IEnumerable<CrudListItemViewModel> viewModels = m_template.BuildList().Select(BuildListItem);
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            Entries = new ObservableCollection<CrudListItemViewModel>(viewModels);
+            StatusIndicator.Report(true);
+        });
     }
 
     public StatusIndicator StatusIndicator { get; } = new StatusIndicator();
+    public StatusIndicator HasItemSelectedIndicator { get; } = new StatusIndicator();
 
     public ObservableCollection<CrudListItemViewModel> Entries
     {
@@ -27,7 +39,13 @@ public class CrudHostViewModel : ViewModel
     public CrudIntrospectItemViewModel? SelectedItem
     {
         get => m_selectedItem;
-        set => SetField(ref m_selectedItem, value);
+        set
+        {
+            if (SetField(ref m_selectedItem, value))
+            {
+                HasItemSelectedIndicator.Report(value != null);
+            }
+        }
     }
 
     private CrudListItemViewModel BuildListItem(object model)

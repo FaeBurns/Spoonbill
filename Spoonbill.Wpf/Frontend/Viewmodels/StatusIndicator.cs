@@ -14,15 +14,12 @@ public class StatusIndicator : IProgress<bool>, INotifyPropertyChanged
         private set => SetField(ref m_status, value);
     }
 
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     public void Report(bool value)
     {
-        Application.Current.Dispatcher.Invoke(() =>
-        {
-            Status = value;
-        });
+        Application.Current.Dispatcher.Invoke(() => { Status = value; });
     }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {

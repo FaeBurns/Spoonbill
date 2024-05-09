@@ -7,11 +7,9 @@ namespace Spoonbill.Wpf.Frontend.ViewModels.Crud;
 
 public class CrudIntrospectItemViewModel
 {
-    private readonly ICrudTemplate m_template;
-
     public CrudIntrospectItemViewModel(object crudObject, ICrudTemplate template, CrudHostViewModel hostViewModel, IntrospectMode mode)
     {
-        m_template = template;
+        Template = template;
         CrudObject = crudObject;
         IntrospectMode = mode;
 
@@ -20,7 +18,8 @@ public class CrudIntrospectItemViewModel
         else
             SaveCommand = new DisabledCommand();
     }
-
+    
+    public ICrudTemplate Template { get; }
     public object CrudObject { get; }
     public IntrospectMode IntrospectMode { get; }
     public ICommand SaveCommand { get; }

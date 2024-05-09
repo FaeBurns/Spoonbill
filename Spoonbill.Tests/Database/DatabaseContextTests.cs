@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Spoonbill.Wpf.Controllers;
+﻿using Spoonbill.Wpf.Controllers;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 

@@ -14,12 +14,12 @@ public class PassengerTests : DbTest
 
         int count = passengerModule.ListPassengers().Count;
 
-        Passenger passenger = new Passenger()
+        Passenger passenger = new Passenger
         {
             Name = "Jane",
             Surname = "Doe",
             Address = "4",
-            PhoneNumber = "1337",
+            PhoneNumber = "1337"
         };
 
         passengerModule.CreatePassenger(passenger);

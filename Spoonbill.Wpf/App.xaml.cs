@@ -58,7 +58,6 @@ public partial class App : Application
         // register viewmodel types
         builder.RegisterType<PageTreeHostViewModelBuilder>().As<IBuilder<PageTreeHostViewModel>>();
         builder.RegisterType<MainWindowViewModel>().SingleInstance();
-        builder.RegisterType<LoadingDatabaseViewModel>();
 
         // set up viewmodel resolver
         Container = builder.Build();
