@@ -35,6 +35,33 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate x:Key="PassengersListHeaderTemplate">
+        <Grid Margin="8, 0, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="Id" />
+                <ColumnDefinition SharedSizeGroup="Name" />
+                <ColumnDefinition SharedSizeGroup="Surname" />
+                <ColumnDefinition SharedSizeGroup="Phone Number" />
+                <ColumnDefinition SharedSizeGroup="Address" />
+                <ColumnDefinition SharedSizeGroup="Edit" />
+                <ColumnDefinition SharedSizeGroup="Inspect" />
+                <ColumnDefinition SharedSizeGroup="Delete" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="10, 0" />
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Grid.Column="0" Text="Id"/>
+            <TextBlock Grid.Column="1" Text="Name"/>
+            <TextBlock Grid.Column="2" Text="Surname"/>
+            <TextBlock Grid.Column="3" Text="Phone Number"/>
+            <TextBlock Grid.Column="4" Text="Address"/>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate x:Key="PassengersIntrospectItemTemplate" DataType="{x:Type crud:CrudIntrospectItemViewModel}">
         <Grid>
             <Grid.RowDefinitions>
@@ -64,7 +91,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Id" />
-                    <TextBlock Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Id}" />
+                    <TextBlock Grid.Column="1" Text="{Binding CrudObject.Id}" />
                 </Grid>
 
                 <Grid>
@@ -73,7 +100,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Name" />
-                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Name}" />
+                    <TextBox Grid.Column="1" Text="{Binding CrudObject.Name}" />
                 </Grid>
 
                 <Grid>
@@ -82,7 +109,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Surname" />
-                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Surname}" />
+                    <TextBox Grid.Column="1" Text="{Binding CrudObject.Surname}" />
                 </Grid>
 
                 <Grid>
@@ -91,7 +118,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Phone Number" />
-                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).PhoneNumber}" />
+                    <TextBox Grid.Column="1" Text="{Binding CrudObject.PhoneNumber}" />
                 </Grid>
 
                 <Grid>
@@ -100,7 +127,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Address" />
-                    <TextBox Grid.Column="1" Text="{Binding ((models:Passenger)CrudObject).Address}" />
+                    <TextBox Grid.Column="1" Text="{Binding CrudObject.Address}" />
                 </Grid>
             </StackPanel>
         </Grid>

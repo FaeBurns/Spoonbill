@@ -19,9 +19,23 @@
             <userControls:StatusSwitchingControl.OnLoadedTemplate>
                 <DataTemplate>
                     <Grid>
-                        <ListBox ItemsSource="{Binding Entries}"
-                                 ItemTemplate="{Binding ListItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}"
-                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="1">
+                            <Run Text="Entries: "/>
+                            <Run Text="{Binding Entries.Count, Mode=OneWay}"/>
+                        </TextBlock>
+
+                        <ContentControl Grid.Row="2"
+                                Content="{Binding}"
+                                ContentTemplate="{Binding ListHeaderTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}"/>
+                        <ListBox Grid.Row="3" ItemsSource="{Binding Entries}"
+                                ItemTemplate="{Binding ListItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </Grid>
                 </DataTemplate>
             </userControls:StatusSwitchingControl.OnLoadedTemplate>

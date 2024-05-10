@@ -20,10 +20,15 @@ public partial class CrudHost : UserControl, INotifyPropertyChanged
     public static readonly DependencyProperty IntrospectTemplateProperty = DependencyProperty.Register(
         nameof(IntrospectTemplate), typeof(DataTemplate), typeof(CrudHost), new PropertyMetadata(default(DataTemplate)));
 
+    [XamlOneWayBindingModeByDefault]
+    public static readonly DependencyProperty ListHeaderTemplateProperty = DependencyProperty.Register(
+        nameof(ListHeaderTemplate), typeof(DataTemplate), typeof(CrudHost), new PropertyMetadata(default(DataTemplate)));
+
     public CrudHost(ICrudTemplate template)
     {
         ListItemTemplate = template.ListTemplate;
         IntrospectTemplate = template.IntrospectTemplate;
+        ListHeaderTemplate = template.ListHeaderTemplate;
         DataModel = new CrudHostViewModel(template);
         InitializeComponent();
     }
@@ -38,6 +43,12 @@ public partial class CrudHost : UserControl, INotifyPropertyChanged
     {
         get => (DataTemplate)GetValue(IntrospectTemplateProperty);
         init => SetValue(IntrospectTemplateProperty, value);
+    }
+
+    public DataTemplate ListHeaderTemplate
+    {
+        get => (DataTemplate)GetValue(ListHeaderTemplateProperty);
+        init => SetValue(ListHeaderTemplateProperty, value);
     }
 
     public CrudHostViewModel DataModel

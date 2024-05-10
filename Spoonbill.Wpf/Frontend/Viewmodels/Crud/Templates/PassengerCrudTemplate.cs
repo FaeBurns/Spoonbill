@@ -18,6 +18,7 @@ public class PassengerCrudTemplate : ICrudTemplate
 
     public DataTemplate ListTemplate => (DataTemplate)Application.Current.Resources["PassengersListItemTemplate"]!;
     public DataTemplate IntrospectTemplate => (DataTemplate)Application.Current.Resources["PassengersIntrospectItemTemplate"]!;
+    public DataTemplate ListHeaderTemplate => (DataTemplate)Application.Current.Resources["PassengersListHeaderTemplate"]!;
 
     public ICollection<object> BuildList()
     {
@@ -33,7 +34,7 @@ public class PassengerCrudTemplate : ICrudTemplate
         {
             return new Invalid($"Invalid model type {model.GetType()}");
         }
-        
+
         switch (mode)
         {
             case IntrospectMode.EDIT:

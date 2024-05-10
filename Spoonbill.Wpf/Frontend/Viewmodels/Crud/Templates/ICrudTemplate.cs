@@ -9,18 +9,23 @@ public interface ICrudTemplate
     /// Gets the template to use for a list item.
     /// </summary>
     public DataTemplate ListTemplate { get; }
-    
+
     /// <summary>
     /// Gets the template to use for introspection.
     /// </summary>
     public DataTemplate IntrospectTemplate { get; }
-    
+
     /// <summary>
-    /// Builds the collection of data to populate the list view with. 
+    /// Gets the template used for the list header
+    /// </summary>
+    public DataTemplate ListHeaderTemplate { get; }
+
+    /// <summary>
+    /// Builds the collection of data to populate the list view with.
     /// </summary>
     /// <returns></returns>
     public ICollection<object> BuildList();
-    
+
     /// <summary>
     /// Saves a change to the database.
     /// </summary>
