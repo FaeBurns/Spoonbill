@@ -62,6 +62,20 @@ public partial class App : Application
         // set up viewmodel resolver
         Container = builder.Build();
         DISource.Resolver = (type) => Container.Resolve(type);
+
+        if (Container.Resolve<PassengerModule>().ListPassengers().Count == 0)
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                Container.Resolve<PassengerModule>().CreatePassenger(new Passenger()
+                {
+                    Name = $"Name_{i + 1}",
+                    Surname = $"Surname_{i + 1}",
+                    Address = $"Address_{i + 1}",
+                    PhoneNumber = $"Number_{i + 1}",
+                });
+            }
+        }
     }
 
     private DbContextOptions<SpoonbillContext> GetDatabaseOptions()

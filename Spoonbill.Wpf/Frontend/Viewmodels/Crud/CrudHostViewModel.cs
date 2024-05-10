@@ -16,14 +16,21 @@ public class CrudHostViewModel : ViewModel
     public CrudHostViewModel(ICrudTemplate template)
     {
         m_template = template;
+        ReloadEntriesAsync();
+    }
+
+    /// <summary>
+    /// Reloads all entries from the database.
+    /// This method will return immediately.
+    /// </summary>
+    public void ReloadEntriesAsync()
+    {
         new Thread(PopulateList).Start();
     }
 
     private void PopulateList()
     {
-        Thread.Sleep(3000);
         IEnumerable<CrudListItemViewModel> viewModels = m_template.BuildList().Select(BuildListItem);
-
         Entries = new List<CrudListItemViewModel>(viewModels);
         HasLoadedEntries = true;
     }
@@ -59,6 +66,6 @@ public class CrudHostViewModel : ViewModel
         return new CrudListItemViewModel(model,
             new EditCommand(model, m_template, this),
             new InspectCommand(model, m_template, this),
-            new DeleteCommand(model, m_template));
+            new DeleteCommand(model, m_template, this));
     }
 }
