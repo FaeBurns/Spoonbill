@@ -25,6 +25,9 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
+
+                        <Button Grid.Row="0" Content="Create Entry" Command="{Binding CreateCommand}"/>
+
                         <TextBlock Grid.Row="1">
                             <Run Text="Entries: "/>
                             <Run Text="{Binding Entries.Count, Mode=OneWay}"/>

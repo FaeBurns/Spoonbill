@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Spoonbill.Wpf.Frontend.ViewModels.Crud.IntrospectViewModels;
 using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
@@ -40,4 +41,7 @@ public interface ICrudTemplate
     /// <param name="model"></param>
     /// <returns></returns>
     public IResult Delete(object model);
+
+    public IIntrospectViewModel CreateItemViewmodel();
+    public IIntrospectViewModel CreateItemViewmodel(object model);
 }

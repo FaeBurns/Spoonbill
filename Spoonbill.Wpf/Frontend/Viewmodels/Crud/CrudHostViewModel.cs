@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Input;
 using Spoonbill.Wpf.Frontend.Commands.Crud;
 using Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
@@ -17,6 +18,8 @@ public class CrudHostViewModel : ViewModel
     {
         m_template = template;
         ReloadEntriesAsync();
+
+        CreateCommand = new CreateCommand(template, this);
     }
 
     /// <summary>
@@ -68,4 +71,6 @@ public class CrudHostViewModel : ViewModel
             new InspectCommand(model, m_template, this),
             new DeleteCommand(model, m_template, this));
     }
+
+    public ICommand CreateCommand { get; }
 }

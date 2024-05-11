@@ -8,6 +8,26 @@
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance crud:CrudIntrospectItemViewModel}">
     <Grid>
-        <ContentControl Content="{Binding}" ContentTemplate="{Binding Template.IntrospectTemplate}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{Binding Template.IntrospectTemplate}"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20">
+            <Button Command="{Binding CancelCommand}" Margin="5">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IntrospectMode}" Value="{x:Static crud:IntrospectMode.READ}">
+                                <Setter Property="Content" Value="Back"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Content" Value="Cancel"/>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Save" Command="{Binding SaveCommand}" Margin="5"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -4,6 +4,7 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:crud="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels.Crud"
                     xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models"
+                    xmlns:references="clr-namespace:Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References"
                     mc:Ignorable="d">
     <DataTemplate x:Key="PassengersListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
         <Grid>
@@ -64,13 +65,31 @@
 
     <DataTemplate x:Key="PassengersIntrospectItemTemplate" DataType="{x:Type crud:CrudIntrospectItemViewModel}">
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="1" Orientation="Vertical">
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Margin" Value="2, 0"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
+
+            <StackPanel Grid.Row="1" Orientation="Vertical" Width="200">
                 <!-- Enabled state based on introspect mode -->
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
@@ -91,16 +110,16 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Id" />
-                    <TextBlock Grid.Column="1" Text="{Binding CrudObject.Id}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Item.Id}"/>
                 </Grid>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Name" />
-                    <TextBox Grid.Column="1" Text="{Binding CrudObject.Name}" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.Name}"/>
                 </Grid>
 
                 <Grid>
@@ -109,7 +128,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Surname" />
-                    <TextBox Grid.Column="1" Text="{Binding CrudObject.Surname}" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.Surname}" />
                 </Grid>
 
                 <Grid>
@@ -118,7 +137,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Phone Number" />
-                    <TextBox Grid.Column="1" Text="{Binding CrudObject.PhoneNumber}" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.PhoneNumber}" />
                 </Grid>
 
                 <Grid>
@@ -127,8 +146,47 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Address" />
-                    <TextBox Grid.Column="1" Text="{Binding CrudObject.Address}" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.Address}" />
                 </Grid>
+
+                <Border BorderBrush="Gray" BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Flights"/>
+                        <ListView Grid.Row="1" ItemsSource="{Binding Item.Flights}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate DataType="{x:Type references:FlightReference}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <ComboBox Grid.Column="0"
+                                                  ItemsSource="{Binding DataContext.Item.AvailableFlights, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
+                                                  IsTextSearchEnabled="True" HorizontalAlignment="Stretch">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type references:FlightReference}">
+                                                    <TextBlock>
+                                                        <Run Text="{Binding Id}"/>
+                                                        <Run Text=" | "/>
+                                                        <Run Text="{Binding Name}"/>
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button Grid.Column="1" Content="X"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Button Grid.Row="2" Content="Add Flight" Command="{Binding Item.AddFlightCommand}"/>
+                    </Grid>
+                </Border>
             </StackPanel>
         </Grid>
     </DataTemplate>

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data.Models;
+using Spoonbill.Wpf.Frontend.ViewModels.Crud.IntrospectViewModels;
 using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
@@ -10,10 +11,12 @@ namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 public class PassengerCrudTemplate : ICrudTemplate
 {
     private readonly IPassengerModule m_passengerModule;
+    private readonly IFlightsModule m_flightsModule;
 
-    public PassengerCrudTemplate(IPassengerModule passengerModule)
+    public PassengerCrudTemplate(IPassengerModule passengerModule, IFlightsModule flightsModule)
     {
         m_passengerModule = passengerModule;
+        m_flightsModule = flightsModule;
     }
 
     public DataTemplate ListTemplate => (DataTemplate)Application.Current.Resources["PassengersListItemTemplate"]!;
@@ -55,4 +58,7 @@ public class PassengerCrudTemplate : ICrudTemplate
 
         return m_passengerModule.DeletePassenger(passenger);
     }
+
+    public IIntrospectViewModel CreateItemViewmodel() => CreateItemViewmodel(new Passenger());
+    public IIntrospectViewModel CreateItemViewmodel(object model) => new PassengerIntrospectViewModel(m_flightsModule, (Passenger)model);
 }
