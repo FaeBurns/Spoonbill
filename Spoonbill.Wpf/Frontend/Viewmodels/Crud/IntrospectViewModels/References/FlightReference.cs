@@ -10,10 +10,10 @@ public class FlightReference
         Name = flight.Name;
     }
 
-    public FlightReference(int id, string name)
+    public FlightReference()
     {
-        Id = id;
-        Name = name;
+        Id = 0;
+        Name = String.Empty;
     }
 
     public int Id { get; init; }

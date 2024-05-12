@@ -6,6 +6,7 @@
                     xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models"
                     xmlns:references="clr-namespace:Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References"
                     mc:Ignorable="d">
+    <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
     <DataTemplate x:Key="PassengersListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -86,6 +87,7 @@
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="HorizontalAlignment" Value="Right"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="MinWidth" Value="80"/>
                 </Style>
             </Grid.Resources>
 
@@ -190,6 +192,4 @@
             </StackPanel>
         </Grid>
     </DataTemplate>
-
-    <ControlTemplate x:Key="PassengersReadItemTemplate" />
 </ResourceDictionary>

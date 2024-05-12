@@ -24,12 +24,19 @@ public class SaveCommand : SimpleCommand
     public override void Execute(object? parameter)
     {
         // apply changes from the viewmodels to the models
-        m_item.Apply();
+        IResult applyResult = m_item.Apply();
+        if (applyResult is IMessageResult applyMessageResult)
+        {
+            MessageBox.Show($"Error: {applyMessageResult.Message}", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
 
         IResult result = m_template.Save(m_item.ObjectModel, m_mode);
 
         if (result is Ok)
         {
+            // reload before the message box so it finishes silently in the background
+            m_hostViewModel.ReloadEntriesAsync();
             // if result is good then notify user and return to the list view
             MessageBox.Show("Operation Successful!", "Success!", MessageBoxButton.OK, MessageBoxImage.Information);
             m_hostViewModel.SelectedItem = null;

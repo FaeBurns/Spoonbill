@@ -10,8 +10,6 @@ namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.IntrospectViewModels;
 
 public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
 {
-    private IEnumerable<FlightReference>? m_availableFlights = null;
-
     private readonly IFlightsModule m_flightsModule;
 
     public int Id { get; set; }
@@ -22,18 +20,10 @@ public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
 
     public ObservableCollection<FlightReference> Flights { get; } = new ObservableCollection<FlightReference>();
 
-    public IEnumerable<FlightReference> AvailableFlights
-    {
-        get
-        {
-            // lazy load flight references
-            if (m_availableFlights == null) m_availableFlights = m_flightsModule.ListFlights().Select(f => new FlightReference(f));
-
-            return m_availableFlights;
-        }
-    }
+    public LazyLoadViewModel<IEnumerable<FlightReference>> AvailableFlights { get; }
 
     public ICommand AddFlightCommand { get; }
+    public ICommand RemoveFlightCommand { get; }
 
     public PassengerIntrospectViewModel(IFlightsModule flightsModule, Passenger model) : base(model)
     {
@@ -49,7 +39,9 @@ public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
             Flights.Add(new FlightReference(flight));
         }
 
-        AddFlightCommand = new InstantiateToCollectionCommand<FlightReference>(Flights, () => new FlightReference(0, ""));
+        AvailableFlights = new LazyLoadViewModel<IEnumerable<FlightReference>>((() => m_flightsModule.ListFlights().Select(f => new FlightReference(f))));
+        AddFlightCommand = new EasyInstantiateToCollectionCommand<FlightReference>(Flights);
+        RemoveFlightCommand = new RemoveFromCollectionCommand<FlightReference>(Flights);
     }
 
     public override IResult Apply()

@@ -1,16 +1,21 @@
-﻿namespace Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References;
+﻿using Spoonbill.Wpf.Data.Models;
+
+namespace Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References;
 
 public class PassengerReference
 {
-    public PassengerReference(int id, string name, string surname)
+    public PassengerReference(Passenger passenger)
     {
-        Id = id;
-        Name = name;
-        Surname = surname;
+        Id = passenger.Id;
+        FullName = passenger.Name + " " + passenger.Surname;
+    }
+
+    public PassengerReference()
+    {
+        Id = 0;
+        FullName = String.Empty;
     }
 
     public int Id { get; }
-    public string Name { get; }
-    public string Surname { get; }
-    public string FullName => Name + " " + Surname;
+    public string FullName { get; }
 }

@@ -9,12 +9,12 @@ namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
 public class FlightsCrudTemplate : ICrudTemplate
 {
-    private readonly IPassengerModule m_passengersModule;
+    private readonly ISpoonbillContainer m_container;
     private readonly IFlightsModule m_flightsModule;
 
     public FlightsCrudTemplate(ISpoonbillContainer container)
     {
-        m_passengersModule = container.PassengerModule;
+        m_container = container;
         m_flightsModule = container.FlightsModule;
     }
 
@@ -59,5 +59,5 @@ public class FlightsCrudTemplate : ICrudTemplate
     }
 
     public IIntrospectViewModel CreateItemViewmodel() => CreateItemViewmodel(new Flight());
-    public IIntrospectViewModel CreateItemViewmodel(object model) => new FlightIntrospectViewModel(m_flightsModule, m_passengersModule, (Flight)model);
+    public IIntrospectViewModel CreateItemViewmodel(object model) => new FlightIntrospectViewModel(m_container, (Flight)model);
 }
