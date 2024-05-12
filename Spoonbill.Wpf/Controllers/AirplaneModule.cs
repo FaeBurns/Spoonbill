@@ -34,7 +34,7 @@ public class AirplaneModule : IAirplaneModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -54,7 +54,7 @@ public class AirplaneModule : IAirplaneModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -74,7 +74,7 @@ public class AirplaneModule : IAirplaneModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -106,7 +106,7 @@ public class AirplaneModule : IAirplaneModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -126,7 +126,7 @@ public class AirplaneModule : IAirplaneModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -146,7 +146,7 @@ public class AirplaneModule : IAirplaneModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -176,7 +176,7 @@ public class AirplaneModule : IAirplaneModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -196,7 +196,7 @@ public class AirplaneModule : IAirplaneModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -216,7 +216,7 @@ public class AirplaneModule : IAirplaneModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {

@@ -1,0 +1,123 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:crud="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels.Crud"
+                    xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models">
+    <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
+    <DataTemplate x:Key="CountyListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="County" />
+                <ColumnDefinition SharedSizeGroup="Country" />
+                <ColumnDefinition SharedSizeGroup="Edit" />
+                <ColumnDefinition SharedSizeGroup="Inspect" />
+                <ColumnDefinition SharedSizeGroup="Delete" />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="10, 0" />
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Grid.Column="0" Text="{Binding Path=CrudObject.(models:County.Name), Mode=OneWay}"/>
+            <TextBlock Grid.Column="1" Text="{Binding Path=CrudObject.(models:County.Country), Mode=OneWay}" />
+            <Button Grid.Column="2" Content="Edit" Command="{Binding EditCommand}" />
+            <Button Grid.Column="3" Content="Inspect" Command="{Binding InspectCommand}" />
+            <Button Grid.Column="4" Content="Delete" Command="{Binding DeleteCommand}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CountyListHeaderTemplate">
+        <Grid Margin="8, 0, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="County" />
+                <ColumnDefinition SharedSizeGroup="Country" />
+                <ColumnDefinition SharedSizeGroup="Edit" />
+                <ColumnDefinition SharedSizeGroup="Inspect" />
+                <ColumnDefinition SharedSizeGroup="Delete" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="10, 0" />
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Grid.Column="0" Text="County"/>
+            <TextBlock Grid.Column="1" Text="Country"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CountyIntrospectItemTemplate" DataType="{x:Type crud:CrudIntrospectItemViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Margin" Value="2, 0"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="MinWidth" Value="80"/>
+                </Style>
+            </Grid.Resources>
+
+            <StackPanel Grid.Row="1" Orientation="Vertical" Width="200">
+                <!-- Enabled state based on introspect mode -->
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IntrospectMode}" Value="{x:Static crud:IntrospectMode.READ}">
+                                <DataTrigger.Setters>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="County" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.Name}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IntrospectMode}" Value="{x:Static crud:IntrospectMode.CREATE}">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Country" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.Country}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -32,7 +32,7 @@ public class LocationsModule : ILocationsModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -52,7 +52,7 @@ public class LocationsModule : ILocationsModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -72,7 +72,7 @@ public class LocationsModule : ILocationsModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -102,7 +102,7 @@ public class LocationsModule : ILocationsModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -122,7 +122,7 @@ public class LocationsModule : ILocationsModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -142,7 +142,7 @@ public class LocationsModule : ILocationsModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -172,7 +172,7 @@ public class LocationsModule : ILocationsModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -192,7 +192,7 @@ public class LocationsModule : ILocationsModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -212,7 +212,7 @@ public class LocationsModule : ILocationsModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {

@@ -1,11 +1,20 @@
-﻿namespace Spoonbill.Wpf.Responses;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Spoonbill.Wpf.Responses;
 
 public class Error : IMessageResult
 {
-    public Error(string message)
+    private readonly Exception m_exception;
+
+    public Error(Exception exception)
     {
-        Message = message;
+        if (exception is DbUpdateException)
+        {
+            m_exception = exception.InnerException ?? exception;
+        }
+        else
+            m_exception = exception;
     }
 
-    public string Message { get; init; }
+    public string Message => m_exception.Message;
 }

@@ -2,5 +2,5 @@
 
 public interface IMessageResult : IResult
 {
-    public string Message { get; init; }
+    public string Message { get; }
 }

@@ -33,8 +33,8 @@ public class PageTreeHostViewModelBuilder : IBuilder<PageTreeHostViewModel>
                 {
                     Children =
                     {
-                        new PageTreeItemViewModel("Counties"),
-                        new PageTreeItemViewModel("Cities"),
+                        new PageTreeItemViewModel("Counties", Resolve<CountyCrudTemplate>()),
+                        new PageTreeItemViewModel("Cities", Resolve<CityCrudTemplate>()),
                         new PageTreeItemViewModel("Airports"),
                     },
                 },

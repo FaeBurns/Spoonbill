@@ -3,5 +3,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Passengers.xaml"/>
         <ResourceDictionary Source="Flights.xaml"/>
+        <ResourceDictionary Source="City.xaml"/>
+        <ResourceDictionary Source="County.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

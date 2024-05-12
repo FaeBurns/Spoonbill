@@ -84,14 +84,14 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
     {
         Plane? plane = m_container.AirplaneModule.GetPlane(PlaneSerial);
         if (plane == null)
-            return new Error("Invalid plane selected");
+            return new Invalid("Invalid plane selected");
 
         List<Passenger> validPassengers = new List<Passenger>();
         foreach (PassengerReference reference in Passengers)
         {
             Passenger? passenger = m_container.PassengerModule.GetPassenger(reference.Id);
             if (passenger == null)
-                return new Error($"Invalid passenger selected\nId: {reference.Id}\nName: {reference.FullName}");
+                return new Invalid($"Invalid passenger selected\nId: {reference.Id}\nName: {reference.FullName}");
             validPassengers.Add(passenger);
         }
 
@@ -100,7 +100,7 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
         {
             Pilot? pilot = m_container.StaffModule.GetPilot(reference.Id);
             if (pilot == null)
-                return new Error($"Invalid pilot selected\nId: {reference.Id}\nName: {reference.FullName}");
+                return new Invalid($"Invalid pilot selected\nId: {reference.Id}\nName: {reference.FullName}");
             validPilots.Add(pilot);
         }
 
@@ -109,7 +109,7 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
         {
             StaffWorker? staff = m_container.StaffModule.GetStaffWorker(reference.Id);
             if (staff == null)
-                return new Error($"Invalid staff selected\nId: {reference.Id}\nName: {reference.FullName}");
+                return new Invalid($"Invalid staff selected\nId: {reference.Id}\nName: {reference.FullName}");
             validStaff.Add(staff);
         }
 

@@ -10,6 +10,8 @@ namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
 public class PassengerCrudTemplate : ICrudTemplate
 {
+    private const string TEMPLATE_PREFIX = "Passengers";
+
     private readonly IPassengerModule m_passengerModule;
     private readonly IFlightsModule m_flightsModule;
 
@@ -19,9 +21,9 @@ public class PassengerCrudTemplate : ICrudTemplate
         m_flightsModule = flightsModule;
     }
 
-    public DataTemplate ListTemplate => (DataTemplate)Application.Current.Resources["PassengersListItemTemplate"]!;
-    public DataTemplate IntrospectTemplate => (DataTemplate)Application.Current.Resources["PassengersIntrospectItemTemplate"]!;
-    public DataTemplate ListHeaderTemplate => (DataTemplate)Application.Current.Resources["PassengersListHeaderTemplate"]!;
+    public DataTemplate ListTemplate => (DataTemplate)Application.Current.Resources[TEMPLATE_PREFIX + "ListItemTemplate"]!;
+    public DataTemplate IntrospectTemplate => (DataTemplate)Application.Current.Resources[TEMPLATE_PREFIX + "IntrospectItemTemplate"]!;
+    public DataTemplate ListHeaderTemplate => (DataTemplate)Application.Current.Resources[TEMPLATE_PREFIX + "ListHeaderTemplate"]!;
 
     public ICollection<object> BuildList()
     {

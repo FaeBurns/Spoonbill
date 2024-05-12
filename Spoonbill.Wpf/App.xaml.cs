@@ -44,16 +44,16 @@ public partial class App : Application
 
         builder.RegisterType<SpoonbillContext>()
             .WithParameter("options", GetDatabaseOptions())
-            .InstancePerLifetimeScope();
+            .InstancePerDependency();
 
         builder.RegisterType<SpoonbillContainer>().As<ISpoonbillContainer>()
-            .InstancePerLifetimeScope();
+            .InstancePerDependency();
 
-        builder.RegisterType<AirplaneModule>().As<IAirplaneModule>().InstancePerLifetimeScope();
-        builder.RegisterType<FlightsModule>().As<IFlightsModule>().InstancePerLifetimeScope();
-        builder.RegisterType<LocationsModule>().As<ILocationsModule>().InstancePerLifetimeScope();
-        builder.RegisterType<PassengerModule>().As<IPassengerModule>().InstancePerLifetimeScope();
-        builder.RegisterType<StaffModule>().As<IStaffModule>().InstancePerLifetimeScope();
+        builder.RegisterType<AirplaneModule>().As<IAirplaneModule>().InstancePerDependency();
+        builder.RegisterType<FlightsModule>().As<IFlightsModule>().InstancePerDependency();
+        builder.RegisterType<LocationsModule>().As<ILocationsModule>().InstancePerDependency();
+        builder.RegisterType<PassengerModule>().As<IPassengerModule>().InstancePerDependency();
+        builder.RegisterType<StaffModule>().As<IStaffModule>().InstancePerDependency();
 
         // register viewmodel types
         builder.RegisterType<PageTreeHostViewModelBuilder>().As<IBuilder<PageTreeHostViewModel>>();
@@ -62,38 +62,13 @@ public partial class App : Application
         // set up viewmodel resolver
         Container = builder.Build();
         DISource.Resolver = (type) => Container.Resolve(type);
-
-        // Container.Resolve<ILocationsModule>().CreateCity(new City()
-        // {
-        //     County = new County()
-        //     {
-        //         Country = "Test Country",
-        //         Name = "Test County",
-        //     },
-        //     Name = "Test City",
-        // });
-        // Container.Resolve<IFlightsModule>().CreateFlight(new Flight()
-        // {
-        //     Name = "Test Flight",
-        //     Plane = new Plane()
-        //     {
-        //         Model = new PlaneModel()
-        //         {
-        //             Manufacturer = new Manufacturer()
-        //             {
-        //                 Name = "Test Manufacturer",
-        //
-        //             }
-        //         }
-        //     }
-        // });
     }
 
     private DbContextOptions<SpoonbillContext> GetDatabaseOptions()
     {
         return new DbContextOptionsBuilder<SpoonbillContext>()
             .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+            // .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             .Options;
     }
 }

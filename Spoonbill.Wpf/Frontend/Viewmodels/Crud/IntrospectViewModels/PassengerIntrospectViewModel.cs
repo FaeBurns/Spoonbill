@@ -52,7 +52,7 @@ public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
             Flight? foundFlight = m_flightsModule.GetFlight(flight.Id);
             if (foundFlight == null)
             {
-                return new Error("Flight reference is invalid");
+                return new Invalid("Flight reference is invalid");
             }
             flights.Add(foundFlight);
         }

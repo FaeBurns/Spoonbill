@@ -36,7 +36,7 @@ public class StaffModule : IStaffModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -57,7 +57,7 @@ public class StaffModule : IStaffModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
@@ -78,7 +78,7 @@ public class StaffModule : IStaffModule
         }
         catch (Exception e)
         {
-            return new Error(e.Message);
+            return new Error(e);
         }
         finally
         {
