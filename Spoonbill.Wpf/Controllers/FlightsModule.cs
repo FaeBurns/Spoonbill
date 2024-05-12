@@ -1,4 +1,5 @@
-﻿using Spoonbill.Wpf.Controllers.Interfaces;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Responses;
@@ -16,49 +17,66 @@ public class FlightsModule : IFlightsModule
 
     public Flight? GetFlight(int id)
     {
-        // kinda hate how big this is but there isn't an easy fix for it
         return m_context.Flights.Find(id);
     }
 
     public IResult CreateFlight(Flight flight)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Flights.Add(flight);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult UpdateFlight(Flight flight)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Flights.Update(flight);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult DeleteFlight(Flight flight)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Flights.Remove(flight);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 

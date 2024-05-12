@@ -1,4 +1,5 @@
-﻿using Spoonbill.Wpf.Controllers.Interfaces;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Responses;
@@ -21,43 +22,61 @@ public class LocationsModule : ILocationsModule
 
     public IResult CreateCounty(County county)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Counties.Add(county);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult UpdateCounty(County county)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Counties.Update(county);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult DeleteCounty(County county)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Counties.Remove(county);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
@@ -73,43 +92,61 @@ public class LocationsModule : ILocationsModule
 
     public IResult CreateCity(City city)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Cities.Add(city);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult UpdateCity(City city)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Cities.Update(city);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult DeleteCity(City city)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Cities.Remove(city);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
@@ -125,43 +162,61 @@ public class LocationsModule : ILocationsModule
 
     public IResult CreateAirport(Airport airport)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Airports.Add(airport);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult UpdateAirport(Airport airport)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Airports.Update(airport);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult DeleteAirport(Airport airport)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Airports.Remove(airport);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
+using Microsoft.EntityFrameworkCore.Storage;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
@@ -23,43 +24,62 @@ public class PassengerModule : IPassengerModule
 
     public IResult CreatePassenger(Passenger passenger)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Passengers.Add(passenger);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult UpdatePassenger(Passenger passenger)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
+
         try
         {
             m_context.Passengers.Update(passenger);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult DeletePassenger(Passenger passenger)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Passengers.Remove(passenger);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 

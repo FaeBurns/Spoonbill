@@ -11,5 +11,6 @@ public interface IStaffModule
     IResult DeleteStaff(Staff staff);
     StaffWorker? GetStaffWorker(int id);
     Pilot? GetPilot(int id);
-    ICollection<Staff> ListStaff();
+    ICollection<Pilot> ListPilots();
+    ICollection<StaffWorker> ListStaffWorkers();
 }

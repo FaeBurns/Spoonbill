@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
+using Microsoft.EntityFrameworkCore.Storage;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
@@ -25,43 +26,63 @@ public class StaffModule : IStaffModule
 
     public IResult CreateStaff(Staff staff)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
             m_context.Add(staff);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult UpdateStaff(Staff staff)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
+
         try
         {
             m_context.Update(staff);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
     public IResult DeleteStaff(Staff staff)
     {
+        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
+
         try
         {
             m_context.Remove(staff);
             m_context.SaveChanges();
+            transaction.Commit();
             return new Ok();
         }
         catch (Exception e)
         {
             return new Error(e.Message);
+        }
+        finally
+        {
+            m_context.ChangeTracker.Clear();
         }
     }
 
@@ -78,10 +99,14 @@ public class StaffModule : IStaffModule
     }
 
     [Pure]
-    public ICollection<Staff> ListStaff()
+    public ICollection<Pilot> ListPilots()
     {
-        List<Staff> result = new List<Staff>(m_context.StaffWorkers);
-        result.AddRange(m_context.Pilots);
-        return result;
+        return m_context.Pilots.ToList();
+    }
+
+    [Pure]
+    public ICollection<StaffWorker> ListStaffWorkers()
+    {
+        return m_context.StaffWorkers.ToList();
     }
 }
