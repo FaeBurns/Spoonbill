@@ -35,7 +35,7 @@ public class PageTreeHostViewModelBuilder : IBuilder<PageTreeHostViewModel>
                     {
                         new PageTreeItemViewModel("Counties", Resolve<CountyCrudTemplate>()),
                         new PageTreeItemViewModel("Cities", Resolve<CityCrudTemplate>()),
-                        new PageTreeItemViewModel("Airports"),
+                        new PageTreeItemViewModel("Airports", Resolve<AirportCrudTemplate>()),
                     },
                 },
                 new PageTreeItemViewModel("Flights", Resolve<FlightsCrudTemplate>()),

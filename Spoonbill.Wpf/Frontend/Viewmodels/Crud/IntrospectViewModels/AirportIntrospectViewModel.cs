@@ -27,6 +27,9 @@ public class AirportIntrospectViewModel : IntrospectViewModel<Airport>
         City? targetCity = m_locationsModule.GetCity(City);
         if (targetCity == null)
             return new Invalid($"Target city {City} is not present in database");
+        
+        if (String.IsNullOrEmpty(Name))
+            return new Invalid("Airport name must not be empty");
 
         Model.Name = Name;
         Model.City = targetCity;
