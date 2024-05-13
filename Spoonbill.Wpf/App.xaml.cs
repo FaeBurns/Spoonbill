@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Spoonbill.Wpf.Controllers;
 using Spoonbill.Wpf.Controllers.Interfaces;
+using Spoonbill.Wpf.Controllers.Tabled;
 using Spoonbill.Wpf.Data;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Frontend.Builders;
@@ -54,6 +55,28 @@ public partial class App : Application
         builder.RegisterType<LocationsModule>().As<ILocationsModule>().InstancePerDependency();
         builder.RegisterType<PassengerModule>().As<IPassengerModule>().InstancePerDependency();
         builder.RegisterType<StaffModule>().As<IStaffModule>().InstancePerDependency();
+
+        builder.RegisterType<TabledAirplaneModule>()
+            .As<ITabledCrudModule<Plane, string>>()
+            .As<ITabledCrudModule<PlaneModel, int>>()
+            .As<ITabledCrudModule<Manufacturer, string>>()
+            .InstancePerDependency();
+
+        builder.RegisterType<TabledFlightsModule>().As<ITabledCrudModule<Flight, int>>();
+        builder.RegisterType<TabledLocationsModule>()
+            .As<ITabledCrudModule<City, string>>()
+            .As<ITabledCrudModule<County, string>>()
+            .As<ITabledCrudModule<Airport, string>>()
+            .InstancePerDependency();
+
+        builder.RegisterType<TabledPassengerModule>()
+            .As<ITabledCrudModule<Passenger, int>>()
+            .InstancePerDependency();
+
+        builder.RegisterType<TabledStaffModule>()
+            .As<ITabledCrudModule<StaffWorker, int>>()
+            .As<ITabledCrudModule<Pilot, int>>()
+            .InstancePerDependency();
 
         // register viewmodel types
         builder.RegisterType<PageTreeHostViewModelBuilder>().As<IBuilder<PageTreeHostViewModel>>();
