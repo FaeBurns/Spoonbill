@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Frontend.ViewModels.Crud.IntrospectViewModels;
 using Spoonbill.Wpf.Responses;
 

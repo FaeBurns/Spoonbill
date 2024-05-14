@@ -44,8 +44,8 @@ public class PageTreeHostViewModelBuilder : IBuilder<PageTreeHostViewModel>
                     Children =
                     {
                         new PageTreeItemViewModel("Planes"),
-                        new PageTreeItemViewModel("Models"),
-                        new PageTreeItemViewModel("Manufacturers"),
+                        new PageTreeItemViewModel("Models", Resolve<PlaneModelCrudTemplate>()),
+                        new PageTreeItemViewModel("Manufacturers", Resolve<ManufacturerCrudTemplate>()),
                     },
                 },
             },

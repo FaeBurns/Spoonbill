@@ -42,8 +42,8 @@
                 </Style>
             </Grid.Resources>
 
-            <TextBlock Grid.Column="1" Text="Airport"/>
-            <TextBlock Grid.Column="0" Text="City"/>
+            <TextBlock Grid.Column="0" Text="Airport"/>
+            <TextBlock Grid.Column="1" Text="City"/>
         </Grid>
     </DataTemplate>
 

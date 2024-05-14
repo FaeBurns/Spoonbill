@@ -8,7 +8,7 @@ using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
-public class CityCrudTemplate : GenericCrudTemplate<ITabledCrudModule<City, string>, City, string>
+public class CityCrudTemplate : GenericCrudTemplate<City, string>
 {
     private readonly ILocationsModule m_locationsModule;
 

@@ -6,5 +6,7 @@
         <ResourceDictionary Source="City.xaml"/>
         <ResourceDictionary Source="County.xaml"/>
         <ResourceDictionary Source="Airports.xaml"/>
+        <ResourceDictionary Source="Manufacturer.xaml"/>
+        <ResourceDictionary Source="PlaneModel.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -9,7 +9,7 @@ using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
-public class AirportCrudTemplate : GenericCrudTemplate<ITabledCrudModule<Airport, string>, Airport, string>
+public class AirportCrudTemplate : GenericCrudTemplate<Airport, string>
 {
     private readonly ILocationsModule m_locationsModule;
 

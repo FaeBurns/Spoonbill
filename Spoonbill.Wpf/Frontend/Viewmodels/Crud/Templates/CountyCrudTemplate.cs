@@ -8,7 +8,7 @@ using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
-public class CountyCrudTemplate : GenericCrudTemplate<ITabledCrudModule<County, string>, County, string>
+public class CountyCrudTemplate : GenericCrudTemplate<County, string>
 {
     public CountyCrudTemplate(ITabledCrudModule<County, string> crudModule) : base(crudModule, "County")
     {

@@ -1,17 +1,17 @@
 ﻿using System.Windows;
 using Spoonbill.Wpf.Controllers.Tabled;
+using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Frontend.ViewModels.Crud.IntrospectViewModels;
 using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
-public abstract class GenericCrudTemplate<T, TModel, TKey> : ICrudTemplate 
-    where T : ITabledCrudModule<TModel, TKey> 
+public abstract class GenericCrudTemplate<TModel, TKey> : ICrudTemplate 
     where TModel : class, new()
 {
-    public T CrudModule { get; }
+    public ITabledCrudModule<TModel, TKey> CrudModule { get; }
 
-    protected GenericCrudTemplate(T crudModule, string templatePrefix)
+    protected GenericCrudTemplate(ITabledCrudModule<TModel, TKey> crudModule, string templatePrefix)
     {
         CrudModule = crudModule;
         ListTemplate = (DataTemplate)Application.Current.Resources[templatePrefix + "ListItemTemplate"]!;
@@ -25,7 +25,7 @@ public abstract class GenericCrudTemplate<T, TModel, TKey> : ICrudTemplate
     
     public ICollection<object> BuildList()
     {
-        return CrudModule.List().Select(o => (object)o!).ToList();
+        return CrudModule.List().Select(o => (object)o).ToList();
     }
 
     public IResult Save(object model, IntrospectMode mode)

@@ -8,7 +8,7 @@ using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
-public class FlightsCrudTemplate : GenericCrudTemplate<ITabledCrudModule<Flight, int>, Flight, int>
+public class FlightsCrudTemplate : GenericCrudTemplate<Flight, int>
 {
     private readonly ISpoonbillContainer m_container;
 

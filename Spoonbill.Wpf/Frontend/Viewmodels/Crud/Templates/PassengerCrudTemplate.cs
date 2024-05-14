@@ -5,7 +5,7 @@ using Spoonbill.Wpf.Frontend.ViewModels.Crud.IntrospectViewModels;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 
-public class PassengerCrudTemplate : GenericCrudTemplate<ITabledCrudModule<Passenger, int>, Passenger, int>
+public class PassengerCrudTemplate : GenericCrudTemplate<Passenger, int>
 {
     private readonly IFlightsModule m_flightsModule;
 
