@@ -8,5 +8,6 @@
         <ResourceDictionary Source="Airports.xaml"/>
         <ResourceDictionary Source="Manufacturer.xaml"/>
         <ResourceDictionary Source="PlaneModel.xaml"/>
+        <ResourceDictionary Source="Plane.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

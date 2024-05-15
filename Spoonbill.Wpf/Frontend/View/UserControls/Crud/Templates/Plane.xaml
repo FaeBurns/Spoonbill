@@ -3,11 +3,11 @@
                     xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models"
                     xmlns:crud="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels.Crud">
     <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
-    <DataTemplate x:Key="ManufacturerListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
+    <DataTemplate x:Key="PlaneListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="Manufacturer" />
-                <ColumnDefinition SharedSizeGroup="City" />
+                <ColumnDefinition SharedSizeGroup="Serial" />
+                <ColumnDefinition SharedSizeGroup="Model" />
                 <ColumnDefinition SharedSizeGroup="Edit" />
                 <ColumnDefinition SharedSizeGroup="Inspect" />
                 <ColumnDefinition SharedSizeGroup="Delete" />
@@ -18,19 +18,19 @@
                 </Style>
             </Grid.Resources>
 
-            <TextBlock Grid.Column="0" Text="{Binding Path=CrudObject.(models:Manufacturer.Name), Mode=OneWay}"/>
-            <TextBlock Grid.Column="1" DataContext="{Binding Path=CrudObject.(models:Manufacturer.City)}" Text="{Binding Name, Mode=OneWay}"/>
+            <TextBlock Grid.Column="0" Text="{Binding Path=CrudObject.(models:Plane.Serial), Mode=OneWay}"/>
+            <TextBlock Grid.Column="1" DataContext="{Binding Path=CrudObject.(models:Plane.Model)}" Text="{Binding ModelNumber, Mode=OneWay}"/>
             <Button Grid.Column="2" Content="Edit" Command="{Binding EditCommand}"/>
             <Button Grid.Column="3" Content="Inspect" Command="{Binding InspectCommand}"/>
             <Button Grid.Column="4" Content="Delete" Command="{Binding DeleteCommand}"/>
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="ManufacturerListHeaderTemplate">
+    <DataTemplate x:Key="PlaneListHeaderTemplate">
         <Grid Margin="8, 0, 0, 0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="Manufacturer" />
-                <ColumnDefinition SharedSizeGroup="City" />
+                <ColumnDefinition SharedSizeGroup="Serial" />
+                <ColumnDefinition SharedSizeGroup="Model" />
                 <ColumnDefinition SharedSizeGroup="Edit" />
                 <ColumnDefinition SharedSizeGroup="Inspect" />
                 <ColumnDefinition SharedSizeGroup="Delete" />
@@ -42,12 +42,12 @@
                 </Style>
             </Grid.Resources>
 
-            <TextBlock Grid.Column="0" Text="Manufacturer"/>
-            <TextBlock Grid.Column="1" Text="City"/>
+            <TextBlock Grid.Column="0" Text="Serial"/>
+            <TextBlock Grid.Column="1" Text="Model"/>
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="ManufacturerIntrospectItemTemplate" DataType="{x:Type crud:CrudIntrospectItemViewModel}">
+    <DataTemplate x:Key="PlaneIntrospectItemTemplate" DataType="{x:Type crud:CrudIntrospectItemViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -94,8 +94,8 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Manufacturer" />
-                    <TextBox Grid.Column="1" Text="{Binding Item.Name}">
+                    <Label Grid.Column="0" Content="Serial" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.Serial}">
                         <TextBox.Style>
                             <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                                 <Style.Triggers>
@@ -114,11 +114,11 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="City" />
+                    <Label Grid.Column="0" Content="Model Number" />
                     <ComboBox Grid.Column="1"
-                              ItemsSource="{Binding Item.AvailableCities.Value}"
+                              ItemsSource="{Binding Item.AvailableModels.Value}"
                               IsTextSearchEnabled="True" HorizontalAlignment="Stretch"
-                              SelectedItem="{Binding Item.City}">
+                              SelectedItem="{Binding Item.ModelNumber}">
                     </ComboBox>
                 </Grid>
             </StackPanel>
