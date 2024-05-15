@@ -16,9 +16,9 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
     public string Name { get; set; }
     public string PlaneSerial { get; set; }
 
-    public ObservableCollection<PassengerReference> Passengers { get; }
-    public ObservableCollection<PilotReference> Pilots { get; }
-    public ObservableCollection<StaffWorkerReference> StaffWorkers { get; }
+    public ObservableCollection<ContainedReference<PassengerReference>> Passengers { get; private set; }
+    public ObservableCollection<ContainedReference<PilotReference>> Pilots { get; private set; }
+    public ObservableCollection<ContainedReference<StaffWorkerReference>> StaffWorkers { get; private set; }
 
     public DateTime DepartureTime { get; set; }
     public DateTime ArrivalTime { get; set; }
@@ -45,9 +45,9 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
         // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
         PlaneSerial = model.Plane?.Serial ?? String.Empty;
 
-        Passengers = new ObservableCollection<PassengerReference>(model.Passengers.Select(p => new PassengerReference(p)));
-        Pilots = new ObservableCollection<PilotReference>(model.Pilots.Select(p => new PilotReference(p)));
-        StaffWorkers = new ObservableCollection<StaffWorkerReference>(model.WorkerStaff.Select(s => new StaffWorkerReference(s)));
+        Passengers = new ObservableCollection<ContainedReference<PassengerReference>>(model.Passengers.Select(p => new ContainedReference<PassengerReference>(new PassengerReference(p))));
+        Pilots = new ObservableCollection<ContainedReference<PilotReference>>(model.Pilots.Select(p => new ContainedReference<PilotReference>(new PilotReference(p))));
+        StaffWorkers = new ObservableCollection<ContainedReference<StaffWorkerReference>>(model.WorkerStaff.Select(s => new ContainedReference<StaffWorkerReference>(new StaffWorkerReference(s))));
 
         ArrivalTime = model.ArrivalTime == DateTime.MinValue ? DateTime.UtcNow : model.ArrivalTime;
         DepartureTime = model.DepartureTime == DateTime.MinValue ? DateTime.UtcNow : model.DepartureTime;
@@ -71,13 +71,13 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
             return container.StaffModule.ListStaffWorkers().Select(s => new StaffWorkerReference(s));
         });
 
-        AddPassengerCommand = new EasyInstantiateToCollectionCommand<PassengerReference>(Passengers);
-        AddPilotCommand = new EasyInstantiateToCollectionCommand<PilotReference>(Pilots);
-        AddStaffWorkerCommand = new EasyInstantiateToCollectionCommand<StaffWorkerReference>(StaffWorkers);
+        AddPassengerCommand = new InstantiateToCollectionCommand<ContainedReference<PassengerReference>>(Passengers, () => new ContainedReference<PassengerReference>(new PassengerReference()));
+        AddPilotCommand = new EasyInstantiateToCollectionCommand<ContainedReference<PilotReference>>(Pilots);
+        AddStaffWorkerCommand = new EasyInstantiateToCollectionCommand<ContainedReference<StaffWorkerReference>>(StaffWorkers);
 
-        RemovePassengerCommand = new RemoveFromCollectionCommand<PassengerReference>(Passengers);
-        RemovePilotCommand = new RemoveFromCollectionCommand<PilotReference>(Pilots);
-        RemoveStaffWorkerCommand = new RemoveFromCollectionCommand<StaffWorkerReference>(StaffWorkers);
+        RemovePassengerCommand = new RemoveFromCollectionCommand<ContainedReference<PassengerReference>>(Passengers);
+        RemovePilotCommand = new RemoveFromCollectionCommand<ContainedReference<PilotReference>>(Pilots);
+        RemoveStaffWorkerCommand = new RemoveFromCollectionCommand<ContainedReference<StaffWorkerReference>>(StaffWorkers);
     }
 
     public override IResult Apply()
@@ -87,29 +87,29 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
             return new Invalid("Invalid plane selected");
 
         List<Passenger> validPassengers = new List<Passenger>();
-        foreach (PassengerReference reference in Passengers)
+        foreach (ContainedReference<PassengerReference> reference in Passengers)
         {
-            Passenger? passenger = m_container.PassengerModule.GetPassenger(reference.Id);
+            Passenger? passenger = m_container.PassengerModule.GetPassenger(reference.Value.Id);
             if (passenger == null)
-                return new Invalid($"Invalid passenger selected\nId: {reference.Id}\nName: {reference.FullName}");
+                return new Invalid($"Invalid passenger selected\nId: {reference.Value.Id}\nName: {reference.Value.FullName}");
             validPassengers.Add(passenger);
         }
 
         List<Pilot> validPilots = new List<Pilot>();
-        foreach (PilotReference reference in Pilots)
+        foreach (ContainedReference<PilotReference> reference in Pilots)
         {
-            Pilot? pilot = m_container.StaffModule.GetPilot(reference.Id);
+            Pilot? pilot = m_container.StaffModule.GetPilot(reference.Value.Id);
             if (pilot == null)
-                return new Invalid($"Invalid pilot selected\nId: {reference.Id}\nName: {reference.FullName}");
+                return new Invalid($"Invalid pilot selected\nId: {reference.Value.Id}\nName: {reference.Value.FullName}");
             validPilots.Add(pilot);
         }
 
         List<StaffWorker> validStaff = new List<StaffWorker>();
-        foreach (StaffWorkerReference reference in StaffWorkers)
+        foreach (ContainedReference<StaffWorkerReference> reference in StaffWorkers)
         {
-            StaffWorker? staff = m_container.StaffModule.GetStaffWorker(reference.Id);
+            StaffWorker? staff = m_container.StaffModule.GetStaffWorker(reference.Value.Id);
             if (staff == null)
-                return new Invalid($"Invalid staff selected\nId: {reference.Id}\nName: {reference.FullName}");
+                return new Invalid($"Invalid staff selected\nId: {reference.Value.Id}\nName: {reference.Value.FullName}");
             validStaff.Add(staff);
         }
 

@@ -22,7 +22,6 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
@@ -33,12 +32,22 @@
                             <Run Text="{Binding Entries.Count, Mode=OneWay}"/>
                         </TextBlock>
 
-                        <ContentControl Grid.Row="2"
-                                Content="{Binding}"
-                                ContentTemplate="{Binding ListHeaderTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}"/>
-                        <ListBox Grid.Row="3" ItemsSource="{Binding Entries}"
-                                ItemTemplate="{Binding ListItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}"
-                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <!-- Ensure that the headers scroll horizontally -->
+                        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <ContentControl Grid.Row="0"
+                                                Content="{Binding}"
+                                                ContentTemplate="{Binding ListHeaderTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}"/>
+                                <ListBox Grid.Row="1" ItemsSource="{Binding Entries}"
+                                         ItemTemplate="{Binding ListItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CrudHost}}}"
+                                         ItemsPanel="{DynamicResource VirtualPanel}"
+                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                            </Grid>
+                        </ScrollViewer>
                     </Grid>
                 </DataTemplate>
             </userControls:StatusSwitchingControl.OnLoadedTemplate>

@@ -3,5 +3,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Converters.xaml"/>
         <ResourceDictionary Source="Templates.xaml"/>
+        <ResourceDictionary Source="HelperTemplates.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

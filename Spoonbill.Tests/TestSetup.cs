@@ -215,7 +215,7 @@ internal class TestDatabase
                 await cmd.ExecuteNonQueryAsync();
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             TestContext.WriteLine("Exception occured while trying to setup database");
             // TestContext.WriteLine(e);

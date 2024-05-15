@@ -20,4 +20,9 @@ public class ViewModel : INotifyPropertyChanged
         foreach (string name in otherPropertyNames) OnPropertyChanged(name);
         return true;
     }
+
+    public void RefreshAll()
+    {
+        OnPropertyChanged(String.Empty);
+    }
 }

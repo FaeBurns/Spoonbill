@@ -15,5 +15,7 @@ public class DisabledCommand : ICommand
         throw new UnreachableException();
     }
 
+#pragma warning disable CS0067
     public event EventHandler? CanExecuteChanged;
+#pragma warning restore
 }

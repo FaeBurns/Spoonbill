@@ -16,6 +16,6 @@ public class CreateCommand : SimpleCommand
 
     public override void Execute(object? parameter)
     {
-        m_hostViewModel.SelectedItem = new CrudIntrospectItemViewModel(m_template.CreateItemViewmodel(), m_template, m_hostViewModel, IntrospectMode.CREATE);
+        m_hostViewModel.SelectedItem = new CrudIntrospectItemViewModel(m_template.CreateItemViewmodel, m_template, m_hostViewModel, IntrospectMode.CREATE);
     }
 }

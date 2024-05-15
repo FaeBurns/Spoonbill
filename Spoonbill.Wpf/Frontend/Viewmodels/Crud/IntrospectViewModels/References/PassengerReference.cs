@@ -18,4 +18,6 @@ public class PassengerReference
 
     public int Id { get; }
     public string FullName { get; }
+
+    public string ViewText => Id + " | " + FullName;
 }
