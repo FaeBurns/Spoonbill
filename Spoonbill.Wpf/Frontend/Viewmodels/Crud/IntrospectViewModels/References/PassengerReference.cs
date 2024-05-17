@@ -20,4 +20,21 @@ public class PassengerReference
     public string FullName { get; }
 
     public string ViewText => Id + " | " + FullName;
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as PassengerReference);
+    }
+
+    private bool Equals(PassengerReference? other)
+    {
+        if (other == null)
+            return false;
+        return Id == other.Id;
+    }
+
+    public override int GetHashCode()
+    {
+        return Id;
+    }
 }

@@ -186,16 +186,12 @@
                                         </Grid.ColumnDefinitions>
 
                                         <ComboBox Grid.Column="0"
-                                                  ItemsSource="{Binding DataContext.Item.AvailablePassengers.Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
+                                                  ItemsSource="{Binding CollectionView}"
                                                   IsTextSearchEnabled="True" IsEditable="False" StaysOpenOnEdit="True"
                                                   DisplayMemberPath="ViewText"
                                                   HorizontalAlignment="Stretch" ItemsPanel="{DynamicResource VirtualPanel}"
-                                                  SelectedItem="{Binding Value}">
-                                            <b:Interaction.Triggers>
-                                                <b:EventTrigger EventName="Loaded">
-                                                    <b:InvokeCommandAction Command="{DynamicResource RefreshComboBoxCommand}" PassEventArgsToCommand="True"/>
-                                                </b:EventTrigger>
-                                            </b:Interaction.Triggers>
+                                                  SelectedItem="{Binding Value}"
+                                                  IsSynchronizedWithCurrentItem="True">
                                         </ComboBox>
 
                                         <Button Grid.Column="1" Content="X" Command="{Binding DataContext.Item.RemovePassengerCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}" CommandParameter="{Binding}"/>

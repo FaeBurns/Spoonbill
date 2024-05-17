@@ -1,13 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using JetBrains.Annotations;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Frontend.Commands;
+using Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels;
 using Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References;
 using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.IntrospectViewModels;
 
+[UsedImplicitly(ImplicitUseKindFlags.Access, ImplicitUseTargetFlags.Members)]
 public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
 {
     private readonly ISpoonbillContainer m_container;
@@ -45,35 +48,33 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
         // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
         PlaneSerial = model.Plane?.Serial ?? String.Empty;
 
-        Passengers = new ObservableCollection<ContainedReference<PassengerReference>>(model.Passengers.Select(p => new ContainedReference<PassengerReference>(new PassengerReference(p))));
-        Pilots = new ObservableCollection<ContainedReference<PilotReference>>(model.Pilots.Select(p => new ContainedReference<PilotReference>(new PilotReference(p))));
-        StaffWorkers = new ObservableCollection<ContainedReference<StaffWorkerReference>>(model.WorkerStaff.Select(s => new ContainedReference<StaffWorkerReference>(new StaffWorkerReference(s))));
-
         ArrivalTime = model.ArrivalTime == DateTime.MinValue ? DateTime.UtcNow : model.ArrivalTime;
         DepartureTime = model.DepartureTime == DateTime.MinValue ? DateTime.UtcNow : model.DepartureTime;
 
-        // TODO: Add flight stops
-
         AvailablePlanes = new LazyLoadViewModel<IEnumerable<string>>(() =>
         {
-            return container.AirplaneModule.ListPlanes().Select(p => p.Serial);
+            return container.AirplaneModule.ListPlanes().Select(p => p.Serial).ToList();
         });
         AvailablePassengers = new LazyLoadViewModel<IEnumerable<PassengerReference>>(() =>
         {
-            return container.PassengerModule.ListPassengers().Select(p => new PassengerReference(p));
+            return container.PassengerModule.ListPassengers().Select(p => new PassengerReference(p)).ToList();
         });
         AvailablePilots = new LazyLoadViewModel<IEnumerable<PilotReference>>(() =>
         {
-            return container.StaffModule.ListPilots().Select(p => new PilotReference(p));
+            return container.StaffModule.ListPilots().Select(p => new PilotReference(p)).ToList();
         });
         AvailableStaffWorkers = new LazyLoadViewModel<IEnumerable<StaffWorkerReference>>(() =>
         {
-            return container.StaffModule.ListStaffWorkers().Select(s => new StaffWorkerReference(s));
+            return container.StaffModule.ListStaffWorkers().Select(s => new StaffWorkerReference(s)).ToList();
         });
 
-        AddPassengerCommand = new InstantiateToCollectionCommand<ContainedReference<PassengerReference>>(Passengers, () => new ContainedReference<PassengerReference>(new PassengerReference()));
-        AddPilotCommand = new EasyInstantiateToCollectionCommand<ContainedReference<PilotReference>>(Pilots);
-        AddStaffWorkerCommand = new EasyInstantiateToCollectionCommand<ContainedReference<StaffWorkerReference>>(StaffWorkers);
+        Passengers = new ObservableCollection<ContainedReference<PassengerReference>>(model.Passengers.Select(p => new ContainedReference<PassengerReference>(new PassengerReference(p), AvailablePassengers.Value)));
+        Pilots = new ObservableCollection<ContainedReference<PilotReference>>(model.Pilots.Select(p => new ContainedReference<PilotReference>(new PilotReference(p), AvailablePilots.Value)));
+        StaffWorkers = new ObservableCollection<ContainedReference<StaffWorkerReference>>(model.WorkerStaff.Select(s => new ContainedReference<StaffWorkerReference>(new StaffWorkerReference(s), AvailableStaffWorkers.Value)));
+
+        AddPassengerCommand = new InstantiateToCollectionCommand<ContainedReference<PassengerReference>>(Passengers, () => new ContainedReference<PassengerReference>(new PassengerReference(), AvailablePassengers.Value));
+        AddPilotCommand = new InstantiateToCollectionCommand<ContainedReference<PilotReference>>(Pilots, () => new ContainedReference<PilotReference>(new PilotReference(), AvailablePilots.Value));
+        AddStaffWorkerCommand = new InstantiateToCollectionCommand<ContainedReference<StaffWorkerReference>>(StaffWorkers, () => new ContainedReference<StaffWorkerReference>(new StaffWorkerReference(), AvailableStaffWorkers.Value));
 
         RemovePassengerCommand = new RemoveFromCollectionCommand<ContainedReference<PassengerReference>>(Passengers);
         RemovePilotCommand = new RemoveFromCollectionCommand<ContainedReference<PilotReference>>(Pilots);

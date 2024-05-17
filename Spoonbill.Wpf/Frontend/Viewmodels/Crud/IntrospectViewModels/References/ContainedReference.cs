@@ -1,11 +1,13 @@
-﻿using Spoonbill.Wpf.Frontend.Extensions;
+﻿using System.Collections;
+using System.Windows.Data;
+using Spoonbill.Wpf.Frontend.Extensions;
 using Spoonbill.Wpf.Frontend.ViewModels;
 
 namespace Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References;
 
 public class ContainedReference<T> : ViewModel where T : class, new()
 {
-    private T m_value = null!;
+    private T m_value;
 
     public T Value
     {
@@ -13,14 +15,20 @@ public class ContainedReference<T> : ViewModel where T : class, new()
         set => SetField(ref m_value, value);
     }
 
-    public ContainedReference(T value)
+    public CollectionView CollectionView { get; }
+
+    public ContainedReference(T value, IEnumerable collection)
     {
         m_value = value;
+        CollectionView = new CollectionView(collection);
+        CollectionView.MoveCurrentTo(value);
     }
 
-    public ContainedReference()
+    public ContainedReference(IEnumerable collection)
     {
         m_value = new T();
+        CollectionView = new CollectionView(collection);
+        CollectionView.MoveCurrentTo(null);
     }
 }
 
