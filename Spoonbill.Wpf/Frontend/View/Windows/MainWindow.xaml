@@ -1,0 +1,27 @@
+﻿<Window x:Class="Spoonbill.Wpf.Frontend.View.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:userControls="clr-namespace:Spoonbill.Wpf.Frontend.View.UserControls"
+        xmlns:extensions="clr-namespace:Spoonbill.Wpf.Frontend.Extensions"
+        xmlns:viewModels="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
+        DataContext="{extensions:DISource Type=viewModels:MainWindowViewModel}">
+    <Grid>
+        <userControls:StatusSwitchingControl Status="{Binding ReadMe}">
+            <userControls:StatusSwitchingControl.LoadingTemplate>
+                <DataTemplate>
+                    <userControls:LoadingDatabaseControl/>
+                </DataTemplate>
+            </userControls:StatusSwitchingControl.LoadingTemplate>
+            <userControls:StatusSwitchingControl.OnLoadedTemplate>
+                <DataTemplate>
+                    <userControls:MainPage/>
+                </DataTemplate>
+            </userControls:StatusSwitchingControl.OnLoadedTemplate>
+        </userControls:StatusSwitchingControl>
+    </Grid>
+</Window>

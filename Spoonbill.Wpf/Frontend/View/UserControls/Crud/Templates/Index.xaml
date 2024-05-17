@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Passengers.xaml"/>
+        <ResourceDictionary Source="Flights.xaml"/>
+        <ResourceDictionary Source="City.xaml"/>
+        <ResourceDictionary Source="County.xaml"/>
+        <ResourceDictionary Source="Airports.xaml"/>
+        <ResourceDictionary Source="Manufacturer.xaml"/>
+        <ResourceDictionary Source="PlaneModel.xaml"/>
+        <ResourceDictionary Source="Plane.xaml"/>
+        <ResourceDictionary Source="Pilots.xaml"/>
+        <ResourceDictionary Source="StaffWorkers.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

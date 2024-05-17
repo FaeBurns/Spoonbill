@@ -16,10 +16,10 @@ public class LocationTests : DbTest
     {
         using SpoonbillContext context = new SpoonbillContext(TestSetup.Options);
         LocationsModule locations = new LocationsModule(context);
-        locations.CreateCounty(new County()
+        locations.CreateCounty(new County
         {
             Name = ValidCountyName,
-            Country = ValidCountryName,
+            Country = ValidCountryName
         });
 
         County? county = locations.GetCounty(ValidCountyName);
@@ -36,7 +36,7 @@ public class LocationTests : DbTest
 
         using SpoonbillContext context = new SpoonbillContext(TestSetup.Options);
         LocationsModule locations = new LocationsModule(context);
-        locations.CreateCity(new City()
+        locations.CreateCity(new City
         {
             Name = ValidCityName,
             County = locations.GetCounty(ValidCountyName)!
@@ -56,10 +56,10 @@ public class LocationTests : DbTest
 
         using SpoonbillContext context = new SpoonbillContext(TestSetup.Options);
         LocationsModule locations = new LocationsModule(context);
-        locations.CreateAirport(new Airport()
+        locations.CreateAirport(new Airport
         {
             Name = ValidAirportName,
-            City = locations.GetCity(ValidCityName)!,
+            City = locations.GetCity(ValidCityName)!
         });
 
         Airport? airport = locations.GetAirport(ValidAirportName);

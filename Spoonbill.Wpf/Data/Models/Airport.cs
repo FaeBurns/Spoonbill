@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace Spoonbill.Wpf.Data.Models;
@@ -9,6 +8,7 @@ public class Airport
 {
     [StringLength(20)]
     public string Name { get; set; } = null!;
+
     [Required]
-    public City City { get; set; } = null!;
+    public virtual City City { get; set; } = null!;
 }

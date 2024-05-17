@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="DefaultLoadAwaitingDataTemplate">
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <TextBlock Text="Loading..." TextWrapping="Wrap"/>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,127 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models"
+                    xmlns:crud="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels.Crud">
+    <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
+    <DataTemplate x:Key="PlaneListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="Serial" />
+                <ColumnDefinition SharedSizeGroup="Model" />
+                <ColumnDefinition SharedSizeGroup="Edit" />
+                <ColumnDefinition SharedSizeGroup="Inspect" />
+                <ColumnDefinition SharedSizeGroup="Delete" />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="10, 0" />
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Grid.Column="0" Text="{Binding Path=CrudObject.(models:Plane.Serial), Mode=OneWay}"/>
+            <TextBlock Grid.Column="1" DataContext="{Binding Path=CrudObject.(models:Plane.Model)}" Text="{Binding ModelNumber, Mode=OneWay}"/>
+            <Button Grid.Column="2" Content="Edit" Command="{Binding EditCommand}"/>
+            <Button Grid.Column="3" Content="Inspect" Command="{Binding InspectCommand}"/>
+            <Button Grid.Column="4" Content="Delete" Command="{Binding DeleteCommand}"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PlaneListHeaderTemplate">
+        <Grid Margin="8, 0, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="Serial" />
+                <ColumnDefinition SharedSizeGroup="Model" />
+                <ColumnDefinition SharedSizeGroup="Edit" />
+                <ColumnDefinition SharedSizeGroup="Inspect" />
+                <ColumnDefinition SharedSizeGroup="Delete" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="10, 0" />
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Grid.Column="0" Text="Serial"/>
+            <TextBlock Grid.Column="1" Text="Model"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PlaneIntrospectItemTemplate" DataType="{x:Type crud:CrudIntrospectItemViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Margin" Value="2, 0"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="MinWidth" Value="80"/>
+                </Style>
+            </Grid.Resources>
+
+            <StackPanel Grid.Row="1" Orientation="Vertical" Width="200">
+                <!-- Enabled state based on introspect mode -->
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IntrospectMode}" Value="{x:Static crud:IntrospectMode.READ}">
+                                <DataTrigger.Setters>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Serial" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.Serial}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IntrospectMode}" Value="{x:Static crud:IntrospectMode.CREATE}">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Model Number" />
+                    <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding Item.AvailableModels.Value}"
+                              IsTextSearchEnabled="True" HorizontalAlignment="Stretch"
+                              SelectedItem="{Binding Item.ModelNumber}">
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

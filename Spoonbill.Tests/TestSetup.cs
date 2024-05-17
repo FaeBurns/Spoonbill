@@ -15,6 +15,14 @@ public class TestSetup
 {
     private readonly TestDatabase m_testDatabase = new TestDatabase();
 
+    public static string ConnectionString { get; private set; } = null!;
+
+    public static DbContextOptions<SpoonbillContext> Options =>
+        new DbContextOptionsBuilder<SpoonbillContext>()
+            .UseSqlServer(ConnectionString)
+            .EnableSensitiveDataLogging()
+            .Options;
+
     [OneTimeSetUp]
     public async Task Setup()
     {
@@ -43,14 +51,6 @@ public class TestSetup
         context.Stops.RemoveRange(context.Stops);
         context.SaveChanges();
     }
-
-    public static string ConnectionString { get; private set; } = null!;
-
-    public static DbContextOptions<SpoonbillContext> Options =>
-        new DbContextOptionsBuilder<SpoonbillContext>()
-            .UseSqlServer(ConnectionString)
-            .EnableSensitiveDataLogging()
-            .Options;
 }
 
 [ExcludeFromCodeCoverage]
@@ -72,7 +72,7 @@ internal class TestDatabase
 
         try
         {
-            await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters() { All = true });
+            await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters { All = true });
         }
         catch (TimeoutException)
         {
@@ -86,7 +86,7 @@ internal class TestDatabase
 
     public async Task Teardown()
     {
-        IList<ContainerListResponse> containers = await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters() { All = true });
+        IList<ContainerListResponse> containers = await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters { All = true });
         ContainerListResponse? existingContainer = containers.FirstOrDefault(c => c.Names.Any(n => n.Contains(DB_CONTAINER_NAME)));
 
         // if (existingContainer != null)
@@ -106,38 +106,36 @@ internal class TestDatabase
 
         Progress<JSONMessage> progress = new Progress<JSONMessage>(m => TestContext.WriteLine(m.ProgressMessage));
         // ensure that the latest image exists
-        await m_dockerClient.Images.CreateImageAsync(new ImagesCreateParameters()
+        await m_dockerClient.Images.CreateImageAsync(new ImagesCreateParameters
         {
-            FromImage = $"{DB_IMAGE}:{DB_IMAGE_TAG}",
+            FromImage = $"{DB_IMAGE}:{DB_IMAGE_TAG}"
         }, null, progress);
 
         // create volume if it's missing
         VolumesListResponse volumes = await m_dockerClient.Volumes.ListAsync();
         int volumeCount = volumes.Volumes.Count(v => v.Name == DB_VOLUME_NAME);
         if (volumeCount < 0)
-        {
-            await m_dockerClient.Volumes.CreateAsync(new VolumesCreateParameters()
+            await m_dockerClient.Volumes.CreateAsync(new VolumesCreateParameters
             {
-                Name = DB_VOLUME_NAME,
+                Name = DB_VOLUME_NAME
             });
-        }
 
-        IList<ContainerListResponse> containers = await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters() { All = true });
+        IList<ContainerListResponse> containers = await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters { All = true });
         ContainerListResponse? existingContainer = containers.FirstOrDefault(c => c.Names.Any(n => n.Contains(DB_CONTAINER_NAME)));
 
         if (existingContainer == null)
         {
-            CreateContainerResponse container = await m_dockerClient.Containers.CreateContainerAsync(new CreateContainerParameters()
+            CreateContainerResponse container = await m_dockerClient.Containers.CreateContainerAsync(new CreateContainerParameters
             {
                 Name = DB_CONTAINER_NAME,
                 Image = $"{DB_IMAGE}:{DB_IMAGE_TAG}",
-                Env = new List<string>()
+                Env = new List<string>
                 {
                     "ACCEPT_EULA=Y",
                     $"SA_PASSWORD={DB_PASSWORD}",
-                    "MSSQL_PID=Enterprise",
+                    "MSSQL_PID=Enterprise"
                 },
-                HostConfig = new HostConfig()
+                HostConfig = new HostConfig
                 {
                     PortBindings = new Dictionary<string, IList<PortBinding>>
                     {
@@ -145,18 +143,18 @@ internal class TestDatabase
                             "1433/tcp",
                             new[]
                             {
-                                new PortBinding()
+                                new PortBinding
                                 {
-                                    HostPort = freePort,
-                                },
+                                    HostPort = freePort
+                                }
                             }
-                        },
+                        }
                     },
                     Binds = new List<string>
                     {
-                        $"{DB_VOLUME_NAME}:/Accessioning_data",
-                    },
-                },
+                        $"{DB_VOLUME_NAME}:/Accessioning_data"
+                    }
+                }
             });
 
             await m_dockerClient.Containers.StartContainerAsync(container.ID, new ContainerStartParameters());
@@ -168,7 +166,7 @@ internal class TestDatabase
 
         // re-get container
         // this one will have port information
-        containers = await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters() { All = true });
+        containers = await m_dockerClient.Containers.ListContainersAsync(new ContainersListParameters { All = true });
         existingContainer = containers.First(c => c.Names.Any(n => n.Contains(DB_CONTAINER_NAME)));
         await WaitUntilDatabaseAvailableAsync(existingContainer.Ports.First().PublicPort.ToString());
 
@@ -183,7 +181,6 @@ internal class TestDatabase
 
         // while there is no connection and the time is not yet up
         while (!connectionEstablished && start.AddSeconds(maxWaitTimeSeconds) > DateTime.UtcNow)
-        {
             try
             {
                 string connectionString = GetConnectionString(dbPort);
@@ -196,7 +193,6 @@ internal class TestDatabase
                 TestContext.WriteLine("Failed to connect to database, waiting 500ms and trying again. Exception:");
                 await Task.Delay(500);
             }
-        }
 
         if (!connectionEstablished)
             throw new Exception($"Connection to the SQL docker container could not be established within {maxWaitTimeSeconds} seconds.");
@@ -219,7 +215,7 @@ internal class TestDatabase
                 await cmd.ExecuteNonQueryAsync();
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             TestContext.WriteLine("Exception occured while trying to setup database");
             // TestContext.WriteLine(e);
@@ -253,7 +249,6 @@ internal class TestDatabase
             // stop if it's older than hoursTillExpiration hours (default 24)
             int expiration = -Math.Abs(hoursTillExpiration);
             if (container.Created < DateTime.UtcNow.AddHours(expiration))
-            {
                 try
                 {
                     await EnsureDockerContainerStoppedAndRemovedAsync(container.ID);
@@ -262,7 +257,6 @@ internal class TestDatabase
                 {
                     TestContext.WriteLine($"Failed to stop expired container {container.ID}");
                 }
-            }
         }
     }
 
@@ -280,7 +274,6 @@ internal class TestDatabase
         {
             int expiration = -Math.Abs(hoursTillExpiration);
             if (DateTime.Parse(volume.CreatedAt) < DateTime.UtcNow.AddHours(expiration))
-            {
                 try
                 {
                     await EnsureDockerVolumeRemovedAsync(volume.Name);
@@ -289,7 +282,6 @@ internal class TestDatabase
                 {
                     TestContext.WriteLine($"Failed to stop expired volume {volume.Name}");
                 }
-            }
         }
     }
 

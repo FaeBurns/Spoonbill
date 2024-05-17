@@ -8,6 +8,7 @@ public class Manufacturer
 {
     [StringLength(50)]
     public string Name { get; set; } = null!;
+
     [Required]
-    public City City { get; set; } = null!;
+    public virtual City City { get; set; } = null!;
 }

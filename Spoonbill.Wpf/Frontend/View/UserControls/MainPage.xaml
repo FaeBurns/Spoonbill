@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Spoonbill.Wpf.Frontend.View.UserControls.MainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Spoonbill.Wpf.Frontend.View.UserControls"
+             xmlns:viewModels="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels"
+             xmlns:extensions="clr-namespace:Spoonbill.Wpf.Frontend.Extensions"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
+             DataContext="{extensions:DISource Type=viewModels:MainViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <local:SelectPageTree Grid.Column="0" HorizontalAlignment="Stretch" DataContext="{Binding PageTreeHost}">
+
+        </local:SelectPageTree>
+        <ContentControl Grid.Column="1" Content="{Binding PageTreeHost.CurrentControl}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PageTreeHost.CurrentControl}" Value="{x:Null}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <TextBlock Text="Select a page"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type Control}">
+                    <ContentControl Content="{Binding}"/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+    </Grid>
+</UserControl>

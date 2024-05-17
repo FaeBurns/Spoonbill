@@ -1,0 +1,207 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:crud="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels.Crud"
+                    xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models"
+                    xmlns:references="clr-namespace:Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References"
+                    xmlns:extensions="clr-namespace:Spoonbill.Wpf.Frontend.Extensions"
+                    mc:Ignorable="d">
+    <extensions:GenericType x:Key="FlightReferenceContainer" ResolverType="references:ContainedReferenceTypeResolver" Generic="references:FlightReference"/>
+
+    <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
+    <DataTemplate x:Key="PilotsListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="Id" />
+                <ColumnDefinition SharedSizeGroup="Name" />
+                <ColumnDefinition SharedSizeGroup="Surname" />
+                <ColumnDefinition SharedSizeGroup="Phone Number" />
+                <ColumnDefinition SharedSizeGroup="Address" />
+                <ColumnDefinition SharedSizeGroup="Type Rating" />
+                <ColumnDefinition SharedSizeGroup="Edit" />
+                <ColumnDefinition SharedSizeGroup="Inspect" />
+                <ColumnDefinition SharedSizeGroup="Delete" />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="10, 0" />
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Grid.Column="0" Text="{Binding Path=CrudObject.(models:Pilot.Id), Mode=OneWay}"
+                       IsEnabled="False" />
+            <TextBlock Grid.Column="1" Text="{Binding Path=CrudObject.(models:Pilot.Name), Mode=OneWay}" />
+            <TextBlock Grid.Column="2" Text="{Binding Path=CrudObject.(models:Pilot.Surname), Mode=OneWay}" />
+            <TextBlock Grid.Column="3" Text="{Binding Path=CrudObject.(models:Pilot.PhoneNumber), Mode=OneWay}" />
+            <TextBlock Grid.Column="4" Text="{Binding Path=CrudObject.(models:Pilot.Address), Mode=OneWay}" />
+            <TextBlock Grid.Column="5" Text="{Binding Path=CrudObject.(models:Pilot.TypeRating), Mode=OneWay}" />
+            <Button Grid.Column="6" Content="Edit" Command="{Binding EditCommand}" />
+            <Button Grid.Column="7" Content="Inspect" Command="{Binding InspectCommand}" />
+            <Button Grid.Column="8" Content="Delete" Command="{Binding DeleteCommand}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PilotsListHeaderTemplate">
+        <Grid Margin="8, 0, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="Id" />
+                <ColumnDefinition SharedSizeGroup="Name" />
+                <ColumnDefinition SharedSizeGroup="Surname" />
+                <ColumnDefinition SharedSizeGroup="Phone Number" />
+                <ColumnDefinition SharedSizeGroup="Address" />
+                <ColumnDefinition SharedSizeGroup="Type Rating" />
+                <ColumnDefinition SharedSizeGroup="Edit" />
+                <ColumnDefinition SharedSizeGroup="Inspect" />
+                <ColumnDefinition SharedSizeGroup="Delete" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="10, 0" />
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Grid.Column="0" Text="Id"/>
+            <TextBlock Grid.Column="1" Text="Name"/>
+            <TextBlock Grid.Column="2" Text="Surname"/>
+            <TextBlock Grid.Column="3" Text="Phone Number"/>
+            <TextBlock Grid.Column="4" Text="Address"/>
+            <TextBlock Grid.Column="5" Text="Type Rating"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PilotsIntrospectItemTemplate" DataType="{x:Type crud:CrudIntrospectItemViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Margin" Value="2, 0"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="MinWidth" Value="80"/>
+                </Style>
+            </Grid.Resources>
+
+            <StackPanel Grid.Row="1" Orientation="Vertical" Width="200">
+                <!-- Enabled state based on introspect mode -->
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IntrospectMode}" Value="{x:Static crud:IntrospectMode.READ}">
+                                <DataTrigger.Setters>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Id" />
+                    <TextBlock Grid.Column="1" Text="{Binding Item.Id}"/>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Name" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.Name}"/>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Surname" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.Surname}" />
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Phone Number" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.PhoneNumber}" />
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Address" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.Address}" />
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Type Rating" />
+                    <TextBox Grid.Column="1" Text="{Binding Item.TypeRating}" />
+                </Grid>
+
+                <Border BorderBrush="Gray" BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Flights"/>
+                        <ListView Grid.Row="1" ItemsSource="{Binding Item.Flights}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                            <ListView.ItemTemplate>
+                                <DataTemplate DataType="{StaticResource FlightReferenceContainer}">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <ComboBox Grid.Column="0"
+                                                  ItemsSource="{Binding CollectionView}"
+                                                  IsTextSearchEnabled="True" IsEditable="False" StaysOpenOnEdit="True"
+                                                  DisplayMemberPath="ViewText"
+                                                  HorizontalAlignment="Stretch" ItemsPanel="{DynamicResource VirtualPanel}"
+                                                  SelectedItem="{Binding Value}"
+                                                  IsSynchronizedWithCurrentItem="True">
+                                        </ComboBox>
+
+                                        <Button Grid.Column="1" Content="X" Command="{Binding DataContext.Item.RemoveFlightCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}" CommandParameter="{Binding}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Button Grid.Row="2" Content="Add Flight" Command="{Binding Item.AddFlightCommand}"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

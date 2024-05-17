@@ -408,7 +408,7 @@ public class SpoonbillContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            b.Navigation("City").AutoInclude();
+            b.Navigation("City");
         });
 
         modelBuilder.Entity<City>(b =>
@@ -419,7 +419,7 @@ public class SpoonbillContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            b.Navigation("County").AutoInclude();
+            b.Navigation("County");
         });
 
         modelBuilder.Entity<Flight>(b =>
@@ -430,7 +430,7 @@ public class SpoonbillContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            b.Navigation("Plane").AutoInclude();
+            b.Navigation("Plane");
         });
 
         modelBuilder.Entity<FlightStop>(b =>
@@ -445,7 +445,7 @@ public class SpoonbillContext : DbContext
                 .WithMany("Stops")
                 .HasForeignKey("FlightId");
 
-            b.Navigation("Airport").AutoInclude();
+            b.Navigation("Airport");
         });
 
         modelBuilder.Entity<Manufacturer>(b =>
@@ -456,7 +456,7 @@ public class SpoonbillContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            b.Navigation("City").AutoInclude();
+            b.Navigation("City");
         });
 
         modelBuilder.Entity<Plane>(b =>
@@ -467,7 +467,7 @@ public class SpoonbillContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            b.Navigation("Model").AutoInclude();
+            b.Navigation("Model");
         });
 
         modelBuilder.Entity<PlaneModel>(b =>
@@ -478,15 +478,15 @@ public class SpoonbillContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            b.Navigation("Manufacturer").AutoInclude();
+            b.Navigation("Manufacturer");
         });
 
         modelBuilder.Entity<Flight>(b =>
         {
-            b.Navigation(e => e.Passengers).AutoInclude();
-            b.Navigation(e => e.WorkerStaff).AutoInclude();
-            b.Navigation(e => e.Pilots).AutoInclude();
-            b.Navigation(e => e.Stops).AutoInclude();
+            b.Navigation(e => e.Passengers);
+            b.Navigation(e => e.WorkerStaff);
+            b.Navigation(e => e.Pilots);
+            b.Navigation(e => e.Stops);
         });
     }
 }

@@ -8,6 +8,7 @@ public class County
 {
     [StringLength(20)]
     public string Name { get; set; } = null!;
+
     [StringLength(20)]
     public string Country { get; set; } = null!;
 }
