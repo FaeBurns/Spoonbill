@@ -12,7 +12,10 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{Binding Template.IntrospectTemplate}"/>
+
+        <ScrollViewer Grid.Row="0" HorizontalAlignment="Stretch">
+            <ContentControl Content="{Binding}" ContentTemplate="{Binding Template.IntrospectTemplate}"/>
+        </ScrollViewer>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20">
             <Button Command="{Binding CancelCommand}" Margin="5">

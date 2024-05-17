@@ -212,35 +212,30 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Text="Pilots"/>
-                        <ListView Grid.Row="1" ItemsSource="{Binding Item.Pilots}">
+                        <ListView Grid.Row="1" ItemsSource="{Binding Item.Pilots}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                             <ListView.ItemTemplate>
-                                <DataTemplate DataType="{x:Type references:PilotReference}">
-                                    <Grid>
+                                <DataTemplate DataType="{StaticResource PilotReferenceContainer}">
+                                    <Grid HorizontalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
                                         <ComboBox Grid.Column="0"
-                                                  ItemsSource="{Binding DataContext.Item.AvailablePilots, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
-                                                  IsTextSearchEnabled="True" HorizontalAlignment="Stretch"
-                                                  SelectedItem="{Binding}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate DataType="{x:Type references:PilotReference}">
-                                                    <TextBlock>
-                                                        <Run Text="{Binding Id}"/>
-                                                        <Run Text=" | "/>
-                                                        <Run Text="{Binding FullName}"/>
-                                                    </TextBlock>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
+                                                  ItemsSource="{Binding CollectionView}"
+                                                  IsTextSearchEnabled="True" IsEditable="False" StaysOpenOnEdit="True"
+                                                  DisplayMemberPath="ViewText"
+                                                  HorizontalAlignment="Stretch" ItemsPanel="{DynamicResource VirtualPanel}"
+                                                  SelectedItem="{Binding Value}"
+                                                  IsSynchronizedWithCurrentItem="True">
                                         </ComboBox>
+
                                         <Button Grid.Column="1" Content="X" Command="{Binding DataContext.Item.RemovePilotCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}" CommandParameter="{Binding}"/>
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <Button Grid.Row="2" Content="Add Flight" Command="{Binding Item.AddPilotCommand}"/>
+                        <Button Grid.Row="2" Content="Add Pilot" Command="{Binding Item.AddPilotCommand}"/>
                     </Grid>
                 </Border>
 
@@ -252,36 +247,31 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="Staff Workers"/>
-                        <ListView Grid.Row="1" ItemsSource="{Binding Item.StaffWorkers}">
+                        <TextBlock Grid.Row="0" Text="Staff"/>
+                        <ListView Grid.Row="1" ItemsSource="{Binding Item.StaffWorkers}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                             <ListView.ItemTemplate>
-                                <DataTemplate DataType="{x:Type references:StaffWorkerReference}">
-                                    <Grid>
+                                <DataTemplate DataType="{StaticResource StaffReferenceContainer}">
+                                    <Grid HorizontalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
                                         <ComboBox Grid.Column="0"
-                                                  ItemsSource="{Binding DataContext.Item.AvailableStaffWorkers, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
-                                                  IsTextSearchEnabled="True" HorizontalAlignment="Stretch"
-                                                  SelectedItem="{Binding}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate DataType="{x:Type references:StaffWorkerReference}">
-                                                    <TextBlock>
-                                                        <Run Text="{Binding Id}"/>
-                                                        <Run Text=" | "/>
-                                                        <Run Text="{Binding FullName}"/>
-                                                    </TextBlock>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
+                                                  ItemsSource="{Binding CollectionView}"
+                                                  IsTextSearchEnabled="True" IsEditable="False" StaysOpenOnEdit="True"
+                                                  DisplayMemberPath="ViewText"
+                                                  HorizontalAlignment="Stretch" ItemsPanel="{DynamicResource VirtualPanel}"
+                                                  SelectedItem="{Binding Value}"
+                                                  IsSynchronizedWithCurrentItem="True">
                                         </ComboBox>
+
                                         <Button Grid.Column="1" Content="X" Command="{Binding DataContext.Item.RemoveStaffWorkerCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}" CommandParameter="{Binding}"/>
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <Button Grid.Row="2" Content="Add Flight" Command="{Binding Item.AddStaffWorkerCommand}"/>
+                        <Button Grid.Row="2" Content="Add Staff" Command="{Binding Item.AddStaffWorkerCommand}"/>
                     </Grid>
                 </Border>
             </StackPanel>
