@@ -2,5 +2,5 @@
 
 public class Passenger : Person
 {
-    public ICollection<Flight> Flights { get; set; } = new List<Flight>();
+    public virtual ICollection<Flight> Flights { get; set; } = new List<Flight>();
 }

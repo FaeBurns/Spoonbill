@@ -199,7 +199,7 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <Button Grid.Row="2" Content="Add Flight" Command="{Binding Item.AddPassengerCommand}"/>
+                        <Button Grid.Row="2" Content="Add Passenger" Command="{Binding Item.AddPassengerCommand}"/>
                     </Grid>
                 </Border>
 

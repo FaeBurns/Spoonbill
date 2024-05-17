@@ -10,5 +10,5 @@ public class City
     public string Name { get; set; } = null!;
 
     [Required]
-    public County County { get; set; } = null!;
+    public virtual County County { get; set; } = null!;
 }

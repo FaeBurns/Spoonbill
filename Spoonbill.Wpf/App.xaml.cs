@@ -90,6 +90,7 @@ public partial class App : Application
     private DbContextOptions<SpoonbillContext> GetDatabaseOptions()
     {
         return new DbContextOptionsBuilder<SpoonbillContext>()
+            .UseLazyLoadingProxies()
             .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             // .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             .Options;

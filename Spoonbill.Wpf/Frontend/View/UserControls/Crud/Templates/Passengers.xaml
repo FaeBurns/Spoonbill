@@ -5,7 +5,10 @@
                     xmlns:crud="clr-namespace:Spoonbill.Wpf.Frontend.ViewModels.Crud"
                     xmlns:models="clr-namespace:Spoonbill.Wpf.Data.Models"
                     xmlns:references="clr-namespace:Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References"
+                    xmlns:extensions="clr-namespace:Spoonbill.Wpf.Frontend.Extensions"
                     mc:Ignorable="d">
+    <extensions:GenericType x:Key="FlightReferenceContainer" ResolverType="references:ContainedReferenceTypeResolver" Generic="references:FlightReference"/>
+
     <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
     <DataTemplate x:Key="PassengersListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
         <Grid>
@@ -159,29 +162,25 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Text="Flights"/>
-                        <ListView Grid.Row="1" ItemsSource="{Binding Item.Flights}">
+                        <ListView Grid.Row="1" ItemsSource="{Binding Item.Flights}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                             <ListView.ItemTemplate>
-                                <DataTemplate DataType="{x:Type references:FlightReference}">
-                                    <Grid>
+                                <DataTemplate DataType="{StaticResource FlightReferenceContainer}">
+                                    <Grid HorizontalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
                                         <ComboBox Grid.Column="0"
-                                                  ItemsSource="{Binding DataContext.Item.AvailableFlights, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
-                                                  IsTextSearchEnabled="True" HorizontalAlignment="Stretch">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate DataType="{x:Type references:FlightReference}">
-                                                    <TextBlock>
-                                                        <Run Text="{Binding Id}"/>
-                                                        <Run Text=" | "/>
-                                                        <Run Text="{Binding Name}"/>
-                                                    </TextBlock>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
+                                                  ItemsSource="{Binding CollectionView}"
+                                                  IsTextSearchEnabled="True" IsEditable="False" StaysOpenOnEdit="True"
+                                                  DisplayMemberPath="ViewText"
+                                                  HorizontalAlignment="Stretch" ItemsPanel="{DynamicResource VirtualPanel}"
+                                                  SelectedItem="{Binding Value}"
+                                                  IsSynchronizedWithCurrentItem="True">
                                         </ComboBox>
-                                        <Button Grid.Column="1" Content="X"/>
+
+                                        <Button Grid.Column="1" Content="X" Command="{Binding DataContext.Item.RemoveFlightCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}" CommandParameter="{Binding}"/>
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

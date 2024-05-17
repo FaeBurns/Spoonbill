@@ -4,13 +4,11 @@ using JetBrains.Annotations;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Frontend.Commands;
-using Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels;
 using Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References;
 using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.IntrospectViewModels;
 
-[UsedImplicitly(ImplicitUseKindFlags.Access, ImplicitUseTargetFlags.Members)]
 public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
 {
     private readonly ISpoonbillContainer m_container;

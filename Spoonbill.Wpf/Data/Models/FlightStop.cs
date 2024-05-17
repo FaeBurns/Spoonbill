@@ -6,6 +6,6 @@ namespace Spoonbill.Wpf.Data.Models;
 public class FlightStop
 {
     public int Id { get; set; } = 0;
-    public Airport Airport { get; set; } = null!;
+    public virtual Airport Airport { get; set; } = null!;
     public int Order { get; set; } = 0;
 }

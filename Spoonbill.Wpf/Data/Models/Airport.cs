@@ -10,5 +10,5 @@ public class Airport
     public string Name { get; set; } = null!;
 
     [Required]
-    public City City { get; set; } = null!;
+    public virtual City City { get; set; } = null!;
 }

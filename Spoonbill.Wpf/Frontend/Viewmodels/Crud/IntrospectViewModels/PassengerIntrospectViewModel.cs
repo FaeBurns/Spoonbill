@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using JetBrains.Annotations;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Frontend.Commands;
@@ -18,7 +19,7 @@ public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
     public string PhoneNumber { get; set; }
     public string Address { get; set; }
 
-    public ObservableCollection<FlightReference> Flights { get; } = new ObservableCollection<FlightReference>();
+    public ObservableCollection<ContainedReference<FlightReference>> Flights { get; }
 
     public LazyLoadViewModel<IEnumerable<FlightReference>> AvailableFlights { get; }
 
@@ -34,22 +35,20 @@ public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
         PhoneNumber = model.PhoneNumber;
         Address = model.Address;
 
-        foreach (Flight flight in model.Flights)
-        {
-            Flights.Add(new FlightReference(flight));
-        }
+        AvailableFlights = new LazyLoadViewModel<IEnumerable<FlightReference>>(() => m_flightsModule.ListFlights().Select(f => new FlightReference(f)).ToList());
 
-        AvailableFlights = new LazyLoadViewModel<IEnumerable<FlightReference>>((() => m_flightsModule.ListFlights().Select(f => new FlightReference(f))));
-        AddFlightCommand = new EasyInstantiateToCollectionCommand<FlightReference>(Flights);
-        RemoveFlightCommand = new RemoveFromCollectionCommand<FlightReference>(Flights);
+        Flights = new ObservableCollection<ContainedReference<FlightReference>>(model.Flights.Select(f => new ContainedReference<FlightReference>(new FlightReference(f), AvailableFlights.Value)));
+
+        AddFlightCommand = new InstantiateToCollectionCommand<ContainedReference<FlightReference>>(Flights, () => new ContainedReference<FlightReference>(AvailableFlights.Value));
+        RemoveFlightCommand = new RemoveFromCollectionCommand<ContainedReference<FlightReference>>(Flights);
     }
 
     public override IResult Apply()
     {
         List<Flight> flights = new List<Flight>();
-        foreach (FlightReference flight in Flights)
+        foreach (ContainedReference<FlightReference> reference in Flights)
         {
-            Flight? foundFlight = m_flightsModule.GetFlight(flight.Id);
+            Flight? foundFlight = m_flightsModule.GetFlight(reference.Value.Id);
             if (foundFlight == null)
             {
                 return new Invalid("Flight reference is invalid");

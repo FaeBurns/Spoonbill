@@ -9,7 +9,7 @@ public class Plane
     [StringLength(20)]
     public string Serial { get; set; } = null!;
 
-    public PlaneModel Model { get; set; } = null!;
+    public virtual PlaneModel Model { get; set; } = null!;
 
     public int GetModelNumber()
     {

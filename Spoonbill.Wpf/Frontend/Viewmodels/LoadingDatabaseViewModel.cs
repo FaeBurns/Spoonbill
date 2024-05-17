@@ -54,9 +54,15 @@ public class LoadingDatabaseViewModel : ViewModel
                 m_finishedProgress.Report(true);
                 hasConnected = true;
             }
+#if DEBUG
+            catch (Exception e)
+            {
+                LoadingMessage.Report(e.Message);
+#else
             catch (Exception)
             {
                 LoadingMessage.Report($"Error connecting to database.\nWaiting 5 seconds then retrying...");
+#endif
                 Thread.Sleep(5000);
             }
         }
