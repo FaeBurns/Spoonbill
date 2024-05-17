@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Windows.Data;
+using JetBrains.Annotations;
 using Spoonbill.Wpf.Frontend.Extensions;
 using Spoonbill.Wpf.Frontend.ViewModels;
 
 namespace Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References;
 
+[UsedImplicitly(ImplicitUseKindFlags.Access, ImplicitUseTargetFlags.Members)]
 public class ContainedReference<T> : ViewModel where T : class, new()
 {
     private T m_value;

@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using JetBrains.Annotations;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Frontend.Commands;
@@ -9,7 +8,7 @@ using Spoonbill.Wpf.Responses;
 
 namespace Spoonbill.Wpf.Frontend.ViewModels.Crud.IntrospectViewModels;
 
-public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
+public class PilotIntrospectViewModel : IntrospectViewModel<Pilot>
 {
     private readonly IFlightsModule m_flightsModule;
 
@@ -18,6 +17,7 @@ public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
     public string Surname { get; set; }
     public string PhoneNumber { get; set; }
     public string Address { get; set; }
+    public string TypeRating { get; set; }
 
     public ObservableCollection<ContainedReference<FlightReference>> Flights { get; }
 
@@ -26,7 +26,7 @@ public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
     public ICommand AddFlightCommand { get; }
     public ICommand RemoveFlightCommand { get; }
 
-    public PassengerIntrospectViewModel(IFlightsModule flightsModule, Passenger model) : base(model)
+    public PilotIntrospectViewModel(IFlightsModule flightsModule, Pilot model) : base(model)
     {
         m_flightsModule = flightsModule;
         Id = model.Id;
@@ -34,10 +34,11 @@ public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
         Surname = model.Surname;
         PhoneNumber = model.PhoneNumber;
         Address = model.Address;
+        TypeRating = model.TypeRating;
 
         AvailableFlights = new LazyLoadViewModel<IEnumerable<FlightReference>>(() => m_flightsModule.ListFlights().Select(f => new FlightReference(f)).ToList());
 
-        Flights = new ObservableCollection<ContainedReference<FlightReference>>(model.Flights.Select(f => new ContainedReference<FlightReference>(new FlightReference(f), AvailableFlights.Value)));
+        Flights = new ObservableCollection<ContainedReference<FlightReference>>(model.AssignedFlights.Select(f => new ContainedReference<FlightReference>(new FlightReference(f), AvailableFlights.Value)));
 
         AddFlightCommand = new InstantiateToCollectionCommand<ContainedReference<FlightReference>>(Flights, () => new ContainedReference<FlightReference>(AvailableFlights.Value));
         RemoveFlightCommand = new RemoveFromCollectionCommand<ContainedReference<FlightReference>>(Flights);
@@ -62,7 +63,8 @@ public class PassengerIntrospectViewModel : IntrospectViewModel<Passenger>
         Model.PhoneNumber = PhoneNumber;
         Model.Address = Address;
 
-        Model.Flights = flights;
+        Model.AssignedFlights = flights;
+        Model.TypeRating = TypeRating;
 
         return new Ok();
     }

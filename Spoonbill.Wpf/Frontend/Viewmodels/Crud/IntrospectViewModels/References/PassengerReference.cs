@@ -1,7 +1,9 @@
-﻿using Spoonbill.Wpf.Data.Models;
+﻿using JetBrains.Annotations;
+using Spoonbill.Wpf.Data.Models;
 
 namespace Spoonbill.Wpf.Frontend.Viewmodels.Crud.IntrospectViewModels.References;
 
+[UsedImplicitly(ImplicitUseKindFlags.Access, ImplicitUseTargetFlags.Members)]
 public class PassengerReference
 {
     public PassengerReference(Passenger passenger)

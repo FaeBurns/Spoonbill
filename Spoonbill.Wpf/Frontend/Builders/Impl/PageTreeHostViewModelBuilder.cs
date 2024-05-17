@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Frontend.View.UserControls.Crud;
 using Spoonbill.Wpf.Frontend.ViewModels.Crud.Templates;
 using Spoonbill.Wpf.Frontend.ViewModels.PageTree;
@@ -25,8 +26,8 @@ public class PageTreeHostViewModelBuilder : IBuilder<PageTreeHostViewModel>
                     Children =
                     {
                         new PageTreeItemViewModel("Passengers", Resolve<PassengerCrudTemplate>()),
-                        new PageTreeItemViewModel("Staff"),
-                        new PageTreeItemViewModel("Pilots"),
+                        new PageTreeItemViewModel("Staff", Resolve<StaffWorkerCrudTemplate>()),
+                        new PageTreeItemViewModel("Pilots", Resolve<PilotCrudTemplate>()),
                     },
                 },
                 new PageTreeItemViewModel("Locations")
