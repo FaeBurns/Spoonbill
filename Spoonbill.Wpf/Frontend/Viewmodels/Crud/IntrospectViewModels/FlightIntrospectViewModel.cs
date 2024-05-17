@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using JetBrains.Annotations;
 using Spoonbill.Wpf.Controllers.Interfaces;
 using Spoonbill.Wpf.Data.Models;
 using Spoonbill.Wpf.Frontend.Commands;
@@ -20,6 +19,7 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
     public ObservableCollection<ContainedReference<PassengerReference>> Passengers { get; private set; }
     public ObservableCollection<ContainedReference<PilotReference>> Pilots { get; private set; }
     public ObservableCollection<ContainedReference<StaffWorkerReference>> StaffWorkers { get; private set; }
+    public ObservableCollection<ContainedReference<AirportReference>> FlightStops { get; private set; }
 
     public DateTime DepartureTime { get; set; }
     public DateTime ArrivalTime { get; set; }
@@ -28,14 +28,20 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
     public LazyLoadViewModel<IEnumerable<PassengerReference>> AvailablePassengers { get; }
     public LazyLoadViewModel<IEnumerable<PilotReference>> AvailablePilots { get; }
     public LazyLoadViewModel<IEnumerable<StaffWorkerReference>> AvailableStaffWorkers { get; }
+    public LazyLoadViewModel<IEnumerable<AirportReference>> AvailableFlightStops { get; }
 
     public ICommand AddPassengerCommand { get; }
     public ICommand AddPilotCommand { get; }
     public ICommand AddStaffWorkerCommand { get; }
+    public ICommand AddStopCommand { get; }
 
     public ICommand RemovePassengerCommand { get; }
     public ICommand RemovePilotCommand { get; }
     public ICommand RemoveStaffWorkerCommand { get; }
+    public ICommand RemoveStopCommand { get; }
+
+    public ICommand MoveStopUpCommand { get; }
+    public ICommand MoveStopDownCommand { get; }
 
     public FlightIntrospectViewModel(ISpoonbillContainer container, Flight model) : base(model)
     {
@@ -65,18 +71,28 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
         {
             return container.StaffModule.ListStaffWorkers().Select(s => new StaffWorkerReference(s)).ToList();
         });
+        AvailableFlightStops = new LazyLoadViewModel<IEnumerable<AirportReference>>(() =>
+        {
+            return container.LocationsModule.ListAirports().Select(a => new AirportReference(a)).ToList();
+        });
 
         Passengers = new ObservableCollection<ContainedReference<PassengerReference>>(model.Passengers.Select(p => new ContainedReference<PassengerReference>(new PassengerReference(p), AvailablePassengers.Value)));
         Pilots = new ObservableCollection<ContainedReference<PilotReference>>(model.Pilots.Select(p => new ContainedReference<PilotReference>(new PilotReference(p), AvailablePilots.Value)));
         StaffWorkers = new ObservableCollection<ContainedReference<StaffWorkerReference>>(model.WorkerStaff.Select(s => new ContainedReference<StaffWorkerReference>(new StaffWorkerReference(s), AvailableStaffWorkers.Value)));
+        FlightStops = new ObservableCollection<ContainedReference<AirportReference>>(model.Stops.OrderBy(s => s.Order).Select(s => new ContainedReference<AirportReference>(new AirportReference(s.Airport), AvailableFlightStops.Value)));
 
         AddPassengerCommand = new InstantiateToCollectionCommand<ContainedReference<PassengerReference>>(Passengers, () => new ContainedReference<PassengerReference>(new PassengerReference(), AvailablePassengers.Value));
         AddPilotCommand = new InstantiateToCollectionCommand<ContainedReference<PilotReference>>(Pilots, () => new ContainedReference<PilotReference>(new PilotReference(), AvailablePilots.Value));
         AddStaffWorkerCommand = new InstantiateToCollectionCommand<ContainedReference<StaffWorkerReference>>(StaffWorkers, () => new ContainedReference<StaffWorkerReference>(new StaffWorkerReference(), AvailableStaffWorkers.Value));
+        AddStopCommand = new InstantiateToCollectionCommand<ContainedReference<AirportReference>>(FlightStops, () => new ContainedReference<AirportReference>(new AirportReference(), AvailableFlightStops.Value));
 
         RemovePassengerCommand = new RemoveFromCollectionCommand<ContainedReference<PassengerReference>>(Passengers);
         RemovePilotCommand = new RemoveFromCollectionCommand<ContainedReference<PilotReference>>(Pilots);
         RemoveStaffWorkerCommand = new RemoveFromCollectionCommand<ContainedReference<StaffWorkerReference>>(StaffWorkers);
+        RemoveStopCommand = new RemoveFromCollectionCommand<ContainedReference<AirportReference>>(FlightStops);
+
+        MoveStopUpCommand = new MoveUpInCollectionCommand<ContainedReference<AirportReference>>(FlightStops);
+        MoveStopDownCommand = new MoveDownInCollectionCommand<ContainedReference<AirportReference>>(FlightStops);
     }
 
     public override IResult Apply()
@@ -112,11 +128,23 @@ public class FlightIntrospectViewModel : IntrospectViewModel<Flight>
             validStaff.Add(staff);
         }
 
+        List<FlightStop> validFlightStops = new List<FlightStop>();
+        int i = 0;
+        foreach (ContainedReference<AirportReference> reference in FlightStops)
+        {
+            Airport? airport = m_container.LocationsModule.GetAirport(reference.Value.Name);
+            if (airport == null)
+                return new Invalid($"Invalid stop selected\n:Name: {reference.Value.Name}");
+            validFlightStops.Add(new FlightStop(){Airport = airport, Order = i});
+            i++;
+        }
+
         Model.Name = Name;
         Model.Plane = plane;
         Model.Passengers = validPassengers;
         Model.Pilots = validPilots;
         Model.WorkerStaff = validStaff;
+        Model.Stops = validFlightStops;
         Model.ArrivalTime = ArrivalTime;
         Model.DepartureTime = DepartureTime;
 

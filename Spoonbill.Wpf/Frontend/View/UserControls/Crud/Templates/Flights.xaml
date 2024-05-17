@@ -9,6 +9,7 @@
     <extensions:GenericType x:Key="PassengerReferenceContainer" ResolverType="references:ContainedReferenceTypeResolver" Generic="references:PassengerReference"/>
     <extensions:GenericType x:Key="PilotReferenceContainer" ResolverType="references:ContainedReferenceTypeResolver" Generic="references:PilotReference"/>
     <extensions:GenericType x:Key="StaffReferenceContainer" ResolverType="references:ContainedReferenceTypeResolver" Generic="references:StaffWorkerReference"/>
+    <extensions:GenericType x:Key="AirportReferenceContainer" ResolverType="references:ContainedReferenceTypeResolver" Generic="references:AirportReference"/>
 
     <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
     <DataTemplate x:Key="FlightsListItemTemplate" DataType="{x:Type crud:CrudListItemViewModel}">
@@ -272,6 +273,50 @@
                             </ListView.ItemTemplate>
                         </ListView>
                         <Button Grid.Row="2" Content="Add Staff" Command="{Binding Item.AddStaffWorkerCommand}"/>
+                    </Grid>
+                </Border>
+
+                <!-- FlightStops -->
+                <Border BorderBrush="Gray" BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Stops"/>
+                        <ListView Grid.Row="1" ItemsSource="{Binding Item.FlightStops}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                            <ListView.ItemTemplate>
+                                <DataTemplate DataType="{StaticResource AirportReferenceContainer}">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <ComboBox Grid.Column="0"
+                                                  ItemsSource="{Binding CollectionView}"
+                                                  IsTextSearchEnabled="True" IsEditable="False" StaysOpenOnEdit="True"
+                                                  DisplayMemberPath="Name"
+                                                  HorizontalAlignment="Stretch" ItemsPanel="{DynamicResource VirtualPanel}"
+                                                  SelectedItem="{Binding Value}"
+                                                  IsSynchronizedWithCurrentItem="True">
+                                        </ComboBox>
+
+                                        <Button Grid.Column="1" Command="{Binding DataContext.Item.MoveStopUpCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}" CommandParameter="{Binding}">
+                                            <Path Fill="Black" Data="M 0 6 L 12 6 L 6 0 Z"/>
+                                        </Button>
+                                        <Button Grid.Column="2" Command="{Binding DataContext.Item.MoveStopDownCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}" CommandParameter="{Binding}">
+                                            <Path Fill="Black" Data="M 0 0 L 6 6 L 12 0 Z"/>
+                                        </Button>
+                                        <Button Grid.Column="3" Content="X" Command="{Binding DataContext.Item.RemoveStopCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}" CommandParameter="{Binding}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Button Grid.Row="2" Content="Add Stop" Command="{Binding Item.AddStopCommand}"/>
                     </Grid>
                 </Border>
             </StackPanel>
