@@ -19,14 +19,21 @@ public class PassengerModule : IPassengerModule
     [Pure]
     public Passenger? GetPassenger(int id)
     {
-        return m_context.Passengers.Find(id);
+        try
+        {
+            return m_context.Passengers.Find(id);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public IResult CreatePassenger(Passenger passenger)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Passengers.Add(passenger);
             m_context.SaveChanges();
             transaction.Commit();
@@ -44,10 +51,9 @@ public class PassengerModule : IPassengerModule
 
     public IResult UpdatePassenger(Passenger passenger)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
-
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Passengers.Update(passenger);
             m_context.SaveChanges();
             transaction.Commit();
@@ -65,9 +71,9 @@ public class PassengerModule : IPassengerModule
 
     public IResult DeletePassenger(Passenger passenger)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Passengers.Remove(passenger);
             m_context.SaveChanges();
             transaction.Commit();
@@ -86,6 +92,13 @@ public class PassengerModule : IPassengerModule
     [Pure]
     public ICollection<Passenger> ListPassengers()
     {
-        return m_context.Passengers.ToList();
+        try
+        {
+            return m_context.Passengers.ToList();
+        }
+        catch
+        {
+            return new List<Passenger>();
+        }
     }
 }

@@ -17,14 +17,21 @@ public class LocationsModule : ILocationsModule
 
     public County? GetCounty(string name)
     {
-        return m_context.Counties.Find(name);
+        try
+        {
+            return m_context.Counties.Find(name);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public IResult CreateCounty(County county)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Counties.Add(county);
             m_context.SaveChanges();
             transaction.Commit();
@@ -42,9 +49,9 @@ public class LocationsModule : ILocationsModule
 
     public IResult UpdateCounty(County county)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Counties.Update(county);
             m_context.SaveChanges();
             transaction.Commit();
@@ -62,9 +69,9 @@ public class LocationsModule : ILocationsModule
 
     public IResult DeleteCounty(County county)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Counties.Remove(county);
             m_context.SaveChanges();
             transaction.Commit();
@@ -82,19 +89,33 @@ public class LocationsModule : ILocationsModule
 
     public ICollection<County> ListCounties()
     {
-        return m_context.Counties.ToList();
+        try
+        {
+            return m_context.Counties.ToList();
+        }
+        catch
+        {
+            return new List<County>();
+        }
     }
 
     public City? GetCity(string name)
     {
-        return m_context.Cities.Find(name);
+        try
+        {
+            return m_context.Cities.Find(name);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public IResult CreateCity(City city)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Cities.Add(city);
             m_context.SaveChanges();
             transaction.Commit();
@@ -112,9 +133,9 @@ public class LocationsModule : ILocationsModule
 
     public IResult UpdateCity(City city)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Cities.Update(city);
             m_context.SaveChanges();
             transaction.Commit();
@@ -132,9 +153,9 @@ public class LocationsModule : ILocationsModule
 
     public IResult DeleteCity(City city)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Cities.Remove(city);
             m_context.SaveChanges();
             transaction.Commit();
@@ -152,19 +173,33 @@ public class LocationsModule : ILocationsModule
 
     public ICollection<City> ListCities()
     {
-        return m_context.Cities.ToList();
+        try
+        {
+            return m_context.Cities.ToList();
+        }
+        catch
+        {
+            return new List<City>();
+        }
     }
 
     public Airport? GetAirport(string name)
     {
-        return m_context.Airports.Find(name);
+        try
+        {
+            return m_context.Airports.Find(name);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public IResult CreateAirport(Airport airport)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Airports.Add(airport);
             m_context.SaveChanges();
             transaction.Commit();
@@ -182,9 +217,9 @@ public class LocationsModule : ILocationsModule
 
     public IResult UpdateAirport(Airport airport)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Airports.Update(airport);
             m_context.SaveChanges();
             transaction.Commit();
@@ -202,9 +237,9 @@ public class LocationsModule : ILocationsModule
 
     public IResult DeleteAirport(Airport airport)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Airports.Remove(airport);
             m_context.SaveChanges();
             transaction.Commit();
@@ -222,6 +257,13 @@ public class LocationsModule : ILocationsModule
 
     public ICollection<Airport> ListAirports()
     {
-        return m_context.Airports.ToList();
+        try
+        {
+            return m_context.Airports.ToList();
+        }
+        catch
+        {
+            return new List<Airport>();
+        }
     }
 }
