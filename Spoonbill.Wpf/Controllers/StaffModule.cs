@@ -19,16 +19,23 @@ public class StaffModule : IStaffModule
     [Pure]
     public Staff? GetStaff(int id)
     {
-        Staff? result = GetStaffWorker(id);
-        result ??= GetPilot(id);
-        return result;
+        try
+        {
+            Staff? result = GetStaffWorker(id);
+            result ??= GetPilot(id);
+            return result;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public IResult CreateStaff(Staff staff)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Add(staff);
             m_context.SaveChanges();
             transaction.Commit();
@@ -46,10 +53,9 @@ public class StaffModule : IStaffModule
 
     public IResult UpdateStaff(Staff staff)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
-
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Update(staff);
             m_context.SaveChanges();
             transaction.Commit();
@@ -67,10 +73,9 @@ public class StaffModule : IStaffModule
 
     public IResult DeleteStaff(Staff staff)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
-
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Remove(staff);
             m_context.SaveChanges();
             transaction.Commit();
@@ -89,24 +94,52 @@ public class StaffModule : IStaffModule
     [Pure]
     public StaffWorker? GetStaffWorker(int id)
     {
-        return m_context.StaffWorkers.Find(id);
+        try
+        {
+            return m_context.StaffWorkers.Find(id);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     [Pure]
     public Pilot? GetPilot(int id)
     {
-        return m_context.Pilots.Find(id);
+        try
+        {
+            return m_context.Pilots.Find(id);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     [Pure]
     public ICollection<Pilot> ListPilots()
     {
-        return m_context.Pilots.ToList();
+        try
+        {
+            return m_context.Pilots.ToList();
+        }
+        catch
+        {
+            return new List<Pilot>();
+        }
     }
 
     [Pure]
     public ICollection<StaffWorker> ListStaffWorkers()
     {
-        return m_context.StaffWorkers.ToList();
+        try
+        {
+            return m_context.StaffWorkers.ToList();
+        }
+        catch
+        {
+            return new List<StaffWorker>();
+        }
     }
 }

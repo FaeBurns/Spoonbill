@@ -19,14 +19,21 @@ public class AirplaneModule : IAirplaneModule
     [Pure]
     public Plane? GetPlane(string serial)
     {
-        return m_context.Planes.Find(serial);
+        try
+        {
+            return m_context.Planes.Find(serial);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public IResult CreatePlane(Plane plane)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Planes.Add(plane);
             m_context.SaveChanges();
             transaction.Commit();
@@ -44,9 +51,9 @@ public class AirplaneModule : IAirplaneModule
 
     public IResult UpdatePlane(Plane plane)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Planes.Update(plane);
             m_context.SaveChanges();
             transaction.Commit();
@@ -64,9 +71,9 @@ public class AirplaneModule : IAirplaneModule
 
     public IResult DeletePlane(Plane plane)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Planes.Remove(plane);
             m_context.SaveChanges();
             transaction.Commit();
@@ -85,20 +92,34 @@ public class AirplaneModule : IAirplaneModule
     [Pure]
     public ICollection<Plane> ListPlanes()
     {
-        return m_context.Planes.ToList();
+        try
+        {
+            return m_context.Planes.ToList();
+        }
+        catch
+        {
+            return new List<Plane>();
+        }
     }
 
     [Pure]
     public PlaneModel? GetModel(int modelNumber)
     {
-        return m_context.PlaneModels.Find(modelNumber);
+        try
+        {
+            return m_context.PlaneModels.Find(modelNumber);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public IResult CreateModel(PlaneModel model)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.PlaneModels.Add(model);
             m_context.SaveChanges();
             transaction.Commit();
@@ -116,9 +137,9 @@ public class AirplaneModule : IAirplaneModule
 
     public IResult UpdateModel(PlaneModel model)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.PlaneModels.Update(model);
             m_context.SaveChanges();
             transaction.Commit();
@@ -136,9 +157,9 @@ public class AirplaneModule : IAirplaneModule
 
     public IResult DeleteModel(PlaneModel model)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.PlaneModels.Remove(model);
             m_context.SaveChanges();
             transaction.Commit();
@@ -156,19 +177,33 @@ public class AirplaneModule : IAirplaneModule
 
     public ICollection<PlaneModel> ListModels()
     {
-        return m_context.PlaneModels.ToList();
+        try
+        {
+            return m_context.PlaneModels.ToList();
+        }
+        catch
+        {
+            return new List<PlaneModel>();
+        }
     }
 
     public Manufacturer? GetManufacturer(string name)
     {
-        return m_context.Manufacturers.Find(name);
+        try
+        {
+            return m_context.Manufacturers.Find(name);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public IResult CreateManufacturer(Manufacturer manufacturer)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Manufacturers.Add(manufacturer);
             m_context.SaveChanges();
             transaction.Commit();
@@ -186,9 +221,9 @@ public class AirplaneModule : IAirplaneModule
 
     public IResult UpdateManufacturer(Manufacturer manufacturer)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Manufacturers.Update(manufacturer);
             m_context.SaveChanges();
             transaction.Commit();
@@ -206,9 +241,9 @@ public class AirplaneModule : IAirplaneModule
 
     public IResult DeleteManufacturer(Manufacturer manufacturer)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Manufacturers.Remove(manufacturer);
             m_context.SaveChanges();
             transaction.Commit();
@@ -226,6 +261,13 @@ public class AirplaneModule : IAirplaneModule
 
     public ICollection<Manufacturer> ListManufacturers()
     {
-        return m_context.Manufacturers.ToList();
+        try
+        {
+            return m_context.Manufacturers.ToList();
+        }
+        catch
+        {
+            return new List<Manufacturer>();
+        }
     }
 }

@@ -17,14 +17,21 @@ public class FlightsModule : IFlightsModule
 
     public Flight? GetFlight(int id)
     {
-        return m_context.Flights.Find(id);
+        try
+        {
+            return m_context.Flights.Find(id);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public IResult CreateFlight(Flight flight)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Flights.Add(flight);
             m_context.SaveChanges();
             transaction.Commit();
@@ -42,9 +49,9 @@ public class FlightsModule : IFlightsModule
 
     public IResult UpdateFlight(Flight flight)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Flights.Update(flight);
             m_context.SaveChanges();
             transaction.Commit();
@@ -62,9 +69,9 @@ public class FlightsModule : IFlightsModule
 
     public IResult DeleteFlight(Flight flight)
     {
-        using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
         try
         {
+            using IDbContextTransaction transaction = m_context.Database.BeginTransaction();
             m_context.Flights.Remove(flight);
             m_context.SaveChanges();
             transaction.Commit();
@@ -82,6 +89,13 @@ public class FlightsModule : IFlightsModule
 
     public ICollection<Flight> ListFlights()
     {
-        return m_context.Flights.ToList();
+        try
+        {
+            return m_context.Flights.ToList();
+        }
+        catch
+        {
+            return new List<Flight>();
+        }
     }
 }
